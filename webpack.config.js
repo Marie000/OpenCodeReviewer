@@ -16,8 +16,6 @@ var ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
  * Get npm lifecycle event to identify the environment
  */
 var ENV = process.env.npm_lifecycle_event;
-var isTestWatch = ENV === 'test-watch';
-var isTest = ENV === 'test' || isTestWatch;
 var isProd = ENV === 'build';
 
 module.exports = function makeWebpackConfig() {
@@ -36,9 +34,6 @@ module.exports = function makeWebpackConfig() {
   if (isProd) {
     config.devtool = 'source-map';
   }
-  else if (isTest) {
-    config.devtool = 'inline-source-map';
-  }
   else {
     config.devtool = 'eval-source-map';
   }
@@ -47,7 +42,7 @@ module.exports = function makeWebpackConfig() {
    * Entry
    * Reference: http://webpack.github.io/docs/configuration.html#entry
    */
-  config.entry = isTest ? {} : {
+  config.entry = {
     'polyfills': './src/polyfills.ts',
     'vendor': './src/vendor.ts',
     'app': './src/main.ts' // our angular app
@@ -57,7 +52,7 @@ module.exports = function makeWebpackConfig() {
    * Output
    * Reference: http://webpack.github.io/docs/configuration.html#output
    */
-  config.output = isTest ? {} : {
+  config.output = {
     path: root('dist'),
     publicPath: isProd ? '/' : 'http://localhost:8080/',
     filename: isProd ? 'js/[name].[hash].js' : 'js/[name].js',
@@ -74,11 +69,7 @@ module.exports = function makeWebpackConfig() {
   };
 
   var atlOptions = '';
-  if (isTest && !isTestWatch) {
-    // awesome-typescript-loader needs to output inlineSourceMap for code coverage to work with source maps.
-    atlOptions = 'inlineSourceMap=true&sourceMap=false';
-  }
-
+ 
   /**
    * Loaders
    * Reference: http://webpack.github.io/docs/configuration.html#module-loaders
@@ -91,7 +82,7 @@ module.exports = function makeWebpackConfig() {
       {
         test: /\.ts$/,
         loaders: ['awesome-typescript-loader?' + atlOptions, 'angular2-template-loader', '@angularclass/hmr-loader'],
-        exclude: [isTest ? /\.(e2e)\.ts$/ : /\.(spec|e2e)\.ts$/, /node_modules\/(?!(ng2-.+))/]
+        exclude: [/\.(spec|e2e)\.ts$/, /node_modules\/(?!(ng2-.+))/]
       },
 
       // copy those assets to output
@@ -109,7 +100,7 @@ module.exports = function makeWebpackConfig() {
       {
         test: /\.css$/,
         exclude: root('src', 'app'),
-        loader: isTest ? 'null' : ExtractTextPlugin.extract({ fallbackLoader: 'style-loader', loader: ['css', 'postcss']})
+        loader: ExtractTextPlugin.extract({ fallbackLoader: 'style-loader', loader: ['css', 'postcss']})
       },
       // all css required in src/app files will be merged in js files
       {test: /\.css$/, include: root('src', 'app'), loader: 'raw!postcss'},
@@ -120,7 +111,7 @@ module.exports = function makeWebpackConfig() {
       {
         test: /\.(scss|sass)$/,
         exclude: root('src', 'app'),
-        loader: isTest ? 'null' : ExtractTextPlugin.extract({ fallbackLoader: 'style-loader', loader: ['css', 'postcss', 'sass']})
+        loader: ExtractTextPlugin.extract({ fallbackLoader: 'style-loader', loader: ['css', 'postcss', 'sass']})
       },
       // all css required in src/app files will be merged in js files
       {test: /\.(scss|sass)$/, exclude: root('src', 'style'), loader: 'raw!postcss!sass'},
@@ -131,25 +122,12 @@ module.exports = function makeWebpackConfig() {
     ]
   };
 
-  if (isTest && !isTestWatch) {
-    // instrument only testing sources with Istanbul, covers ts files
-    config.module.rules.push({
-      test: /\.ts$/,
-      enforce: 'post',
-      include: path.resolve('src'),
-      loader: 'istanbul-instrumenter-loader',
-      exclude: [/\.spec\.ts$/, /\.e2e\.ts$/, /node_modules/]
-    });
-  }
-
-  if (!isTest || !isTestWatch) {
-    // tslint support
-    config.module.rules.push({
+  config.module.rules.push({
       test: /\.ts$/,
       enforce: 'pre',
       loader: 'tslint'
     });
-  }
+  
 
   /**
    * Plugins
@@ -206,12 +184,11 @@ module.exports = function makeWebpackConfig() {
     })
   ];
 
-  if (!isTest && !isProd) {
+  if (!isProd) {
       config.plugins.push(new DashboardPlugin());
   }
 
-  if (!isTest && !isTestWatch) {
-    config.plugins.push(
+  config.plugins.push(
       new ForkCheckerPlugin(),
 
       // Generate common chunks if necessary
@@ -233,7 +210,7 @@ module.exports = function makeWebpackConfig() {
       // Disabled when in test mode or not in build mode
       new ExtractTextPlugin({filename: 'css/[name].[hash].css', disable: !isProd})
     );
-  }
+
 
   // Add build specific plugins
   if (isProd) {
