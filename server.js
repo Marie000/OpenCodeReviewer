@@ -1,5 +1,4 @@
 var express = require ('express')
-var mongoose = require ('./database/mongoose.js');
 var bodyParser = require('body-parser');
 var bcrypt = require('bcryptjs');
 // models
@@ -88,7 +87,7 @@ app.get('/api/users/me',authenticate, function(req,res){
 
 // GET ALL DOCUMENTS
 // add pagination - display most recent only - wait until after MVP?
-app.get('/api/documents', authenticate, function(req,res){
+app.get('/api/documents', function(req,res){
   CodeDocument.find({}).then(function(list){
     res.send(JSON.stringify(list));
   })
@@ -99,8 +98,8 @@ app.get('/api/documents', authenticate, function(req,res){
 // GET DOCUMENTS BY SEARCH ??
 
 // GET A DOCUMENT
-app.get('/api/documents/:id', authenticate, function(req,res){
-  CodeDocument.findOne({_id:req.params.id}).populate('author').then(function(doc){
+app.get('/api/documents/:id', function(req,res){
+  CodeDocument.findOne({_id:req.params.id}).populate('author').populate('comments').then(function(doc){
     if(!doc){return res.status(404).send('document not found');}
     res.send(doc)
   })
@@ -127,18 +126,43 @@ app.post('/api/documents', authenticate, function(req,res){
 
 // UPDATE A CODE DOCUMENT
 
-
+// note: to edit or delete a document, pass in :doc_id instead of :id (to correctly identify it
+// with the authenticate-author middleware)
 
 
 /** COMMENTS **/
 
 // CREATE A COMMENT
-app.post('/api/documents/:doc_id/comments/', authenticate, function(req,res){
+app.post('/api/comments/', authenticate, function(req,res){
+  // IMPORTANT: pass in the code document id in the request somehow.
   // add comment to code document
   // NOTE: author does not need to be passed in the body - author will be authenticated user
-  var doc_id = req.params.doc_id;
   var body = req.body;
   body.author = req.user._id;
+  var newComment = new Comment(req.body);
+  newComment.save().then(function(comment){
+    // add comment id to the author's comment list
+    User.findByIdAndUpdate(
+      comment.author,
+      {$push: {'comments': comment._id}},
+      {safe: true, new: true}
+    ).then(function(author){
+      if(!author){return res.status(404).send('author not found')}
+    });
+  }).then(function(comment){
+    // add
+    User.findByIdAndUpdate(
+      comment.documentId,
+      {$push: {'comments': comment._id}},
+      {safe: true, new: true}
+    ).then(function(document){
+      if(!document){return res.status(404).send('document not found')}
+      else {res.send(comment)}
+    })
+  }).catch(function(err){
+    res.status(400);
+  })
+  /*
   CodeDocument.findByIdAndUpdate(
     doc_id,
     {$push: {"comments": body}},
@@ -156,16 +180,18 @@ app.post('/api/documents/:doc_id/comments/', authenticate, function(req,res){
   }).catch(function(err){
     res.status(400);
   })
+  */
+
 });
 
 // DELETE A COMMENT
 
-app.delete('/api/documents/:doc_id/comments/:comment_id', authenticate, authenticateAuthor, function(req,res){
+app.delete('/api/comments/:comment_id', authenticate, authenticateAuthor, function(req,res){
   res.send('trying to delete')
 })
 
 // EDIT A COMMENT
-app.put('/api/documents/:doc_id/comments/:comment_id', authenticate, authenticateAuthor, function(req,res){
+app.put('/api/comments/:comment_id', authenticate, authenticateAuthor, function(req,res){
   res.send('trying to edit')
 })
 

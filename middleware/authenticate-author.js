@@ -5,21 +5,11 @@ var CodeDocument = require('../models/document');
 var authenticateAuthor = function(req,res,next) {
     // comments
     if(req.params.comment_id){
-      CodeDocument.findOne({_id: req.params.doc_id}).then(function(doc){
-        
-        var thisComment;
-        for (var x=0; x<doc.comments.length; x++ ){
-          if(doc.comments[x]._id.equals(req.params.comment_id)){
-            thisComment = doc.comments[x];
-          }
-        }
-        if(!thisComment){
-          res.status(404).send('comment not found');
-        }
-        if(req.user._id.equals(thisComment.author)){
+      Comment.findOne({_id: req.params.comment_id}).then(function(comment){
+        if(req.user._id.equals(comment.author)){
           next();
         } else {
-          res.status(401).send('not authorized to modify this comment: you are not the author')
+          res.status(401).send('not authorized to modify this comment: you are not the author');
         }
       })
     }

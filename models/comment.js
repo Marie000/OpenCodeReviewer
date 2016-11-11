@@ -27,7 +27,4 @@ var CommentSchema = mongoose.Schema({
 var Comment = mongoose.model('Comment',CommentSchema);
 
 
-module.exports = {
-  CommentSchema: CommentSchema,
-  Comment: Comment
-}
+module.exports = Comment;

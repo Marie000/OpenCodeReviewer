@@ -1,6 +1,5 @@
 var mongoose = require ('mongoose');
 var IdObject = mongoose.Schema.Types.ObjectId;
-var CommentSchema = require('./comment.js').CommentSchema;
 
 var CodeDocSchema = mongoose.Schema({
   author:{
@@ -38,8 +37,10 @@ var CodeDocSchema = mongoose.Schema({
     trim: true,
     minlength: 1
   },
-  comments: [CommentSchema]
-  
+  comments: [{
+    type: IdObject,
+    ref: 'Comment'
+  }]
 });
 
 var CodeDocument = mongoose.model('CodeDocument',CodeDocSchema);
