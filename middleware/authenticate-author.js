@@ -1,6 +1,7 @@
 // am I the author of a comment or post?
 // should be used AFTER authenticate (needs req.user)
 var CodeDocument = require('../models/document');
+var Comment = require('../models/comment');
 
 var authenticateAuthor = function(req,res,next) {
     // comments

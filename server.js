@@ -1,9 +1,11 @@
 var express = require ('express')
 var bodyParser = require('body-parser');
+var mongoose = require ('./database/mongoose.js');
 var bcrypt = require('bcryptjs');
 // models
 var User = require ('./models/user.js');
 var CodeDocument = require ('./models/document.js');
+var Comment = require('./models/comment.js');
 // middleware
 var authenticate = require('./middleware/authenticate.js');
 var authenticateAuthor = require('./middleware/authenticate-author.js');
@@ -12,7 +14,6 @@ var PORT = 8080;
 var app = express();
 
 app.use(bodyParser.json());
-
 
 app.get('/',function(req,res){
   res.send('hello world')
@@ -59,12 +60,10 @@ app.post('/api/login',function(req,res){
 })
 
 // GET A USER
-app.get('/api/users/:id', authenticate, function(req,res){
+app.get('/api/users/:id', function(req,res){
   User.findOne({_id: req.params.id}).then(function(user){
     if(!user){ return res.status(404).send('user not found')}
     // pick public parts of the user object
-
-
 
     res.send(user);
   })
@@ -109,6 +108,7 @@ app.get('/api/documents/:id', function(req,res){
 app.post('/api/documents', authenticate, function(req,res){
   //create a document
   var newDoc = new CodeDocument(req.body);
+  newDoc.author = req.user._id
   newDoc.save().then(function(doc){
     // add document id to the author's document list
     User.findByIdAndUpdate(
@@ -149,19 +149,19 @@ app.post('/api/comments/', authenticate, function(req,res){
     ).then(function(author){
       if(!author){return res.status(404).send('author not found')}
     });
-  }).then(function(comment){
-    // add
-    User.findByIdAndUpdate(
+    // add comment id to the document's comment list
+    CodeDocument.findByIdAndUpdate(
       comment.documentId,
       {$push: {'comments': comment._id}},
       {safe: true, new: true}
     ).then(function(document){
       if(!document){return res.status(404).send('document not found')}
-      else {res.send(comment)}
+      else {res.send('comment added')}
     })
+    
   }).catch(function(err){
     res.status(400);
-  })
+  });
   /*
   CodeDocument.findByIdAndUpdate(
     doc_id,
@@ -185,17 +185,16 @@ app.post('/api/comments/', authenticate, function(req,res){
 });
 
 // DELETE A COMMENT
-
 app.delete('/api/comments/:comment_id', authenticate, authenticateAuthor, function(req,res){
   res.send('trying to delete')
-})
+});
 
 // EDIT A COMMENT
 app.put('/api/comments/:comment_id', authenticate, authenticateAuthor, function(req,res){
   res.send('trying to edit')
-})
+});
 
 
 app.listen(PORT,function(){
   console.log('server listening on port '+PORT);
-})
+});

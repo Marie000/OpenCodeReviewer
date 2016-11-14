@@ -20,11 +20,14 @@ var CommentSchema = mongoose.Schema({
   },
   position: {
     // null for general comment, object TBD for inline comment
+  },
+  documentId: {
+    type: ObjectId,
+    ref: 'CodeDocument',
+    required: true
   }
 });
 
-
 var Comment = mongoose.model('Comment',CommentSchema);
-
 
 module.exports = Comment;
