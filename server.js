@@ -2,6 +2,7 @@ var express = require ('express')
 var bodyParser = require('body-parser');
 var mongoose = require ('./database/mongoose.js');
 var bcrypt = require('bcryptjs');
+var _ = require('lodash');
 // models
 var User = require ('./models/user.js');
 var CodeDocument = require ('./models/document.js');
@@ -39,7 +40,7 @@ app.post('/api/users',function(req,res){
     // send auth token to log in (that can wait)
     res.send('new user created: '+doc.email);
   }).catch(function(err){
-    res.status(400);
+    res.status(400).send(err);
   });
 });
 
@@ -60,23 +61,57 @@ app.post('/api/login',function(req,res){
 })
 
 // GET A USER
+
+
+app.get('/api/users/me',authenticate, function(req,res){
+  // use auth token to get _id
+  console.log(req.user)
+  User.findOne({_id: req.user._id}).then(function(user){
+    if(!user){return res.status(404).send('user not found')}
+    res.send(user);
+  }).catch(function(err){
+    res.status(400).send(err);
+  })
+
+});
+
 app.get('/api/users/:id', function(req,res){
   User.findOne({_id: req.params.id}).then(function(user){
     if(!user){ return res.status(404).send('user not found')}
     // pick public parts of the user object
-
-    res.send(user);
+    filteredUser = _.pick(user,
+      ['first_name','middle_name','last_name','user_name','code_docs','comments','points','location','skills','contact_info']);
+    res.send(filteredUser);
+  }).catch(function(err){
+    res.status(400).send(err)
   })
 });
 
-app.get('/api/users/me',authenticate, function(req,res){
-  // use auth token to get _id
-  // find user by this id
-  // return all info - public and private
-  res.send(req.user);
-})
-
 // UPDATE USER PROFILE
+app.patch('/api/users/me', authenticate, function(req,res){
+  var body = req.body;
+  User.findByIdAndUpdate(req.user._id, {$set: body}, {new:true}).then(function(user){
+    res.send(user);
+  }).catch(function(err){
+    res.status(400).send(err)
+  })
+});
+
+app.patch('/api/users/me/password',authenticate, function(req,res){
+  // expects {'old_password':'string', 'new_password: 'other_string'}
+  var user = req.user;
+  bcrypt.compare(req.body.old_password, user.password, function(err, response){
+    if(response){
+      user.password = req.body.new_password;
+      user.save().then(function(user){
+        res.send(user);
+      })
+    } else {
+      return res.status(400).send('wrong password')
+    }
+  })
+
+})
 
 
 // UPDATE POINTS FOR USER
