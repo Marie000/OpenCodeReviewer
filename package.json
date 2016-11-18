@@ -8,14 +8,16 @@
     "clean-start": "npm run clean-install && npm start",
     "watch": "webpack --watch --progress --profile",
     "build": "rimraf dist && webpack --progress --profile --bail",
-    "server": "webpack-dev-server --inline",
+    "server": "nodemon server.js",
     "webdriver-update": "webdriver-manager update",
     "webdriver-start": "webdriver-manager start",
     "lint": "tslint --force \"src/**/*.ts\"",
     "docs": "typedoc --options typedoc.json src/app/app.component.ts",
     "start": "npm run server",
     "start:hmr": "npm run server -- --hot",
-    "postinstall": "npm run webdriver-update"
+    "postinstall": "npm run webdriver-update",
+    "webpack":"webpack"
+
   },
   "dependencies": {
     "@angular/common": "2.1.2",
@@ -33,6 +35,7 @@
     "jsonwebtoken": "^7.1.9",
     "lodash": "^4.17.0",
     "mongoose": "^4.6.6",
+    "nodemon": "^1.11.0",
     "reflect-metadata": "^0.1.3",
     "rxjs": "5.0.0-beta.12",
     "validator": "^6.1.0",

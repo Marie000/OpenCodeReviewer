@@ -62,7 +62,60 @@ var UserSchema = mongoose.Schema({
     }
   ],
   points:{
-    //content of object TBD
+    reviews:[
+      {
+        type: ObjectId,
+        ref: 'Code_Document'
+      }
+    ],
+    thanks: [
+      {
+        type: ObjectId,
+        ref: 'Comment'
+      }
+    ],
+    code_document_tags: [
+      {
+        name: {
+          type: String,
+          required: true,
+          trim: true,
+          minlength: 1
+        },
+        count: {
+          type: Number,
+          required: true
+        }
+      }
+    ],
+    comment_tags: [
+      {
+        name: {
+          type: String,
+          required: true,
+          trim: true,
+          minlength: 1
+        },
+        count: {
+          type: Number,
+          required: true
+        }
+      }
+    ],
+    awards: [
+      {
+        name: {
+          type: String,
+          required: true,
+          trim: true,
+          minlength: 1
+        },
+        count: {
+          type: Number,
+          required: true
+        }
+      }
+    ]
   },
   location: {
     type: String

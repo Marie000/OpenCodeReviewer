@@ -15,10 +15,9 @@ var PORT = 8080;
 var app = express();
 
 app.use(bodyParser.json());
+app.use(express.static(__dirname + '/src/public'));
 
-app.get('/',function(req,res){
-  res.send('hello world')
-});
+
 
 /** USERS **/
 
@@ -65,7 +64,6 @@ app.post('/api/login',function(req,res){
 
 app.get('/api/users/me',authenticate, function(req,res){
   // use auth token to get _id
-  console.log(req.user)
   User.findOne({_id: req.user._id}).then(function(user){
     if(!user){return res.status(404).send('user not found')}
     res.send(user);
@@ -115,7 +113,9 @@ app.patch('/api/users/me/password',authenticate, function(req,res){
 
 
 // UPDATE POINTS FOR USER
-
+app.patch('/api/users/:id', authenticate, function(req,res){
+  
+})
 
 /** CODE DOCUMENTS **/
 
