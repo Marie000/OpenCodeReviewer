@@ -2,7 +2,7 @@ var mongoose = require ('mongoose');
 var IdObject = mongoose.Schema.Types.ObjectId;
 
 var CodeDocSchema = mongoose.Schema({
-  author:{
+  _author:{
     type: IdObject,
     required: true,
     ref: 'User'

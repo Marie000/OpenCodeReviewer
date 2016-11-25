@@ -2,7 +2,7 @@ var mongoose = require ('mongoose');
 var ObjectId = mongoose.Schema.Types.ObjectId;
 
 var CommentSchema = mongoose.Schema({
-  author: {
+  _author: {
     type: ObjectId,
     ref: 'User',
     required: true
@@ -21,7 +21,7 @@ var CommentSchema = mongoose.Schema({
   position: {
     // null for general comment, object TBD for inline comment
   },
-  documentId: {
+  _document_id: {
     type: ObjectId,
     ref: 'CodeDocument',
     required: true

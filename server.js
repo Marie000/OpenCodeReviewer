@@ -37,7 +37,7 @@ app.post('/api/users',function(req,res){
   // add encryption
   newUser.save().then(function(doc){
     // send auth token to log in (that can wait)
-    res.send('new user created: '+doc.email);
+    res.json('new user created: '+doc.email);
   }).catch(function(err){
     res.status(400).send(err);
   });
@@ -113,7 +113,7 @@ app.patch('/api/users/me/password',authenticate, function(req,res){
 
 
 // UPDATE POINTS FOR USER
-app.patch('/api/users/:id', authenticate, function(req,res){
+app.post('/api/users/:id/thanks', authenticate, function(req,res){
   
 })
 
@@ -133,7 +133,7 @@ app.get('/api/documents', function(req,res){
 
 // GET A DOCUMENT
 app.get('/api/documents/:id', function(req,res){
-  CodeDocument.findOne({_id:req.params.id}).populate('author').populate('comments').then(function(doc){
+  CodeDocument.findOne({_id:req.params.id}).populate('_author').populate('comments').then(function(doc){
     if(!doc){return res.status(404).send('document not found');}
     res.send(doc)
   })
@@ -143,11 +143,11 @@ app.get('/api/documents/:id', function(req,res){
 app.post('/api/documents', authenticate, function(req,res){
   //create a document
   var newDoc = new CodeDocument(req.body);
-  newDoc.author = req.user._id
+  newDoc._author = req.user._id
   newDoc.save().then(function(doc){
     // add document id to the author's document list
     User.findByIdAndUpdate(
-      doc.author,
+      doc._author,
       {$push: {'code_docs': doc._id}},
       {safe: true, new: true}
     ).then(function(author){
@@ -173,20 +173,34 @@ app.post('/api/comments/', authenticate, function(req,res){
   // add comment to code document
   // NOTE: author does not need to be passed in the body - author will be authenticated user
   var body = req.body;
-  body.author = req.user._id;
+  body._author = req.user._id;
   var newComment = new Comment(req.body);
+  console.log('newComment',newComment)
   newComment.save().then(function(comment){
     // add comment id to the author's comment list
+    console.log(comment)
     User.findByIdAndUpdate(
-      comment.author,
+      comment._author,
       {$push: {'comments': comment._id}},
       {safe: true, new: true}
     ).then(function(author){
       if(!author){return res.status(404).send('author not found')}
     });
-    // add comment id to the document's comment list
+
+    // add document id to the author's point.comments array
+    // (list of documents commented on)
+    // first, make sure the document is not already listed: 
+    User.findOne({_id:comment._author}).then(function(user){
+      // does indexOf work with objectIds? or should I loop through the array with .equals?
+      if(user.points.reviews.indexOf(comment._document_id)===-1){
+        var updatedUser = user;
+        updatedUser.points.reviews.push(comment._document_id);
+        updatedUser.save();
+      }
+    });
+
     CodeDocument.findByIdAndUpdate(
-      comment.documentId,
+      comment._document_id,
       {$push: {'comments': comment._id}},
       {safe: true, new: true}
     ).then(function(document){
@@ -197,25 +211,6 @@ app.post('/api/comments/', authenticate, function(req,res){
   }).catch(function(err){
     res.status(400);
   });
-  /*
-  CodeDocument.findByIdAndUpdate(
-    doc_id,
-    {$push: {"comments": body}},
-    {safe: true, new: true}).then(function(doc){
-    if(!doc){return res.status(404).send('document not found')}
-    // add comment id to author's list of comments
-    var user_id = req.body.author;
-    User.findByIdAndUpdate(
-      user_id,
-      {$push: {"comments": doc._id}},
-      {safe: true, new: true}).then(function(author){
-      if(!author){return res.status(404).send('author not found')}
-      res.send(author)
-    })
-  }).catch(function(err){
-    res.status(400);
-  })
-  */
 
 });
 
