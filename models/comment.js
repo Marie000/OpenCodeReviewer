@@ -18,6 +18,15 @@ var CommentSchema = mongoose.Schema({
     type: Boolean,
     required: true
   },
+  thanks: [{
+    from: {
+      type: ObjectId,
+      ref: 'User'
+    },
+    date: {
+      type: Date
+    }
+  }],
   position: {
     // null for general comment, object TBD for inline comment
   },

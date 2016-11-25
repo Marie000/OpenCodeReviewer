@@ -111,11 +111,14 @@ app.patch('/api/users/me/password',authenticate, function(req,res){
 
 })
 
-
+/*
 // UPDATE POINTS FOR USER
 app.post('/api/users/:id/thanks', authenticate, function(req,res){
-  
+  User.findOne({_id:req.params.id}).then(function(user){
+    var count = user.points.thanks
+  });
 })
+*/
 
 /** CODE DOCUMENTS **/
 
@@ -207,12 +210,37 @@ app.post('/api/comments/', authenticate, function(req,res){
       if(!document){return res.status(404).send('document not found')}
       else {res.send('comment added')}
     })
-    
   }).catch(function(err){
     res.status(400);
   });
-
 });
+
+// THANK SOMEONE FOR A COMMENT
+app.post('/api/comments/:id/thanks', authenticate, function(req,res){
+  // NOTE: will need to make sure people do not thank the same person for the
+  // same comment more than once, and that people do not thank themselves.
+
+  // add thank to the comment document
+  Comment.findByIdAndUpdate(
+    req.params.id,
+    // add date to thanks object
+    {$push:{'thanks': {from: req.user._id}}},
+    {safe: true, new: true}
+  ).then(function(comment){
+    if(!comment){return res.status(404).send('comment not found')}
+    // add thank to the user document
+    User.findByIdAndUpdate(
+      comment._author,
+      // add date to thanks object
+      {$push:{'points.thanks': {for_comment:comment._id, from:req.user._id}}},
+      {safe: true, new: true}
+    ).then(function(user){
+      if(!user){return res.status(404).send('user not found')}
+      res.json(comment)
+    })
+  })
+});
+
 
 // DELETE A COMMENT
 app.delete('/api/comments/:comment_id', authenticate, authenticateAuthor, function(req,res){

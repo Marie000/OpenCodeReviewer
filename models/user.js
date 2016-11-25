@@ -70,8 +70,17 @@ var UserSchema = mongoose.Schema({
     ],
     thanks: [
       {
-        type: ObjectId,
-        ref: 'Comment'
+        for_comment:{
+          type: ObjectId,
+          ref: 'Comment'
+        },
+        from: {
+          type: ObjectId,
+          ref: 'User'
+        },
+        date: {
+          type: Date
+        }
       }
     ],
     code_document_tags: [
