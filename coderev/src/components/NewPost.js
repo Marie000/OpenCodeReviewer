@@ -6,36 +6,60 @@ export default class NewPost extends Component {
   constructor() {
     super();
     this.state = { 
-    	value: '',
+    	title: '',
+      code: '',
+      tags: []
     }
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(event) {
-    this.setState({value: event.target.value});
+  getState(){
+    return this.state;
   }
 
-  handleSubmit(event) {
-    alert('A name was submitted: ' + this.state.value);
-    event.preventDefault();
+  static contextTypes= {
+    router: React.PropTypes.object.isRequired
+  }
+
+  handleChange (input, e) {
+    var change = {};
+    change[input] = e.target.value;
+    this.setState(change);
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    var request = new XMLHttpRequest();
+
+    var data = this.getState();
+
+    console.log('click')
+    request.open('POST', 'http://localhost:6060/posts', true);
+    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+    request.send('data='+JSON.stringify(data));
+    this.context.router.push('/dashboard');
   }
 
 
   render() {
     return (
       <div>
-      <form >
+      <form onSubmit={this.handleSubmit.bind(this)}>
           <label> Title: </label>
-          <input type="text" name="title"></input> <br/>
+          <input type="text" name="title" value={this.state.title} 
+                             onChange={this.handleChange.bind(this, 'title')}>
+          </input> <br/>
           <label> Your Code: </label>
-          <input type="text" name="code"></input><br/>
+          <input type="text" name="code" value={this.state.code} 
+                             onChange={this.handleChange.bind(this, 'code')}>
+          </input><br/>
           <label> Tags: </label>
-          <input type="text" name="tags"></input><br/>
-          <input type="submit" value="Submit" ></input>
-
+          <input type="text" name="tags"  value={this.state.tags} 
+                             onChange={this.handleChange.bind(this, 'tags')}>
+          </input><br/>
+          <input type="submit" value="Submit code" ></input>
       </form>
+
+      <p> Here: {this.state.title}, {this.state.code}, {this.state.tags}   </p>
       </div>
     )
   }

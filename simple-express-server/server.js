@@ -37,7 +37,6 @@ var posts = [{
    code: 'return y'
 }]
 
-var ingredients = [{"id":1,"text":"ham"}, {"id":2,"text":"cheese"},{"id":3,"text":"potatoes"}];
 
 app.get('/animals', function(req, res) {
     res.send(animals);
@@ -55,18 +54,25 @@ app.get('/postId', function(req, res) {
 			console.log(post);
 			res.send(post);
 		}
-	})	  
+	})
 });
 
 app.post('/animals', function(req, res){
 	console.log(req.body);
+  
+
 	animals.push(req.body.data);
 });
 
-
-
-app.get('/ingredients', function(req, res) {
-    res.send(ingredients);
+app.post('/posts', function(req, res){
+  console.log(req.body.data);
+  var dataObj = JSON.parse(req.body.data);
+  var lastPost = posts.slice(-1)[0];
+  console.log(lastPost);
+  dataObj.id = lastPost.id+1;
+  posts.push(dataObj);
+//console.log('posts:'+posts[2].title)
 });
+
 
 app.listen(6060);
