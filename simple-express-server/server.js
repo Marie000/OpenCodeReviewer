@@ -67,11 +67,18 @@ app.post('/animals', function(req, res){
 app.post('/posts', function(req, res){
   console.log(req.body.data);
   var dataObj = JSON.parse(req.body.data);
-  var lastPost = posts.slice(-1)[0];
-  console.log(lastPost);
-  dataObj.id = lastPost.id+1;
-  posts.push(dataObj);
-//console.log('posts:'+posts[2].title)
+
+  var existingPost = posts.find(function(post){
+    return post.id == dataObj.id
+   }) 
+
+  if (existingPost){
+    for (var k in dataObj){
+      existingPost[k] = dataObj[k]
+    }
+  } else {
+    posts.push(dataObj)
+  }
 });
 
 
