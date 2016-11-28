@@ -6,10 +6,6 @@ export default class Post extends Component {
   constructor() {
     super();
     this.state = { 
-    	id: null,
-    	title:'',
-    	author: '',
-    	tags: []
     }
   }
 
@@ -23,7 +19,9 @@ export default class Post extends Component {
         scope.setState({
           title:data.title,
           author:data.author,
-          tags: data.tags
+          code: data.code,
+          tags: data.tags,
+          date_submited:data.date_submitted
         })
       })
     } 
@@ -32,8 +30,9 @@ export default class Post extends Component {
     return (
       <div>
         <h2>Title: {this.state.title}</h2>
-        <p>Author: {this.state.author}</p>
+        <p> Code: {this.state.code}</p>
         <p>Tags: {this.state.tags}</p>
+        <p> Posted on: {this.state.date_submited} by {this.state.author} </p>
       </div>
     )
   }

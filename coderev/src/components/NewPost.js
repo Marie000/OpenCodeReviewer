@@ -1,19 +1,32 @@
 import React, { Component } from 'react';
 import HTTP from '../services/httpservice';
+import Moment from 'moment';
+import randomstring from 'randomstring';
+
+import Code from './Code.js'
 
 
 export default class NewPost extends Component {
+
+
   constructor() {
     super();
+
     this.state = { 
+      id: '',
     	title: '',
-      code: '',
-      tags: []
+      tags: [],
+      date_submitted: null, 
+      submit: false
     }
   }
 
   getState(){
-    return this.state;
+
+    var data = this.state;
+    delete data.submit;
+    console.log('data from getState:', data);
+    return data
   }
 
   static contextTypes= {
@@ -28,38 +41,55 @@ export default class NewPost extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    var request = new XMLHttpRequest();
+    var id =  randomstring.generate(7);
 
     var data = this.getState();
+    data.date_submitted = Moment(new Date()).locale('en').format('MMM DD YYYY, HH:mm');
+    data.id = id
+    
+    this.setState({
+        id: id, 
+        submit:true
+      })
 
+  window.setTimeout(function () {
     console.log('click')
+    var request = new XMLHttpRequest();
     request.open('POST', 'http://localhost:6060/posts', true);
     request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
     request.send('data='+JSON.stringify(data));
-    this.context.router.push('/dashboard');
+
+   
+      this.context.router.push('/dashboard');
+    }.bind(this), 300); 
   }
 
 
   render() {
     return (
-      <div>
+      <div className='new-post-form'>
       <form onSubmit={this.handleSubmit.bind(this)}>
           <label> Title: </label>
           <input type="text" name="title" value={this.state.title} 
                              onChange={this.handleChange.bind(this, 'title')}>
           </input> <br/>
-          <label> Your Code: </label>
+ {/*
+<label> Your Code: </label>
           <input type="text" name="code" value={this.state.code} 
                              onChange={this.handleChange.bind(this, 'code')}>
-          </input><br/>
+          </input>
+*/
+ }         
+          <br/>
           <label> Tags: </label>
           <input type="text" name="tags"  value={this.state.tags} 
                              onChange={this.handleChange.bind(this, 'tags')}>
           </input><br/>
+          <Code id ={this.state.id} submit = {this.state.submit} > </Code>
           <input type="submit" value="Submit code" ></input>
       </form>
-
-      <p> Here: {this.state.title}, {this.state.code}, {this.state.tags}   </p>
+      <br/>
+      Date: {this.state.date_submitted}
       </div>
     )
   }
