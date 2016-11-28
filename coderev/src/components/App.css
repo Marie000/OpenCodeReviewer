@@ -1,25 +1,60 @@
 .App {
   text-align: center;
+  width: 970px;
+  margin: 0 auto;
+  font-size: 14px;
 }
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
 .App-header {
-  background-color: #222;
-  height: 150px;
+  background-color: #72C9BC;
+  height: 140px;
   padding: 20px;
-  color: white;
+  color: #0C0B0B;
+  margin-bottom: 10px;
 }
-
+h2 a, h2 a:visited{
+  color: #0C0B0B;
+  text-decoration: none;
+}
+h2 a:hover {
+  color: #700303;
+  text-decoration: none;
+}
 .App-intro {
   font-size: large;
 }
 
 .child{
-  width: 800px;
-  margin: 10px auto;
+
   text-align: left;
+}
+.new-post{
+  display: block;
+  clear: both;
+  margin-left: 10px;
+}
+.new-post a{
+  text-decoration: none;
+  color: white;
+}
+.menu{
+    display: block;
+     float: right;
+     margin-right: 10px;
+     list-style: none;
+}
+.menu-link{  
+    display: inline-block;
+    border: 1px solid grey;
+    background-color: #337ab7;
+    margin: 10px 20px;
+    padding: 8px 15px;
+    border-radius: .3em;
+}
+.menu-btn:hover{
+  background-color: #204d74;
+}
+.menu-link .link{
+   color: white;
+   text-decoration: none;
+   padding: 8px 15px;
 }

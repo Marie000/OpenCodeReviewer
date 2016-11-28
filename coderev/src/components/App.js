@@ -7,9 +7,10 @@ class App extends Component {
 
   constructor() {
     super();
-
+    
   }
-
+ 
+/*
    handleSubmit(){
     var request = new XMLHttpRequest();
     console.log('click')
@@ -17,7 +18,7 @@ class App extends Component {
     request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
     request.send('data=dana');
    } 
-
+*/
 
   render() {
 
@@ -25,24 +26,31 @@ class App extends Component {
       <div className="App">
         <div className="App-header">
 
-          <h2>Welcome to React</h2>
+          <h2> <Link className='link' to="/dashboard">Check My Code</Link></h2>
+          <h4>Open Code Review Platform</h4>
         </div>
         <div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-        <button> <Link to="/dashboard/NewPost">Post a new question</Link>  </button> <br/>
-         <Link to="/profile" activeStyle={{ color: 'red' }}>Profile</Link> <br/>
-         <Link to="/dashboard" activeStyle={{ color: 'red' }}>Dashboard</Link>
-         <p></p>
+       
+    
+        <ul className='menu'>
+       
+          <li className='menu-link'><Link className='link' to="/profile" >Profile</Link></li> 
+       </ul>
+       
+       
+
          <div className = 'child'>
         {this.props.children}
         </div>
         <p></p>      
 
-        <button onClick={this.handleSubmit}>Submit</button>
+      
         </div>
+         <p className="App-intro">
+          To get started, edit <code>src/App.js</code> and save to reload.
+        </p>
       </div>
+
     );
   }
 }

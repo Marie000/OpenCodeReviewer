@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import HTTP from '../services/httpservice';
+import './Dashboard.css';
 
 
 export default class Dashboard extends Component {
@@ -15,7 +16,7 @@ export default class Dashboard extends Component {
     var scope = this;
     var data = HTTP.get('/posts')
     .then(function(data){
-        console.log(data);
+   //     console.log(data);
         scope.setState({
           posts: data
         })
@@ -27,15 +28,17 @@ export default class Dashboard extends Component {
   	return(
 
  	<div>
-  		<p> Previous posts: </p>
+
+ 		<button className='btn btn-primary new-post'> <Link to="/dashboard/NewPost">Post a new question</Link>  </button> <br/>
+  		<p className='main-title'> Posted questions </p>
   		<ul>
   		{this.state.posts.map(post => { return (
-  			<li>
-  				<Link to={'/dashboard/'+post.id}> {post.title} </Link>
+  			<li className='post'>
+  				<Link className='title' to={'/dashboard/'+post.id}> {post.title} </Link>
   				<br/>
-  				Author: {post.author} <br/>
-  				Tags: {post.tags} <br/>
-  				Date: {post.date_submitted}
+  				<span className='post-label'> Author: </span> {post.author} <br/>
+  				<span className='post-label'>Tags:</span> {post.tags} <br/>
+  				<span className='post-label'>Date:</span> {post.date_submitted}
   				<br/><br/>
    			</li>
    			)}
