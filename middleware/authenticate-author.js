@@ -22,7 +22,7 @@ var authenticateAuthor = function(req,res,next) {
         } else {
           res.status(401).send('not authorized to modify this document: you are not the author');
         }
-      })
+      });
     }
 }
 

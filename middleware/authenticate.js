@@ -11,7 +11,7 @@ var authenticate = function(req,res,next) {
     next();
   }).catch(function(error){
     res.status(401).send(error);
-  })
+  });
 };
 
 module.exports = authenticate;

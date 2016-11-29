@@ -8,18 +8,17 @@ var userRoutes = function(app) {
 
 // GET ALL USERS
 // do I even need this? When would I need a list of users?
-// require authentication - send only relevant information
+  // NOTE : should send only public information
   app.get('/api/users', authenticate, function(req,res){
     User.find({}).then(function(list){
-      // is this necessary?   if(!list){return res.status(404).send('no users found')}
-      res.send(JSON.stringify(list));
+      if(!list){return res.status(404).send('no users found')}
+      res.json(list);
     })
   });
 
 // CREATE A NEW USER
   app.post('/api/users',function(req,res){
     var newUser = new User(req.body);
-    // add encryption
     newUser.save().then(function(doc){
       // send auth token to log in (that can wait)
       res.json('new user created: '+doc.email);
@@ -35,20 +34,19 @@ var userRoutes = function(app) {
       bcrypt.compare(req.body.password, user.password, function(err, response){
         if(response){
           user.generateAuthToken().then(function(token){
-            res.header('x-auth', token).send(user)
+            res.header('x-auth', token).json(user)
           })
         } else {
           return res.status(400).send('wrong password')
         }
       })
     })
-  })
+  });
 
 // GET A USER
 
-
+  // when user is logged in, get all information for that user (private and public)
   app.get('/api/users/me',authenticate, function(req,res){
-    // use auth token to get _id
     User.findOne({_id: req.user._id}).then(function(user){
       if(!user){return res.status(404).send('user not found')}
       res.send(user);
@@ -58,6 +56,7 @@ var userRoutes = function(app) {
 
   });
 
+  // get only public information for a user
   app.get('/api/users/:id', function(req,res){
     User.findOne({_id: req.params.id}).then(function(user){
       if(!user){ return res.status(404).send('user not found')}
@@ -72,6 +71,7 @@ var userRoutes = function(app) {
 
 // UPDATE USER PROFILE
   app.patch('/api/users/me', authenticate, function(req,res){
+    // filter body to updated only fields that exist!
     var body = req.body;
     User.findByIdAndUpdate(req.user._id, {$set: body}, {new:true}).then(function(user){
       res.send(user);
@@ -80,8 +80,8 @@ var userRoutes = function(app) {
     })
   });
 
+  // UPDATE USER PASSWORD
   app.patch('/api/users/me/password',authenticate, function(req,res){
-    // expects {'old_password':'string', 'new_password: 'other_string'}
     var user = req.user;
     bcrypt.compare(req.body.old_password, user.password, function(err, response){
       if(response){
@@ -93,8 +93,7 @@ var userRoutes = function(app) {
         return res.status(400).send('wrong password')
       }
     })
-
   })
-}
+};
 
 module.exports = userRoutes;

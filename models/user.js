@@ -25,12 +25,10 @@ var UserSchema = mongoose.Schema({
   },
   tokens: [{
     auth: {
-      type: String,
-      //required: true
+      type: String
     },
     token: {
-      type: String,
-      //required: true
+      type: String
     }
   }],
   first_name: {
@@ -199,7 +197,7 @@ UserSchema.methods.generateAuthToken = function(){
     return token;
   })
 };
-UserSchema.set('timestamps',true)
+UserSchema.set('timestamps',true);
 var User = mongoose.model('User',UserSchema);
 
 module.exports = User;

@@ -16,7 +16,6 @@ var CodeDocSchema = mongoose.Schema({
   tags:[{
     type: String
   }],
-  //do I want to use a default value for dates?
   editedAt: {
     type: Date
   },

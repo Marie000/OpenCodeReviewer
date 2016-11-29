@@ -11,19 +11,14 @@ var authenticateAuthor = require('../middleware/authenticate-author.js');
 
 var commentRoutes = function(app){
 
-
 // CREATE A COMMENT
   app.post('/api/comments/', authenticate, function(req,res){
-    // IMPORTANT: pass in the code document id in the request somehow.
     // add comment to code document
-    // NOTE: author does not need to be passed in the body - author will be authenticated user
     var body = req.body;
     body._author = req.user._id;
     var newComment = new Comment(req.body);
-    console.log('newComment',newComment)
     newComment.save().then(function(comment){
       // add comment id to the author's comment list
-      console.log(comment)
       User.findByIdAndUpdate(
         comment._author,
         {$push: {'comments': comment._id}},
@@ -34,16 +29,16 @@ var commentRoutes = function(app){
 
       // add document id to the author's point.comments array
       // (list of documents commented on)
-      // first, make sure the document is not already listed:
       User.findOne({_id:comment._author}).then(function(user){
-        // does indexOf work with objectIds? or should I loop through the array with .equals?
+        // first, make sure the document is not already listed:
         if(user.points.reviews.indexOf(comment._document_id)===-1){
+          //Is .save() a good idea? should I use .update()?
           var updatedUser = user;
           updatedUser.points.reviews.push(comment._document_id);
           updatedUser.save();
         }
       });
-
+      // add comment's id to the code document's comment list
       CodeDocument.findByIdAndUpdate(
         comment._document_id,
         {$push: {'comments': comment._id}, $set: {'commentedAt':Date.now()}},
@@ -59,8 +54,7 @@ var commentRoutes = function(app){
 
 // THANK SOMEONE FOR A COMMENT
   app.post('/api/comments/:id/thanks', authenticate, function(req,res){
-    // NOTE: will need to make sure people do not thank the same person for the
-    // same comment more than once, and that people do not thank themselves.
+    // Check that the person can send that thanks
     Comment.findById(req.params.id).then(function(comment){
       // Do not thank yourself
       if(req.user._id.equals(comment._author)){
@@ -74,8 +68,7 @@ var commentRoutes = function(app){
           }
         }
       }
-
-
+      // if user is authorized to send that thanks:
       // add thank to the comment document
       Comment.findByIdAndUpdate(
         req.params.id,
@@ -91,27 +84,22 @@ var commentRoutes = function(app){
         ).then(function(user){
           if(!user){return res.status(404).send('user not found')}
           res.json(comment)
-        })
-      })
-
+        });
+      });
     });
-
-
-
-
   });
 
 
 // DELETE A COMMENT
+  // NOTE: keep :comment_id because it is needed for authenticateAuthor middleware
   app.delete('/api/comments/:comment_id', authenticate, authenticateAuthor, function(req,res){
-    res.send('trying to delete')
+    res.send('trying to delete');
   });
 
 // EDIT A COMMENT
   app.put('/api/comments/:comment_id', authenticate, authenticateAuthor, function(req,res){
-    res.send('trying to edit')
+    res.send('trying to edit');
   });
-
 
 };
 
