@@ -7,10 +7,6 @@ var CommentSchema = mongoose.Schema({
     ref: 'User',
     required: true
   },
-  date_submitted: {
-    type: Date,
-    //required: true
-  },
   text: {
     // string or object?
   },
@@ -36,7 +32,7 @@ var CommentSchema = mongoose.Schema({
     required: true
   }
 });
-
+CommentSchema.set('timestamps',true);
 var Comment = mongoose.model('Comment',CommentSchema);
 
 module.exports = Comment;

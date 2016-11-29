@@ -17,13 +17,10 @@ var CodeDocSchema = mongoose.Schema({
     type: String
   }],
   //do I want to use a default value for dates?
-  date_submitted: {
-    type: Date,
-  },
-  date_edited: {
+  editedAt: {
     type: Date
   },
-  date_commented: {
+  commentedAt: {
     type: Date
   },
   open_for_review: {
@@ -42,7 +39,7 @@ var CodeDocSchema = mongoose.Schema({
     ref: 'Comment'
   }]
 });
-
+CodeDocSchema.set('timestamps',true);
 var CodeDocument = mongoose.model('CodeDocument',CodeDocSchema);
 
 module.exports = CodeDocument;

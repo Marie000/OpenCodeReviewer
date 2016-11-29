@@ -189,7 +189,7 @@ UserSchema.statics.findByToken = function(token){
     return Promise.reject('verify did not work');
   }
   return User.findOne({_id:decoded._id, 'tokens.token':token, 'tokens.auth':'auth'});
-}
+};
 
 UserSchema.methods.generateAuthToken = function(){
   var user = this;
@@ -198,8 +198,8 @@ UserSchema.methods.generateAuthToken = function(){
   return user.save().then(function(){
     return token;
   })
-}
-
+};
+UserSchema.set('timestamps',true)
 var User = mongoose.model('User',UserSchema);
 
 module.exports = User;

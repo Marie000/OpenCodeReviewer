@@ -12,7 +12,7 @@ var authenticateAuthor = function(req,res,next) {
         } else {
           res.status(401).send('not authorized to modify this comment: you are not the author');
         }
-      })
+      });
     }
       // code documents
     else {
@@ -20,7 +20,7 @@ var authenticateAuthor = function(req,res,next) {
         if(req.user._id.equals(doc.author)){
           next();
         } else {
-          res.status(401).send('not authorized to modify this document: you are not the author')
+          res.status(401).send('not authorized to modify this document: you are not the author');
         }
       })
     }

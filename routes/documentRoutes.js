@@ -51,6 +51,7 @@ var documentRoutes = function(app){
 // note: to edit or delete a document, pass in :doc_id instead of :id (to correctly identify it
 // with the authenticate-author middleware)
 
+  // note: be sure to add editedAt: Date.now()
 
 };
 

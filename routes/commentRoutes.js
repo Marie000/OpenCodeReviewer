@@ -46,7 +46,7 @@ var commentRoutes = function(app){
 
       CodeDocument.findByIdAndUpdate(
         comment._document_id,
-        {$push: {'comments': comment._id}},
+        {$push: {'comments': comment._id}, $set: {'commentedAt':Date.now()}},
         {safe: true, new: true}
       ).then(function(document){
         if(!document){return res.status(404).send('document not found')}
