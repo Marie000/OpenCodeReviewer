@@ -65,16 +65,14 @@ var commentRoutes = function(app){
     // add thank to the comment document
     Comment.findByIdAndUpdate(
       req.params.id,
-      // add date to thanks object
-      {$push:{'thanks': {from: req.user._id}}},
+      {$push:{'thanks': {from: req.user._id, date:Date.now()}}},
       {safe: true, new: true}
     ).then(function(comment){
       if(!comment){return res.status(404).send('comment not found')}
       // add thank to the user document
       User.findByIdAndUpdate(
         comment._author,
-        // add date to thanks object
-        {$push:{'points.thanks': {for_comment:comment._id, from:req.user._id}}},
+        {$push:{'points.thanks': {for_comment:comment._id, from:req.user._id, date:Date.now()}}},
         {safe: true, new: true}
       ).then(function(user){
         if(!user){return res.status(404).send('user not found')}
