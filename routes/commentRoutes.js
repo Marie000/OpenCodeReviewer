@@ -61,24 +61,44 @@ var commentRoutes = function(app){
   app.post('/api/comments/:id/thanks', authenticate, function(req,res){
     // NOTE: will need to make sure people do not thank the same person for the
     // same comment more than once, and that people do not thank themselves.
+    Comment.findById(req.params.id).then(function(comment){
+      // Do not thank yourself
+      if(req.user._id.equals(comment._author)){
+        return res.status(401).send('you cannot thank yourself');
+      }
+      // You already thanked for that comment
+      if(comment.thanks.length>0) {
+        for (var x = 0; x < comment.thanks.length; x++) {
+          if (comment.thanks[x].from.equals(req.user._id)) {
+            return res.status(401).send('you already thanked that comment');
+          }
+        }
+      }
 
-    // add thank to the comment document
-    Comment.findByIdAndUpdate(
-      req.params.id,
-      {$push:{'thanks': {from: req.user._id, date:Date.now()}}},
-      {safe: true, new: true}
-    ).then(function(comment){
-      if(!comment){return res.status(404).send('comment not found')}
-      // add thank to the user document
-      User.findByIdAndUpdate(
-        comment._author,
-        {$push:{'points.thanks': {for_comment:comment._id, from:req.user._id, date:Date.now()}}},
+
+      // add thank to the comment document
+      Comment.findByIdAndUpdate(
+        req.params.id,
+        {$push:{'thanks': {from: req.user._id, date:Date.now()}}},
         {safe: true, new: true}
-      ).then(function(user){
-        if(!user){return res.status(404).send('user not found')}
-        res.json(comment)
+      ).then(function(comment){
+        if(!comment){return res.status(404).send('comment not found')}
+        // add thank to the user document
+        User.findByIdAndUpdate(
+          comment._author,
+          {$push:{'points.thanks': {for_comment:comment._id, from:req.user._id, date:Date.now()}}},
+          {safe: true, new: true}
+        ).then(function(user){
+          if(!user){return res.status(404).send('user not found')}
+          res.json(comment)
+        })
       })
-    })
+
+    });
+
+
+
+
   });
 
 
