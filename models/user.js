@@ -4,6 +4,7 @@ var ObjectId = mongoose.Schema.Types.ObjectId;
 var bcrypt = require('bcryptjs');
 var config = require('../config.js');
 var jwt = require('jsonwebtoken');
+var _ = require('lodash');
 
 var UserSchema = mongoose.Schema({
   email:{
@@ -192,6 +193,8 @@ UserSchema.statics.findByToken = function(token){
 UserSchema.methods.generateAuthToken = function(){
   var user = this;
   var token = jwt.sign({_id:user._id.toHexString(), auth:'auth'},config.secret).toString();
+  // remove any 'auth' token before pushing the new one
+  _.pullAllBy(user.tokens,[{'auth':'auth'}],'auth');
   user.tokens.push({auth: 'auth', token: token});
   return user.save().then(function(){
     return token;

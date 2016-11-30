@@ -43,6 +43,16 @@ var userRoutes = function(app) {
     })
   });
 
+  // LOGOUT
+  app.delete('/api/logout', authenticate, function(req,res){
+    User.findOne({_id:req.user._id}).then(function(user){
+      if(!user){return res.status(404).send('user not found')}
+      user.tokens=[];
+      user.save();
+      res.json(user);
+    })
+  })
+
 // GET A USER
 
   // when user is logged in, get all information for that user (private and public)
