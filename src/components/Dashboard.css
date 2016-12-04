@@ -1,0 +1,34 @@
+.main-title{
+	font-size: 20px;
+	font-weight: bold;
+
+}	
+ul{
+	padding: 0;
+}
+.post{
+	display: block;
+	width: 800px;
+	border: 1px solid #EAE6E6;
+	border-radius: .3em;
+	background-color: #EAE6E6;
+	margin-bottom: 20px;
+	padding: 10px 0 0 20px;
+	font-size: 15px;
+
+}
+.title{
+	color: blue;
+}
+.post-label{
+	padding-right: 20px;
+
+}
+.new-post-form{
+	clear:both;
+	margin-top: 20px;
+} 
+.new-post-form label {
+	margin-bottom: 20px;
+	font-size: 14px;
+}
