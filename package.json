@@ -15,14 +15,14 @@
     "github": "^6.0.4",
     "jsonwebtoken": "^7.1.9",
     "lodash": "^4.17.0",
+    "moment": "^2.16.0",
     "mongoose": "^4.6.6",
     "nodemon": "^1.11.0",
-    "validator": "^6.1.0",
-    "moment": "^2.16.0",
     "randomstring": "^1.1.5",
     "react": "^15.4.0",
-    "react-dom": "^15.4.0",
-    "react-router": "^3.0.0"
+    "react-dom": "^15.4.1",
+    "react-router": "^3.0.0",
+    "validator": "^6.1.0"
   },
   "devDependencies": {
     "react-scripts": "0.7.0"
