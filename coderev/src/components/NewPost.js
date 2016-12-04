@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import HTTP from '../services/httpservice';
+//import HTTP from '../services/httpservice';
 import Moment from 'moment';
 import randomstring from 'randomstring';
 
@@ -17,7 +17,8 @@ export default class NewPost extends Component {
     	title: '',
       tags: [],
       date_submitted: null, 
-      submit: false
+      submit: false,
+      comments:[]
     }
   }
 

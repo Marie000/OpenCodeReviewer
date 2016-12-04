@@ -26,7 +26,8 @@ var posts = [{
    author: 'Author 1',
    tags:'Tag1',
    date_submitted: '12/10/2016',
-   code: 'var x'
+   code: 'var x',
+   comments:[{text:'hello'}]
 },
 {
 	id:2,
@@ -34,7 +35,8 @@ var posts = [{
    author: 'Author 2',
    tags:['Tag1'],
    date_submitted: '14/10/2016',
-   code: 'return y'
+   code: 'return y',
+   comments:[]
 }]
 
 
@@ -43,6 +45,7 @@ app.get('/animals', function(req, res) {
 });
 
 app.get('/posts', function(req, res) {
+
     res.send(posts);
 });
 
@@ -65,20 +68,26 @@ app.post('/animals', function(req, res){
 });
 
 app.post('/posts', function(req, res){
-  console.log(req.body.data);
+  console.log('received: ',req.body.data);
   var dataObj = JSON.parse(req.body.data);
 
   var existingPost = posts.find(function(post){
     return post.id == dataObj.id
-   }) 
+   })
 
   if (existingPost){
     for (var k in dataObj){
+      if (k != 'comment'){
       existingPost[k] = dataObj[k]
+      } else{
+        existingPost['comments'].push(dataObj.comment)
+      }
+
     }
   } else {
     posts.push(dataObj)
   }
+
 });
 
 

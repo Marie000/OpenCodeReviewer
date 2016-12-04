@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import HTTP from '../services/httpservice';
 
 export default class Code extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = { 
-    	id: '',
+    	id: this.props.id,
     	code: ''
     }
   }
