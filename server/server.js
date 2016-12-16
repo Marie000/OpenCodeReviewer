@@ -6,7 +6,7 @@ var PORT = process.env.port || 8080;
 var app = express();
 
 app.use(bodyParser.json());
-app.use(express.static(__dirname + '/../build'));
+app.use(express.static(__dirname + '/../build/'));
 
 app.use(function (req, res, next) {
   // Website you wish to allow to connect
