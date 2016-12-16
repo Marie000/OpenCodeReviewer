@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var validator = require('validator');
 var ObjectId = mongoose.Schema.Types.ObjectId;
 var bcrypt = require('bcryptjs');
-var config = require('../config.js');
+var config = require('../../config.js');
 var jwt = require('jsonwebtoken');
 var _ = require('lodash');
 

@@ -31,10 +31,12 @@ var userRoutes = function(app) {
   app.post('/api/login',function(req,res){
     User.findOne({email: req.body.email}).then(function(user){
       if(!user){return res.status(400).send('email not found')}
+      var loggedUser={_id:user._id}
       bcrypt.compare(req.body.password, user.password, function(err, response){
         if(response){
           user.generateAuthToken().then(function(token){
-            res.header('x-auth', token).json(user)
+            loggedUser.token=token;
+            res.json(loggedUser);
           })
         } else {
           return res.status(400).send('wrong password')
