@@ -55,7 +55,7 @@ export default class PostComment extends Component {
                              onChange={this.handleChange.bind(this)}>
           </input>  <br/>
          
-          <input type="submit" value="Submit" onClick={this.handleSubmit.bind(this)}></input>
+          <input type="submit" value="Submit" ></input>
          </div>
        
   	)

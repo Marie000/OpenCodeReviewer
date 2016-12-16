@@ -14,7 +14,7 @@ export default class Dashboard extends Component {
 
   componentWillMount(){
     var scope = this;
-    var data = HTTP.get('/posts')
+    var data = HTTP.get('/documents')
     .then(function(data){
    //     console.log(data);
         scope.setState({
@@ -34,11 +34,12 @@ export default class Dashboard extends Component {
   		<ul>
   		{this.state.posts.map(post => { return (
   			<li className='post'>
-  				<Link className='title' to={'/dashboard/'+post.id}> {post.title} </Link>
+  				<Link className='title' to={'/dashboard/'+post._id}> {post.title} </Link>
   				<br/>
-  				<span className='post-label'> Author: </span> {post.author} <br/>
+  				<span className='post-label'> Author: </span> {post._author} <br/>
   				<span className='post-label'>Tags:</span> {post.tags} <br/>
   				<span className='post-label'>Date:</span> {post.date_submitted}
+          <span className='post-label'>ID:</span> {post._id}
   				<br/><br/>
    			</li>
    			)}

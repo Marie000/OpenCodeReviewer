@@ -5,33 +5,24 @@ export default class Code extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-    	id: this.props.id,
-    	code: ''
-    }
-  }
 
-  sendData(id){
-  	var request = new XMLHttpRequest();
-  	var data = this.state;
-  	data.id = id;
-  	request.open('POST', 'http://localhost:6060/posts', true);
-    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-    request.send('data='+JSON.stringify(data));
- //   this.context.router.push('/dashboard');
+    }
   }
 
   componentWillUpdate(nextProps){
   	if (nextProps.submit) {
-
-  		console.log('ok')
-  		this.sendData(nextProps.id);
+  		console.log('submit request from parent component Post');
+  		this.props.saveCode(this.state.code);
+      return
   	}
   }
+
 
   handleChange (e) {
     var code = e.target.value;
     this.setState({code: code});
   }
+ 
 
 render() {
     return (

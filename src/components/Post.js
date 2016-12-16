@@ -14,12 +14,13 @@ export default class Post extends Component {
 
   getPostData(){
   	var scope = this;
-  	var data = HTTP.get('/postId?id='+this.state.id)
+  	var data = HTTP.get('/documents/'+this.state.id)
     .then(function(data){
         scope.setState({
-          id: data.id,
+          id: data._id,
           title:data.title,
           author:data.author,
+          text: data.text,
           code: data.code,
           tags: data.tags,
           date_submited:data.date_submitted,
@@ -58,6 +59,7 @@ export default class Post extends Component {
         <h2>Title: {this.state.title}</h2>
         <p> Code: {this.state.code}</p>
         <p>Tags: {this.state.tags}</p>
+        <p>Text: {this.state.text}</p>
         {displayedComment}
    		
         <p> Posted on: {this.state.date_submited} by {this.state.author} </p>
