@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "react-scripts": "0.7.0"
-  }
+  },
   "engines":{
     "node":"7.0.0"
   }
