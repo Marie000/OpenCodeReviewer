@@ -1,36 +1,48 @@
 import React, { Component } from 'react';
 import HTTP from '../services/httpservice';
+import CodeMirror from 'react-codemirror';
+import 'codemirror/lib/codemirror.css';
+import 'codemirror/mode/javascript/javascript';
+import 'codemirror/mode/htmlmixed/htmlmixed';
+import 'codemirror/addon/edit/matchbrackets';
+import 'codemirror/addon/edit/closebrackets';
+
 
 export default class Code extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-
-    }
+      code:"// Code \n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+    };
+    this.handleChange = this.handleChange.bind(this);
   }
+
 
   componentWillUpdate(nextProps){
   	if (nextProps.submit) {
-  		console.log('submit request from parent component Post');
   		this.props.saveCode(this.state.code);
-      return
   	}
   }
 
-
-  handleChange (e) {
-    var code = e.target.value;
-    this.setState({code: code});
+  handleChange (newCode) {
+    this.setState({code: newCode});
   }
- 
 
 render() {
+
+    var options = {
+      lineNumbers: true,
+      mode: 'javascript',
+      matchBrackets: true,
+      closebrackets: true
+
+    }
+
     return (
     		<div>
           <label> Code: </label>
-          <input type="text" name="code" value={this.state.code} 
-                             onChange={this.handleChange.bind(this)}>
-           </input>
+           <CodeMirror value={this.state.code} onChange={this.handleChange} options={options} />
+           <br/>
            </div>
     	)
 	}

@@ -3,6 +3,13 @@ import HTTP from '../services/httpservice';
 
 import PostComment from './PostComment';
 
+import CodeMirror from 'react-codemirror';
+import 'codemirror/lib/codemirror.css';
+import 'codemirror/mode/javascript/javascript';
+import 'codemirror/mode/htmlmixed/htmlmixed';
+import 'codemirror/addon/edit/matchbrackets';
+import 'codemirror/addon/edit/closebrackets';
+
 
 export default class Post extends Component {
   constructor(props) {
@@ -21,7 +28,6 @@ export default class Post extends Component {
           title:data.title,
           author:data.author,
           text: data.text,
-          code: data.code,
           tags: data.tags,
           date_submited:data.date_submitted,
           comments:data.comments
@@ -36,7 +42,6 @@ export default class Post extends Component {
 
    handleSubmit(){
    		this.getPostData();
-
     }
     
   render() {
@@ -53,13 +58,20 @@ export default class Post extends Component {
   			displayedComment = <p>Comment:{commentsList.join(', ')}</p>
   		}
   	}
+
+    var options = {
+      lineNumbers: true,
+      mode: 'javascript',
+      matchBrackets: true,
+      closebrackets: true
+
+    }
   	
     return (
       <div>
         <h2>Title: {this.state.title}</h2>
-        <p> Code: {this.state.code}</p>
         <p>Tags: {this.state.tags}</p>
-        <p>Text: {this.state.text}</p>
+        <p>Text: <CodeMirror value={this.state.text} options={options} /></p>
         {displayedComment}
    		
         <p> Posted on: {this.state.date_submited} by {this.state.author} </p>

@@ -24,7 +24,6 @@ export default class NewPost extends Component {
 
     var data = this.state;
     delete data.submit;
-    console.log('data from getState:', data);
     return data
   }
 
@@ -63,7 +62,7 @@ export default class NewPost extends Component {
 
   window.setTimeout(function () {  
       this.context.router.push('/dashboard');
-    }.bind(this), 300); 
+    }.bind(this), 600); 
   }
 
 
@@ -74,14 +73,7 @@ export default class NewPost extends Component {
           <label> Title: </label>
           <input type="text" name="title" value={this.state.title} 
                              onChange={this.handleChange.bind(this, 'title')}>
-          </input> <br/>
- {/*
-<label> Your Code: </label>
-          <input type="text" name="code" value={this.state.code} 
-                             onChange={this.handleChange.bind(this, 'code')}>
-          </input>
-*/
- }         
+          </input> <br/>        
           <br/>
           <label> Tags: </label>
           <input type="text" name="tags"  value={this.state.tags} 
