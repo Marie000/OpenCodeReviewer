@@ -3,20 +3,30 @@ var token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ODQ0YTYxZjc3NTJmZj
 
 var service = {
 	get: function(url){
-		return fetch(baseURL + url)
+		return fetch(baseURL + url, {headers: {'x-auth': token}})
 		.then(function(response){
 			var res = response.json();
+			console.log('receiving from server: ', res);
 			return res;
 		})
 	},
 	post: function(url, data){
-		console.log('posting');
+		console.log('sending POST request');
 		var request = new XMLHttpRequest();
     	request.open('POST', baseURL + url, true);
     	request.setRequestHeader('Content-Type', 'application/JSON');
     	request.setRequestHeader('x-auth', token);
     	request.send(JSON.stringify(data));
-    	} 
+    	},
+
+    patch: function(url, data){
+		console.log('sending POST request');
+		var request = new XMLHttpRequest();
+    	request.open('PATCH', baseURL + url, false);
+    	request.setRequestHeader('Content-Type', 'application/JSON');
+    	request.setRequestHeader('x-auth', token);
+    	request.send(JSON.stringify(data));
+    	}  
 	};
 
 export default service;
