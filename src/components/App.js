@@ -33,7 +33,8 @@ class App extends Component {
        
     
         <ul className='menu'>
-       
+          <li className='menu-link'><Link className='link' to="/signin" >Sign In</Link></li>
+          <li className='menu-link'><Link className='link' to="/login" >Log In</Link></li>  
           <li className='menu-link'><Link className='link' to="/profile" >Profile</Link></li> 
        </ul>
        
