@@ -6,6 +6,8 @@ var config = require('../../config.js');
 var jwt = require('jsonwebtoken');
 var _ = require('lodash');
 
+var config = process.env.SECRET || config.secret;
+
 var UserSchema = mongoose.Schema({
   email:{
     type: String,
@@ -192,7 +194,7 @@ UserSchema.statics.findByToken = function(token){
 
 UserSchema.methods.generateAuthToken = function(){
   var user = this;
-  var token = jwt.sign({_id:user._id.toHexString(), auth:'auth'},config.secret).toString();
+  var token = jwt.sign({_id:user._id.toHexString(), auth:'auth'},config).toString();
   // remove any 'auth' token before pushing the new one
   _.pullAllBy(user.tokens,[{'auth':'auth'}],'auth');
   user.tokens.push({auth: 'auth', token: token});
