@@ -23,6 +23,7 @@ export default class Profile extends Component {
         first_name:data.first_name,
         last_name: data.last_name,
         user_name: data.user_name,
+        email: data.email,
         location: data.location
         });
       })
@@ -47,6 +48,7 @@ export default class Profile extends Component {
       Last Name: {this.state.last_name} <br/>
       User Name: {this.state.user_name } <br/>
       Location: {this.state.location}<br/>
+      Email Address: {this.state.email}<br/>
 
       <button className='menu-link'><Link className='link' to="/editprofile" >Edit your profile</Link></button>
       

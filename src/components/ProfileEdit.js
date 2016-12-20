@@ -26,7 +26,8 @@ export default class ProfileEdit extends Component {
         first_name:data.first_name,
         last_name: data.last_name,
         user_name: data.user_name,
-        location: data.location
+        location: data.location,
+        email:data.email,
         });
       })
     }
