@@ -1,45 +1,48 @@
 import React, { Component } from 'react';
 import HTTP from '../services/httpservice';
+import CodeMirror from 'react-codemirror';
+import 'codemirror/lib/codemirror.css';
+import 'codemirror/mode/javascript/javascript';
+import 'codemirror/mode/htmlmixed/htmlmixed';
+import 'codemirror/addon/edit/matchbrackets';
+import 'codemirror/addon/edit/closebrackets';
+
 
 export default class Code extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-    	id: this.props.id,
-    	code: ''
-    }
+      code:"// Code \n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+    };
+    this.handleChange = this.handleChange.bind(this);
   }
 
-  sendData(id){
-  	var request = new XMLHttpRequest();
-  	var data = this.state;
-  	data.id = id;
-  	request.open('POST', 'http://localhost:6060/posts', true);
-    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-    request.send('data='+JSON.stringify(data));
- //   this.context.router.push('/dashboard');
-  }
 
   componentWillUpdate(nextProps){
   	if (nextProps.submit) {
-
-  		console.log('ok')
-  		this.sendData(nextProps.id);
+  		this.props.saveCode(this.state.code);
   	}
   }
 
-  handleChange (e) {
-    var code = e.target.value;
-    this.setState({code: code});
+  handleChange (newCode) {
+    this.setState({code: newCode});
   }
 
 render() {
+
+    var options = {
+      lineNumbers: true,
+      mode: 'javascript',
+      matchBrackets: true,
+      closebrackets: true
+
+    }
+
     return (
     		<div>
           <label> Code: </label>
-          <input type="text" name="code" value={this.state.code} 
-                             onChange={this.handleChange.bind(this)}>
-           </input>
+           <CodeMirror value={this.state.code} onChange={this.handleChange} options={options} />
+           <br/>
            </div>
     	)
 	}

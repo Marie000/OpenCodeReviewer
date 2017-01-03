@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-//import HTTP from '../services/httpservice';
+import HTTP from '../services/httpservice';
 import Moment from 'moment';
-import randomstring from 'randomstring';
 
 import Code from './Code.js'
 
@@ -13,12 +12,11 @@ export default class NewPost extends Component {
     super();
 
     this.state = { 
-      id: '',
     	title: '',
       tags: [],
-      date_submitted: null, 
+      comments:[],
       submit: false,
-      comments:[]
+      text: 'initial'
     }
   }
 
@@ -26,11 +24,10 @@ export default class NewPost extends Component {
 
     var data = this.state;
     delete data.submit;
-    console.log('data from getState:', data);
     return data
   }
 
-  static contextTypes= {
+ static contextTypes= {
     router: React.PropTypes.object.isRequired
   }
 
@@ -40,29 +37,32 @@ export default class NewPost extends Component {
     this.setState(change);
   }
 
+  saveCode(data){
+    this.setState({
+      submit:false,
+      text: data
+    })
+  }
+
   handleSubmit(e) {
     e.preventDefault();
-    var id =  randomstring.generate(7);
 
-    var data = this.getState();
-    data.date_submitted = Moment(new Date()).locale('en').format('MMM DD YYYY, HH:mm');
-    data.id = id
-    
-    this.setState({
-        id: id, 
-        submit:true
-      })
+    this.setState({submit:true});
+
+        
 
   window.setTimeout(function () {
-    console.log('click')
-    var request = new XMLHttpRequest();
-    request.open('POST', 'http://localhost:6060/posts', true);
-    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-    request.send('data='+JSON.stringify(data));
 
-   
+    var data = this.getState();
+    if (data.tags != ""){
+      data.tags = data.tags.split(',');
+    }
+    HTTP.post('/documents', data);
+    }.bind(this), 10); 
+
+  window.setTimeout(function () {  
       this.context.router.push('/dashboard');
-    }.bind(this), 300); 
+    }.bind(this), 600); 
   }
 
 
@@ -73,84 +73,18 @@ export default class NewPost extends Component {
           <label> Title: </label>
           <input type="text" name="title" value={this.state.title} 
                              onChange={this.handleChange.bind(this, 'title')}>
-          </input> <br/>
- {/*
-<label> Your Code: </label>
-          <input type="text" name="code" value={this.state.code} 
-                             onChange={this.handleChange.bind(this, 'code')}>
-          </input>
-*/
- }         
+          </input> <br/>        
           <br/>
           <label> Tags: </label>
           <input type="text" name="tags"  value={this.state.tags} 
                              onChange={this.handleChange.bind(this, 'tags')}>
           </input><br/>
-          <Code id ={this.state.id} submit = {this.state.submit} > </Code>
-          <input type="submit" value="Submit code" ></input>
+          <Code saveCode={this.saveCode.bind(this)} submit = {this.state.submit} > </Code>
+          <input type="submit" value="Submit your code" ></input>
       </form>
       <br/>
-      Date: {this.state.date_submitted}
       </div>
     )
   }
 
-
-/*
-
-constructor(props) {
-    super(props);
-    this.state = {value: ''};
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleChange(event) {
-    this.setState({value: event.target.value});
-  }
-
-  handleSubmit(event) {
-    alert('A name was submitted: ' + this.state.value);
-    event.preventDefault();
-  }
-
-  render() {
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          Name:
-          <input type="text" value={this.state.value} onChange={this.handleChange} />
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
-    );
-  }
-
-
-  var Hello = React.createClass({
-    getInitialState: function() {
-        return {input1:0, 
-                input2:0};
-    },
-    render: function() {
-      var total = this.state.input1 + this.state.input2;
-      return (
-        <div>{total}<br/>
-          <input type="text" value={this.state.input1} 
-                             onChange={this.handleChange.bind(this, 'input1')} />
-          <input type="text" value={this.state.input2} 
-                             onChange={this.handleChange.bind(this, 'input2')} />
-        </div>
-      );
-    },
-    handleChange: function (name, e) {
-      var change = {};
-      change[name] = e.target.value;
-      this.setState(change);
-    }
-  });
-
-  React.renderComponent(<Hello />, document.getElementById('content'));
-*/
 }
