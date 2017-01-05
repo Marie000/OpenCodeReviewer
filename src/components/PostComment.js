@@ -8,7 +8,7 @@ export default class PostComment extends Component {
     this.state = { 
       "_document_id": this.props.id,
       "is_general":"true",
-      "position":"null",
+      "position":null,
       text:""
     }
   }
