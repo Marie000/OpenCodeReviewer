@@ -13,6 +13,9 @@ export default class SignIn extends Component {
 
   }
 
+  static contextTypes= {
+    router: React.PropTypes.object.isRequired
+  }
 
   handleChange (input, e) {
     var change = {};
@@ -20,11 +23,15 @@ export default class SignIn extends Component {
     this.setState(change);
   }
 
-
   handleSubmit(e) {
     e.preventDefault();
     var data = this.state;
+    console.log(data)
     HTTP.post('/users', data);
+
+     window.setTimeout(function () {  
+      this.context.router.push('/login');
+    }.bind(this), 500);
   }
 
   render(){
@@ -46,7 +53,7 @@ export default class SignIn extends Component {
           <input type="password" name="password"  value={this.state.password} 
                              onChange={this.handleChange.bind(this, 'password')}>
           </input><br/>
-          <input type="submit" value="Sign In" ></input>
+          <button type="submit" onClick={this.handleSubmit.bind(this)} value="Sign In" >Sign In</button>
       </form>
   	</div>
   	)

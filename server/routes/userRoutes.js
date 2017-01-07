@@ -2,9 +2,11 @@ var bcrypt = require('bcryptjs');
 var _ = require('lodash');
 var User = require ('../models/user.js');
 var authenticate = require('../middleware/authenticate.js');
+var cookieParser = require('cookie-parser');
 
 
 var userRoutes = function(app) {
+app.use(cookieParser());
 
 // GET ALL USERS
 // do I even need this? When would I need a list of users?
@@ -35,8 +37,9 @@ var userRoutes = function(app) {
       bcrypt.compare(req.body.password, user.password, function(err, response){
         if(response){
           user.generateAuthToken().then(function(token){
-            loggedUser.token=token;
-            res.json(loggedUser);
+//          res.append('Set-Cookie', 'foo=bar; Path=/');
+  //      loggedUser.token=token;
+          res.cookie('token', token, {httpOnly: true}).send(loggedUser);
           })
         } else {
           return res.status(400).send('wrong password')
