@@ -32,19 +32,20 @@ app.use(cookieParser());
 // LOGIN
   app.post('/api/login',function(req,res){
     User.findOne({email: req.body.email}).then(function(user){
-      if(!user){return res.status(400).send('email not found')}
-      var loggedUser={_id:user._id}
-      bcrypt.compare(req.body.password, user.password, function(err, response){
-        if(response){
-          user.generateAuthToken().then(function(token){
-//          res.append('Set-Cookie', 'foo=bar; Path=/');
-  //      loggedUser.token=token;
-          res.cookie('token', token, {httpOnly: true}).send(loggedUser);
-          })
-        } else {
-          return res.status(400).send('wrong password')
-        }
-      })
+      if(!user){return res.status(400).send('Login error')}
+        var loggedUser={
+          _id:user._id, 
+          user_name:user.user_name, 
+          first_name:user.first_name}
+        bcrypt.compare(req.body.password, user.password, function(err, response){
+          if(response){
+            user.generateAuthToken().then(function(token){
+            res.cookie('token', token, {httpOnly: true}).send(loggedUser);
+            })
+          } else {
+            return res.status(400).send('Login error')
+          }
+        })
     })
   });
 
@@ -52,7 +53,9 @@ app.use(cookieParser());
   app.delete('/api/logout', authenticate, function(req,res){
     User.findOne({_id:req.user._id}).then(function(user){
       if(!user){return res.status(404).send('user not found')}
-      user.tokens=[];
+ //     user.tokens=[];
+      console.log('found user');
+      res.cookie('token', "", {httpOnly: true, expires : new Date(Date.now() - 3600000)});
       user.save();
       res.json(user);
     })

@@ -5,7 +5,6 @@ var User = require ('./../models/user');
 var authenticate = function(req,res,next) {
   console.log('cookies ', req.cookies)
   var token = req.cookies.token;
-  console.log(token);
  // var token = req.header('x-auth');
   User.findByToken(token).then(function(user){
     if(!user){
