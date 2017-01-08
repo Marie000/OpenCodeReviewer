@@ -6,38 +6,31 @@ var token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ODQ0YTYxZjc3NTJmZj
 
 
 var service = {
+
 	get: function(url){
-//		return fetch(baseURL + url, {headers: {'x-auth': token}})
 		return fetch(baseURL + url, {
 		  method: "GET",
 		  headers: {
 		    'Content-Type': 'application/json', // This is set on request
-		    'credentials': 'include'
-		  }
+		  },
+		  credentials: 'include'
 		})
-//		return fetch(baseURL + url)
 		.then(function(response){
 			var res = response.json();
 			console.log('receiving from server: ', res);
 			return res;
+		}).catch(function(){
+			console.log("error")
 		})
 	},
+
 	post: function(url, data){
 		console.log('sending POST request');
 		var request = new XMLHttpRequest();
     	request.open('POST', baseURL + url, true);
     	request.withCredentials = true;
     	request.setRequestHeader('Content-Type', 'application/JSON');
-    	
-    //	request.setRequestHeader('x-auth', cookie.load('token'));
     	request.send(JSON.stringify(data));
-/*
-    	request.onload = function () {
-    // do something to response
-    		var res = this.responseText;
-    		console.log('res: ',res);
-		};
-*/
     	},
 
     patch: function(url, data){
@@ -46,9 +39,16 @@ var service = {
     	request.open('PATCH', baseURL + url, false);
     	request.withCredentials = true;
     	request.setRequestHeader('Content-Type', 'application/JSON');
-   // 	request.setRequestHeader('x-auth', token);
     	request.send(JSON.stringify(data));
-    	}  
-	};
+    	},
 
+	delete: function(url, data){
+		var request = new XMLHttpRequest();
+		request.open('DELETE', baseURL + url, true);
+		request.withCredentials = true;
+		request.setRequestHeader('Content-Type', 'application/JSON');
+		request.send(JSON.stringify(data));
+		}
+	};
+	
 export default service;
