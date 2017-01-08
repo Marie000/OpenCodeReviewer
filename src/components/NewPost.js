@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import HTTP from '../services/httpservice';
-import Moment from 'moment';
+
 
 import Code from './Code.js'
 
@@ -24,7 +24,7 @@ export default class NewPost extends Component {
 
     var data = this.state;
     delete data.submit;
-    return data
+    return data;
   }
 
  static contextTypes= {

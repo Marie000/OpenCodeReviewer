@@ -45,6 +45,11 @@ export default class ProfileEdit extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
+
+    if (this.state.first_name.length>0){
+      localStorage.first_name = this.state.first_name
+    }
+
     var data = this.state;
     HTTP.patch('/users/me', data);
 

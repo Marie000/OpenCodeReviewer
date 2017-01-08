@@ -4,13 +4,18 @@ import HTTP from '../services/httpservice';
 import cookie from 'react-cookie';
 
 export default class LogIn extends Component {
+  
+  static contextTypes= {
+    router: React.PropTypes.object.isRequired
+  }
+
   constructor() {
     super();
     this.state={
       password: "",
-      email :""
+      email :"",
+      error: ""
     }
-
   }
 
   handleChange (input, e) {
@@ -24,31 +29,37 @@ export default class LogIn extends Component {
     e.preventDefault();
     var data = this.state;
     var scope = this;
-    console.log(data)
 
+    var request = new XMLHttpRequest();
+    request.open('POST', 'http://localhost:8080/api/login', true);
+    request.setRequestHeader('Content-Type', 'application/JSON');
+    request.withCredentials = true;
+    request.onload = function () {
+      var res = this.responseText;
+      var status = this.status;
+      if (status === 200){
+        try {
+          var user = JSON.parse(res);
+          localStorage.setItem('user_id', user._id);
+          localStorage.setItem('user_name', user.user_name);
+          localStorage.setItem('first_name', user.first_name);
 
-      var request = new XMLHttpRequest();
-      request.open('POST', 'http://localhost:8080/api/login', true);
-      request.setRequestHeader('Content-Type', 'application/JSON');
-      request.withCredentials = true;
-      request.onload = function () {
-        var res = this.responseText;
-        console.log(res)
-  //      var res = JSON.parse(this.responseText);
-        var token = res.cookie;
-        console.log("token: ", token);
-   //     cookie.save('token', token, {httpOnly: true} )
- //       scope.setState({token: res.token})
-        console.log('load:',cookie.load('token'))
-      };
+          window.setTimeout(function () {  
+            scope.context.router.push('/dashboard');
+          }.bind(this), 500);
 
-      request.send(JSON.stringify(data));
+        } catch(e) {
+          console.log("catch: ",e)
+        }
+      } else {
+        console.log("error: ",res);
+        scope.setState({error:res})
+      }
+    }; 
 
-      return false
- //   var response = HTTP.post('/login', data);
-
+    request.send(JSON.stringify(data));
+    return false  
   }
-
 
   render(){
   	return(
@@ -64,6 +75,9 @@ export default class LogIn extends Component {
                              onChange={this.handleChange.bind(this, 'password')}>
           </input><br/>
           <button type="button" value="Log In" onClick={this.handleSubmit.bind(this)} >Log In</button>
+
+          <div>{this.state.error}</div>
+
       </form>
   	</div>
   	)

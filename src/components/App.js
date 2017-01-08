@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import HTTP from '../services/httpservice';
 import { Link } from 'react-router';
 import './App.css';
 
@@ -20,9 +21,32 @@ class App extends Component {
    } 
 */
 
-  render() {
+  logOutUser(){
+    var data = {'user._id':localStorage.user_id}
+    HTTP.delete('/logout', data);
+    localStorage.clear()
+  }
 
-    return (
+  render() {
+    var user_name = null
+    if (localStorage.first_name){
+      user_name = <p> Hello, {localStorage.first_name}! </p>
+    } else if (localStorage.user_name){
+      user_name = <p> Hello, {localStorage.user_name}! </p>
+    }
+
+    var buttons = null
+      if (!localStorage.user_id){
+        buttons = <ul className='menu'><li className='menu-link'><Link className='link' to="/signin" >Sign In</Link></li><li className='menu-link'><Link className='link' to="/login" >Log In</Link></li>
+        </ul>
+      } else {
+        buttons = <ul className='menu'><li className='menu-link'><Link className='link' to="/profile" >Profile</Link></li><li className='menu-link' onClick={this.logOutUser.bind(this)}><Link className='link' to="/dashboard" >Log Out</Link></li></ul>
+      }
+
+
+
+
+      return (
       <div className="App">
         <div className="App-header">
 
@@ -32,13 +56,10 @@ class App extends Component {
         <div>
        
     
-        <ul className='menu'>
-          <li className='menu-link'><Link className='link' to="/signin" >Sign In</Link></li>
-          <li className='menu-link'><Link className='link' to="/login" >Log In</Link></li>  
-          <li className='menu-link'><Link className='link' to="/profile" >Profile</Link></li> 
-       </ul>
-       
-       
+          {buttons}
+  
+
+       {user_name}
 
          <div className = 'child'>
         {this.props.children}
