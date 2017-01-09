@@ -9,7 +9,9 @@ var documentRoutes = function(app){
 // GET ALL DOCUMENTS
 // add pagination - display most recent only - wait until after MVP?
   app.get('/api/documents', function(req,res){
-    CodeDocument.find({}).then(function(list){
+    CodeDocument.find({})
+      .populate('_author')
+    .then(function(list){
       if(!list){return res.status(404).send('list of documents not found')}
       res.json(list);
     })
@@ -24,6 +26,7 @@ var documentRoutes = function(app){
     CodeDocument.findOne({_id:req.params.id})
       .populate('_author',{first_name:1, middle_name:1,last_name:1,user_name:1,points:1,location:1, skills:1, code_documents:1,comments:1,contact_info:1 })
       .populate('comments')
+      .populate({path:'comments', populate: {path:'_author'}})
       .then(function(doc){
         if(!doc){return res.status(404).send('document not found')}
         res.json(doc);
