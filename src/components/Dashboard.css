@@ -1,24 +1,24 @@
 .main-title{
-	font-size: 20px;
+	font-size: 24px;
+	letter-spacing: 2px;
 	font-weight: bold;
-
 }	
 ul{
 	padding: 0;
 }
 .post{
 	display: block;
-	width: 800px;
+	width: 100%;
 	border: 1px solid #EAE6E6;
 	border-radius: .3em;
 	background-color: #EAE6E6;
 	margin-bottom: 20px;
 	padding: 10px 0 0 20px;
 	font-size: 15px;
-
 }
-.title{
-	color: blue;
+.post-title{
+	color: #c7254e;
+	font-size: 20px;
 }
 .post-label{
 	padding-right: 20px;

@@ -29,12 +29,12 @@ export default class Dashboard extends Component {
 
  	<div>
 
- 		<button className='btn btn-primary new-post'> <Link to="/dashboard/NewPost">Post a new question</Link>  </button> <br/>
+ 		<button className='button-darkgreen new-post'> <Link className="link" to="/dashboard/NewPost">Post a new question</Link>  </button> <br/>
   		<p className='main-title'> Posted questions </p>
   		<ul>
   		{this.state.posts.map(post => { return (
   			<li className='post'>
-  				<Link className='title' to={'/dashboard/'+post._id}> {post.title} </Link>
+  				<Link className='post-title' to={'/dashboard/'+post._id}> {post.title} </Link>
   				<br/>
   				<span className='post-label'> Author: </span> {post._author} <br/>
   				<span className='post-label'>Tags:</span> {post.tags} <br/>

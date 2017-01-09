@@ -30,17 +30,17 @@ class App extends Component {
   render() {
     var user_name = null
     if (localStorage.first_name){
-      user_name = <p> Hello, {localStorage.first_name}! </p>
+      user_name = <p> Keep up the good code, {localStorage.first_name}! </p>
     } else if (localStorage.user_name){
-      user_name = <p> Hello, {localStorage.user_name}! </p>
+      user_name = <p> Keep up the good code, {localStorage.user_name}! </p>
     }
 
     var buttons = null
       if (!localStorage.user_id){
-        buttons = <ul className='menu'><li className='menu-link'><Link className='link' to="/signin" >Sign In</Link></li><li className='menu-link'><Link className='link' to="/login" >Log In</Link></li>
+        buttons = <ul className='menu'><li className='menu-link'><a className='link' to="/signin" >About</a></li><li className='menu-link'><Link className='link' to="/signin" >Sign In</Link></li><li className='menu-link'><Link className='link' to="/login" >Log In</Link></li>
         </ul>
       } else {
-        buttons = <ul className='menu'><li className='menu-link'><Link className='link' to="/profile" >Profile</Link></li><li className='menu-link' onClick={this.logOutUser.bind(this)}><Link className='link' to="/dashboard" >Log Out</Link></li></ul>
+        buttons = <ul className='menu'><li className='menu-link'><Link className='link' to="/signin" >About</Link></li><li className='menu-link'><Link className='link' to="/profile" >Profile</Link></li><li className='menu-link' onClick={this.logOutUser.bind(this)}><Link className='link' to="/dashboard" >Log Out</Link></li></ul>
       }
 
 
@@ -49,20 +49,17 @@ class App extends Component {
       return (
       <div className="App">
         <div className="App-header">
-
-          <h2> <Link className='link' to="/dashboard">Check My Code</Link></h2>
-          <h4>Open Code Review Platform</h4>
+          <div className="header-text">
+            <h2> <Link className='link' to="/dashboard">Ch3ck My C0de</Link></h2>
+            <h4>Open Code Review Platform</h4>
+          </div>
+          <div className="buttons"> {buttons} </div>
+          <div className="greeting">{user_name}</div>
         </div>
         <div>
-       
-    
-          {buttons}
-  
 
-       {user_name}
-
-         <div className = 'child'>
-        {this.props.children}
+        <div className = 'child'>
+          {this.props.children}
         </div>
         <p></p>      
 
