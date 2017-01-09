@@ -39,7 +39,7 @@ export default class PostComment extends Component {
           <label> Your comment: </label>
           <textarea name="comment" value={this.state.text} onChange={this.handleChange.bind(this)} />
           <br/>      
-          <button onClick={this.handleSubmit.bind(this)} >Submit your comment</button>
+          <button className='button-darkgreen link mrgBtm10' onClick={this.handleSubmit.bind(this)} >Submit your comment</button>
          </div>       
   	)
   }

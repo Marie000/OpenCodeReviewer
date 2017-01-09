@@ -9,20 +9,23 @@ ul{
 .post{
 	display: block;
 	width: 100%;
-	border: 1px solid #EAE6E6;
+	border: 1px solid #E0D7D7;
 	border-radius: .3em;
-	background-color: #EAE6E6;
-	margin-bottom: 20px;
+	background-color: #f7f7f7;
+	margin-bottom: 10px;
 	padding: 10px 0 0 20px;
 	font-size: 15px;
 }
 .post-title{
 	color: #c7254e;
-	font-size: 20px;
+	font-size: 2rem;
+	margin-left: 3px;
 }
-.post-label{
-	padding-right: 20px;
-
+.post-title:hover{
+	color: #8E2943;
+	font-size: 2rem;
+	margin-left: 3px;
+	text-decoration: none;
 }
 .new-post-form{
 	clear:both;
@@ -31,4 +34,13 @@ ul{
 .new-post-form label {
 	margin-bottom: 20px;
 	font-size: 14px;
+}
+.dashboard-tags{
+	display: inline-block;
+	background-color: white;
+	border: 1px solid #E0D7D7;
+	border-radius: 5px;
+	padding: 0px 5px 2px;
+	margin: 10px 5px 5px 0;
+	font-size: 1.5rem;
 }

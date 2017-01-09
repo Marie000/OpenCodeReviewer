@@ -17,10 +17,12 @@
   display: block;
 }
 .header-text{
-  float: left
+  float: left;
+
 }
 .buttons{
   float:right;
+  margin-right: 30px;
 }
 .link{
   text-decoration: none;
@@ -31,7 +33,7 @@ h2{
 h2 a, h2 a:visited{
   color: #eee;
   font-size: 3.7rem;
-  text-decoration: none;
+  text-decoration: none !important;
   text-transform: uppercase; 
 }
 h2 a:hover {
@@ -53,7 +55,7 @@ h4{
     border: 1px solid darkgreen;
     background-color: white;
     margin: 10px 10px;
-    padding: 8px 15px;
+    padding: 5px 15px;
     border-radius: .3em;
     font-family: 'Work Sans', sans-serif;
     font-size: 16px;
@@ -82,13 +84,8 @@ h4{
   clear:right;
   padding: 10px;
   font-size: 18px;
+  margin-right: 30px;
 }
-
-
-.red {
-  color: red;
-}
-
 
 .child{
   text-align: left;
@@ -106,18 +103,34 @@ h4{
   color: white;
 }
 
+/********** Profile ********/
 
+.profile-container{
+  width: 50%;
+  margin: 0 auto;
+  font-size: 2.5rem;
+  line-height: 5rem;
+}
+ .profile-container .button-darkgreen {
+  line-height: 2rem;
 
+ }
+
+.profile-container input{
+  line-height: 1rem;
+}
+
+/******** OOCSS **********/
 .button-darkgreen{
   border: 1px solid darkgreen;
   background-color: white;
-  margin: 20px 10px;
-  padding: 8px 15px;
+  padding: 8px 15px 10px;
   border-radius: .3em;
   font-family: 'Work Sans', sans-serif;
-  font-size: 16px;
   text-decoration: none;
   color: darkgreen;
+  font-size: 1.8rem;
+  text-decoration: none !important;
 }
 .button-darkgreen:hover{
   background-color: darkgreen;
@@ -125,7 +138,25 @@ h4{
   border: 1px solid #eee;
 }
 .button-darkgreen .link{
-    font-size: 16px;
+    
     text-decoration: none;
     color: inherit;
+}
+.mrgTop10{
+  margin-top: 10px
+}
+.mrgBtm10{
+  margin-bottom: 10px
+}
+.mrgLeft10{
+  margin-left: 10px;
+}
+.mrgRight10{
+  margin-right: 10px;
+}
+.red{
+  color: #c7254e;
+}
+.inline-blk{
+  display: inline-block;
 }

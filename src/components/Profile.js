@@ -40,18 +40,19 @@ export default class Profile extends Component {
   render(){
   	return(
   	<div>
-      <li className='menu-link'> <Link className='link' to="/dashboard">Back</Link> </li>
+      <Link className='link button-darkgreen inline-blk' to="/dashboard"> Back</Link>
       <br/>
-      <strong>Your profile </strong> <br/>
+      <div className='profile-container'>
+        <strong>Your profile </strong> <br/><br/>
 
-      First Name: {this.state.first_name} <br/>
-      Last Name: {this.state.last_name} <br/>
-      User Name: {this.state.user_name } <br/>
-      Location: {this.state.location}<br/>
-      Email Address: {this.state.email}<br/>
+        First Name:  {this.state.first_name} <br/>
+        Last Name:  {this.state.last_name} <br/>
+        User Name:  {this.state.user_name } <br/>
+        Location:  {this.state.location}<br/>
+        Email Address:  {this.state.email}<br/>
 
-      <button className='menu-link'><Link className='link' to="/editprofile" >Edit your profile</Link></button>
-      
+        <Link className='link' to="/editprofile" ><button className='button-darkgreen'>Edit your profile</button></Link>
+      </div>
   	</div>
   	)
   }

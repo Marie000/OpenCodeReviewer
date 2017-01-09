@@ -45,7 +45,7 @@ export default class Post extends Component {
     var codemir = this.refs.codemirror.getCodeMirror();
     var container = document.createElement("div");
     var commentText = comment.text.replace(/\r?\n/g,'<br/>');
-    container.innerHTML = "<div style="+textarea_style+">"+commentText+"<br>Commented by "+comment._author+" on "+comment.createdAt.toString()+"</div>";
+    container.innerHTML = "<div style="+textarea_style+">"+commentText+"<br>Commented by "+comment._author.user_name+" on "+comment.createdAt.toString()+"</div>";
     codemir.addLineWidget(line, container, {
       coverGutter: false
     });
@@ -138,7 +138,7 @@ componentDidMount(){
         <ul>
           {this.state.comments.map(comment => { if (comment.position == null){return (
             <li> {comment.text} <br/>
-             Comment by {comment._author}
+             Comment by {comment._author.user_name}
             </li>
           )}
         }
@@ -148,8 +148,8 @@ componentDidMount(){
         <form >
         	<PostComment id={this.state.id} reload={this.reloadPage.bind(this)}></PostComment>
         </form>
-        <button onClick={this.addWidget.bind(this)} > Add inline comment </button>
-        <button onClick={this.saveComment.bind(this)} > Save comment </button>
+        <button className='button-darkgreen link mrgRight10' onClick={this.addWidget.bind(this)} > Add inline comment </button>
+        <button className='button-darkgreen link mrgRight10' onClick={this.saveComment.bind(this)} > Save comment </button>
       </div>
 
     )

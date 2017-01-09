@@ -60,9 +60,10 @@ export default class ProfileEdit extends Component {
 
   render(){
   	return(
-  	<div>
-      <li className='menu-link'> <Link className='link' to="/dashboard">Back</Link> </li>
-  		<form>
+  	<div >
+       <Link className='link' to="/profile"><li className='button-darkgreen inline-blk'>Back</li></Link> 
+  		<div className='profile-container'>
+      <form>
           <label> User Name: </label>
           <input type="text" name="user_name"  value={this.state.user_name} 
                               onChange={this.handleChange.bind(this, 'user_name')}>
@@ -83,9 +84,9 @@ export default class ProfileEdit extends Component {
           <input type="text" name="email"  value={this.state.email} 
                              onChange={this.handleChange.bind(this, 'email')}>
           </input><br/>
-          <input type="submit" value="Submit changes" onClick={this.handleSubmit.bind(this)}></input>
+          <input className='link button-darkgreen' type="submit" value="Submit changes" onClick={this.handleSubmit.bind(this)}></input>
       </form>
-
+      </div>
   	</div>
   	)
   }

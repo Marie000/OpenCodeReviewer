@@ -80,7 +80,7 @@ export default class NewPost extends Component {
                              onChange={this.handleChange.bind(this, 'tags')}>
           </input><br/>
           <Code saveCode={this.saveCode.bind(this)} submit = {this.state.submit} > </Code>
-          <input type="submit" value="Submit your code" ></input>
+          <input className="button-darkgreen" type="submit" value="Submit your code" ></input>
       </form>
       <br/>
       </div>

@@ -37,10 +37,10 @@ class App extends Component {
 
     var buttons = null
       if (!localStorage.user_id){
-        buttons = <ul className='menu'><li className='menu-link'><a className='link' to="/signin" >About</a></li><li className='menu-link'><Link className='link' to="/signin" >Sign In</Link></li><li className='menu-link'><Link className='link' to="/login" >Log In</Link></li>
+        buttons = <ul className='menu'><a className='link' to="/signin" ><li className='inline-blk button-darkgreen'></li>About</a><Link className='link' to="/signin" ><li className=' mrgLeft10 button-darkgreen'>Sign In</li></Link><Link className='link' to="/login" ><li className='mrgLeft10 button-darkgreen'>Log In</li></Link>
         </ul>
       } else {
-        buttons = <ul className='menu'><li className='menu-link'><Link className='link' to="/signin" >About</Link></li><li className='menu-link'><Link className='link' to="/profile" >Profile</Link></li><li className='menu-link' onClick={this.logOutUser.bind(this)}><Link className='link' to="/dashboard" >Log Out</Link></li></ul>
+        buttons = <ul className='menu'><a className='link' to="/signin" ><li className='inline-blk button-darkgreen'>About</li></a><Link className='link' to="/profile" ><li className='button-darkgreen inline-blk mrgLeft10'>Profile</li></Link><Link className='link' to="/dashboard" ><li className='mrgLeft10 button-darkgreen inline-blk' onClick={this.logOutUser.bind(this)}>Log Out</li></Link></ul>
       }
 
 

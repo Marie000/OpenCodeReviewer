@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import HTTP from '../services/httpservice';
 import './Dashboard.css';
+import moment from 'moment';
 
 
 export default class Dashboard extends Component {
@@ -25,22 +26,29 @@ export default class Dashboard extends Component {
 
   render(){
 
+
+
+
   	return(
 
  	<div>
 
- 		<button className='button-darkgreen new-post'> <Link className="link" to="/dashboard/NewPost">Post a new question</Link>  </button> <br/>
+ 		 <Link className="link" to="/dashboard/NewPost"><button className='button-darkgreen new-post'>Post a new question</button></Link><br/>
   		<p className='main-title'> Posted questions </p>
   		<ul>
   		{this.state.posts.map(post => { return (
   			<li className='post'>
   				<Link className='post-title' to={'/dashboard/'+post._id}> {post.title} </Link>
   				<br/>
-  				<span className='post-label'> Author: </span> {post._author} <br/>
-  				<span className='post-label'>Tags:</span> {post.tags} <br/>
-  				<span className='post-label'>Date:</span> {post.date_submitted}
-          <span className='post-label'>ID:</span> {post._id}
-  				<br/><br/>
+
+          {
+            post.tags.map(tag => {
+              return <div className="tags dashboard-tags"> {tag} </div>
+            })
+          }
+          <div className="mrgTop10 mrgBtm10">
+ 				  Posted by <span className="red">{post._author.user_name}</span> on {moment(post.createdAt).format("MMMM Do YYYY, h:mm:ss a")}
+  			</div>
    			</li>
    			)}
   		)}
