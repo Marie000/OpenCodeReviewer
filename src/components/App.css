@@ -4,6 +4,7 @@
   width: 100%;
   margin: 0 auto;
   font-size: 14px;
+  background-color: #eee;
 }
 
 .App-header {
@@ -93,11 +94,7 @@ h4{
   margin: 0 auto;
   font-family: 'Open Sans', sans-serif;
 }
-.new-post{
-  display: block;
-  clear: both;
-  margin-left: 10px;
-}
+
 .new-post a{
   text-decoration: none;
   color: white;
@@ -119,6 +116,50 @@ h4{
 .profile-container input{
   line-height: 1rem;
 }
+
+/***********POST*********/
+
+.post-wrapper{
+  margin: 20px 0 10px 10px;
+}
+.post-wrapper h2{
+  font-size: 3.3rem;
+  font-weight: bold;
+  padding-left: 0px;
+}
+.post-title{
+  font-size: 2rem;
+  padding: 10px 0;
+}
+
+.codemirror-wrapper{
+  padding: 0;
+  border: 1px solid #bbb; 
+}
+
+.tags{
+  display: inline-block;
+  background-color: white;
+  border: 1px solid #E0D7D7;
+  border-radius: 5px;
+  padding: 0px 5px 2px;
+  margin: 10px 5px 5px 0;
+  font-size: 1.5rem;
+}
+
+
+
+
+.new-post-form{
+  clear:both;
+  margin-top: 20px;
+} 
+.new-post-form label {
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+
 
 /******** OOCSS **********/
 .button-darkgreen{
@@ -159,4 +200,7 @@ h4{
 }
 .inline-blk{
   display: inline-block;
+}
+.font2rem{
+  font-size: 2rem;
 }

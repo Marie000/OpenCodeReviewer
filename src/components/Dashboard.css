@@ -2,11 +2,12 @@
 	font-size: 24px;
 	letter-spacing: 2px;
 	font-weight: bold;
+	padding: 15px 0 20px 0;
 }	
 ul{
 	padding: 0;
 }
-.post{
+.dashboard .post{
 	display: block;
 	width: 100%;
 	border: 1px solid #E0D7D7;
@@ -16,31 +17,22 @@ ul{
 	padding: 10px 0 0 20px;
 	font-size: 15px;
 }
-.post-title{
+.dashboard .post-title{
 	color: #c7254e;
 	font-size: 2rem;
 	margin-left: 3px;
 }
-.post-title:hover{
+.dashboard .post-title:hover{
 	color: #8E2943;
 	font-size: 2rem;
 	margin-left: 3px;
 	text-decoration: none;
 }
-.new-post-form{
-	clear:both;
-	margin-top: 20px;
-} 
-.new-post-form label {
-	margin-bottom: 20px;
-	font-size: 14px;
+.new-post{
+  display: block;
+  clear: both;
+  margin-left: 10px;
 }
-.dashboard-tags{
-	display: inline-block;
-	background-color: white;
-	border: 1px solid #E0D7D7;
-	border-radius: 5px;
-	padding: 0px 5px 2px;
-	margin: 10px 5px 5px 0;
-	font-size: 1.5rem;
+.dashboard button{
+	margin:15px 0;
 }

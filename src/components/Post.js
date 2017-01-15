@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import HTTP from '../services/httpservice';
+import moment from 'moment';
 
 import PostComment from './PostComment';
 
@@ -18,9 +19,10 @@ export default class Post extends Component {
     super(props);
     this.state = { 
     	id: this.props.params.postId,
+      tags: [],
       comments:[],
       currentComment:{
-        text: 'mytest'
+        text: 'mytest',
       }
     }
   }
@@ -36,7 +38,8 @@ export default class Post extends Component {
           author:data._author.first_name+" "+data._author.last_name,
           text: data.text,
           tags: data.tags,
-          comments:data.comments
+          comments:data.comments,
+          postCreationDate:data.createdAt
         });
       })
   }
@@ -127,14 +130,22 @@ componentDidMount(){
       readOnly: true
     }
   	
+    this.state.tags.forEach(tag => {
+      console.log(tag)
+    })
 
     return (
-      <div>
-        <h2>Title: {this.state.title}</h2>
-        ID: {this.state.id}
-        <p>Tags: {this.state.tags}</p>
-        <div>Text: <CodeMirror value={this.state.text} ref="codemirror" options={options} /></div>
-        <p> Comments:  </p>
+      <div className="post-wrapper">
+        <h2>{this.state.title}</h2>
+          <div className="post-title"> Tags:  {this.state.tags.map(tag => { return <div className="tags"> {tag}</div>}
+              )
+            }
+          </div>
+      
+        <div className="codemirror-wrapper"><CodeMirror value={this.state.text} ref="codemirror" options={options} /></div>
+        <p className='post-title'> Posted by <span className='red'> {this.state.author} </span> on {moment(this.state.postCreationDate).format("MMMM Do YYYY, h:mm:ss a")} </p>
+
+        <p className="post-title"> Comments:  </p>
         <ul>
           {this.state.comments.map(comment => { if (comment.position == null){return (
             <li> {comment.text} <br/>
@@ -144,7 +155,7 @@ componentDidMount(){
         }
         )}       
    		 </ul>
-        <p> Posted by {this.state.author} </p>
+        
         <form >
         	<PostComment id={this.state.id} reload={this.reloadPage.bind(this)}></PostComment>
         </form>

@@ -27,13 +27,11 @@ export default class Dashboard extends Component {
   render(){
 
 
-
-
   	return(
 
- 	<div>
+ 	<div className="dashboard">
 
- 		 <Link className="link" to="/dashboard/NewPost"><button className='button-darkgreen new-post'>Post a new question</button></Link><br/>
+ 		 <Link className="link" to="/dashboard/NewPost"><button className='button-darkgreen'>Post a new question</button></Link><br/>
   		<p className='main-title'> Posted questions </p>
   		<ul>
   		{this.state.posts.map(post => { return (
