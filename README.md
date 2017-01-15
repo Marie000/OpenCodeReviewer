@@ -1,5 +1,11 @@
-to start the front-end: npm start
+to start the front-end: npm start-react
 to start the back-end: npm run start-dev
+
+to deploy to heroku:
+npm run build
+git add .
+git commit -m "..."
+git push heroku dev:master (if deploying from dev)
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).

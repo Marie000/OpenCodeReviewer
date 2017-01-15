@@ -3,6 +3,9 @@ import HTTP from '../services/httpservice';
 import { Link } from 'react-router';
 import './App.css';
 
+//this is only there to test the Github thing:
+import Github from './Github.js';
+
 
 class App extends Component {
 
@@ -68,6 +71,8 @@ class App extends Component {
          <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
+
+        <Github />
       </div>
 
     );

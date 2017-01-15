@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node server/server.js",
-    "start-front": "react-scripts start",
+    "start-react": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
@@ -16,6 +16,7 @@
     "cookie-parser": "^1.4.3",
     "express": "^4.14.0",
     "github": "^6.0.4",
+    "jquery": "^3.1.1",
     "jsonwebtoken": "^7.1.9",
     "lodash": "^4.17.0",
     "moment": "^2.16.0",
@@ -33,6 +34,7 @@
     "react-scripts": "0.7.0"
   },
   "engines": {
-    "node": "7.0.0"
+    "node": "7.0.0",
+    "npm": "3.10.8"
   }
 }
