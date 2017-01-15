@@ -4,7 +4,6 @@ var User = require ('../models/user.js');
 var authenticate = require('../middleware/authenticate.js');
 var cookieParser = require('cookie-parser');
 
-
 var userRoutes = function(app) {
 app.use(cookieParser());
 

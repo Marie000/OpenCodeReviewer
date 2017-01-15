@@ -40,6 +40,7 @@ var documentRoutes = function(app){
     newDoc._author = req.user._id;
     newDoc.save().then(function(doc){
       // add document id to the author's document list
+
       User.findByIdAndUpdate(
         doc._author,
         {$push: {'code_docs': doc._id}},
@@ -47,6 +48,7 @@ var documentRoutes = function(app){
       ).then(function(author){
         if(!author){return res.status(404).send('author not found')}
       });
+
       res.send(doc);
     }).catch(function(err){
       res.status(400);
