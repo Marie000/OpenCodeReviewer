@@ -149,7 +149,12 @@ var UserSchema = mongoose.Schema({
     social_media: [{
       media: {
         type: String,
-        //required: true,
+        required: true,
+        trim: true,
+        minlength: 1
+      },
+      username: {
+        type:String,
         trim: true,
         minlength: 1
       },
@@ -159,8 +164,11 @@ var UserSchema = mongoose.Schema({
           validator: validator.isURL,
           message: '{VALUE} is not a valid url'
         },
-        //required: true,
         minlength: 1
+      },
+      public: {
+        type: Boolean,
+        default: true
       }
     }]
   }
@@ -185,7 +193,7 @@ UserSchema.statics.findByToken = function(token){
   var User = this;
   var decoded;
   try {
-    decoded = jwt.verify(token,config.secret)
+    decoded = jwt.verify(token,config)
   } catch(e) {
     return Promise.reject('verify did not work');
   }
