@@ -4,6 +4,8 @@ var CodeDocument = require ('../models/document.js');
 var authenticate = require('../middleware/authenticate.js');
 var User = require ('../models/user.js');
 
+var checkForBadges = require('../utils/check-badges.js');
+
 var documentRoutes = function(app){
 
 // GET ALL DOCUMENTS
@@ -46,6 +48,7 @@ var documentRoutes = function(app){
         {$push: {'code_docs': doc._id}},
         {safe: true, new: true}
       ).then(function(author){
+        checkForBadges(author);
         if(!author){return res.status(404).send('author not found')}
       });
 
