@@ -10,7 +10,7 @@ var giveTagPoints = require('../utils/tag-points.js');
 var documentRoutes = function(app){
 
 // GET ALL DOCUMENTS
-// add pagination - display most recent only - wait until after MVP?
+// add pagination - display most recent only
   app.get('/api/documents', function(req,res){
     CodeDocument.find({})
       .populate('_author')
@@ -43,7 +43,6 @@ var documentRoutes = function(app){
     newDoc._author = req.user._id;
     newDoc.save().then(function(doc){
       // add document id to the author's document list
-
       User.findByIdAndUpdate(
         doc._author,
         {$push: {'code_docs': doc._id}},
@@ -64,8 +63,7 @@ var documentRoutes = function(app){
 
 // note: to edit or delete a document, pass in :doc_id instead of :id (to correctly identify it
 // with the authenticate-author middleware)
-
-  // note: be sure to add editedAt: Date.now()
+// note: be sure to add editedAt: Date.now()
 
 };
 

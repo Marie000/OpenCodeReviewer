@@ -41,6 +41,29 @@ let checkForBadges = function(user){
   } else if(codeCount>=50) {
     updateBadge(user,'coder',3)
   }
+
+  // comment tag badges
+  user.points.comment_tags.forEach(function(tag){
+    if(tag.count >= 5 && tag.count <10){
+      updateBadge(user,'reviewer-'+tag.name,1)
+    } else if(tag.count >=10 && tag.count <20){
+      updateBadge(user, 'reviewer-'+tag.name,2)
+    } else if(tag.count>=20){
+      updateBadge(user, 'reviewer-'+tag.name,3)
+    }
+  });
+
+  //document tag badges
+  user.points.code_document_tags.forEach(function(tag){
+    if(tag.count >= 5 && tag.count <10){
+      updateBadge(user,'coder-'+tag.name,1)
+    } else if(tag.count >=10 && tag.count <20){
+      updateBadge(user, 'coder-'+tag.name,2)
+    } else if(tag.count>=20){
+      updateBadge(user, 'coder-'+tag.name,3)
+    }
+  });
+
 }
 
 

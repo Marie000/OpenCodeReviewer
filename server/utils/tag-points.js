@@ -5,7 +5,6 @@ var taglist = require('../../tag-list.js');
 
 //Documents:
 var giveTagPoints = function(document,user,isNewDoc){
-  console.log(taglist);
     if(document.tags){
       document.tags.forEach(function(item){
         if(taglist.indexOf(item)>-1) {
@@ -15,7 +14,6 @@ var giveTagPoints = function(document,user,isNewDoc){
           } else {
             index = _.indexOf(user.points.comment_tags, _.find(user.points.comment_tags, {name: item}));
           }
-          console.log(index);
           if (index > -1) {
             if (isNewDoc) {
               user.points.code_document_tags[index].count++
