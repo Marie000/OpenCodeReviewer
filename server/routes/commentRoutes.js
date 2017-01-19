@@ -9,6 +9,7 @@ var authenticate = require('../middleware/authenticate.js');
 var authenticateAuthor = require('../middleware/authenticate-author.js');
 
 var checkForBadges = require('../utils/check-badges.js');
+var giveTagPoints = require('../utils/tag-points.js');
 
 
 
@@ -44,6 +45,7 @@ var commentRoutes = function(app){
               var updatedUser = user;
               updatedUser.points.reviews.push(comment._document_id);
               updatedUser.save();
+              giveTagPoints(doc, user, false);
               checkForBadges(updatedUser);
             }
           })

@@ -43,4 +43,7 @@ let checkForBadges = function(user){
   }
 }
 
+
+
+
 module.exports = checkForBadges;
