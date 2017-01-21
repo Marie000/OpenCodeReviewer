@@ -26,7 +26,7 @@ export default class Dashboard extends Component {
         //     console.log(data);
         if(data.length>0) {
           scope.setState({
-            posts: data
+            posts: data,
             loggedIn: (localStorage.user_id ? true : false)
           })
         }
