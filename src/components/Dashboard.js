@@ -27,6 +27,7 @@ export default class Dashboard extends Component {
     } 
 
   render(){
+
     var postNew;
     if (this.state.loggedIn){
       postNew = <Link className="link" to="/dashboard/NewPost"><button className='button-darkgreen'>Submit your code</button></Link>

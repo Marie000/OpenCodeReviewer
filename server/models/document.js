@@ -13,6 +13,10 @@ var CodeDocSchema = mongoose.Schema({
     trim: true,
     minlength:1
   },
+  description:{
+    type: String,
+    trim: true
+  },
   tags:[{
     type: String
   }],
@@ -27,7 +31,6 @@ var CodeDocSchema = mongoose.Schema({
     default: true
   },
   text: {
-    //content of object TBD ... will temporarily use a string
     type: String,
     require: true,
     trim: true,

@@ -4,10 +4,13 @@ var CodeDocument = require ('../models/document.js');
 var authenticate = require('../middleware/authenticate.js');
 var User = require ('../models/user.js');
 
+var checkForBadges = require('../utils/check-badges.js');
+var giveTagPoints = require('../utils/tag-points.js');
+
 var documentRoutes = function(app){
 
 // GET ALL DOCUMENTS
-// add pagination - display most recent only - wait until after MVP?
+// add pagination - display most recent only
   app.get('/api/documents', function(req,res){
     CodeDocument.find({})
       .populate('_author')
@@ -45,8 +48,11 @@ var documentRoutes = function(app){
         {$push: {'code_docs': doc._id}},
         {safe: true, new: true}
       ).then(function(author){
+        giveTagPoints(doc, author,true);
+        checkForBadges(author);
         if(!author){return res.status(404).send('author not found')}
       });
+
       res.send(doc);
     }).catch(function(err){
       res.status(400);
@@ -57,8 +63,7 @@ var documentRoutes = function(app){
 
 // note: to edit or delete a document, pass in :doc_id instead of :id (to correctly identify it
 // with the authenticate-author middleware)
-
-  // note: be sure to add editedAt: Date.now()
+// note: be sure to add editedAt: Date.now()
 
 };
 

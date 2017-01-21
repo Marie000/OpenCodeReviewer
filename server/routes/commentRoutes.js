@@ -8,6 +8,10 @@ var Comment = require('../models/comment.js');
 var authenticate = require('../middleware/authenticate.js');
 var authenticateAuthor = require('../middleware/authenticate-author.js');
 
+var checkForBadges = require('../utils/check-badges.js');
+var giveTagPoints = require('../utils/tag-points.js');
+
+
 
 var commentRoutes = function(app){
 
@@ -32,12 +36,22 @@ var commentRoutes = function(app){
       User.findOne({_id:comment._author}).then(function(user){
         // first, make sure the document is not already listed:
         if(user.points.reviews.indexOf(comment._document_id)===-1){
-          //Is .save() a good idea? should I use .update()?
-          var updatedUser = user;
-          updatedUser.points.reviews.push(comment._document_id);
-          updatedUser.save();
+          //Make sure you are not the author of the original document
+          CodeDocument.findOne({_id:comment._document_id}).then(function(doc){
+            if(!doc){return res.status(404).send('no document found for this comment')}
+            console.log(doc._author);
+            if(!user._id.equals(doc._author)){
+              //Is .save() a good idea? should I use .update()?
+              var updatedUser = user;
+              updatedUser.points.reviews.push(comment._document_id);
+              updatedUser.save();
+              giveTagPoints(doc, user, false);
+              checkForBadges(updatedUser);
+            }
+          })
+
         }
-      });
+      })
       // add comment's id to the code document's comment list
       CodeDocument.findByIdAndUpdate(
         comment._document_id,

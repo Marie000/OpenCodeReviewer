@@ -4,10 +4,10 @@ var User = require ('../models/user.js');
 var authenticate = require('../middleware/authenticate.js');
 var cookieParser = require('cookie-parser');
 
-
 var userRoutes = function(app) {
 app.use(cookieParser());
 
+  /*
 // GET ALL USERS
 // do I even need this? When would I need a list of users?
   // NOTE : should send only public information
@@ -17,7 +17,7 @@ app.use(cookieParser());
       res.json(list);
     })
   });
-
+*/
 // CREATE A NEW USER
   app.post('/api/users',function(req,res){
     var newUser = new User(req.body);

@@ -21,12 +21,13 @@ app.use(function (req, res, next) {
 
   // Request headers you wish to allow
   res.setHeader('Access-Control-Allow-Headers', 'x-auth, Content-Type, credentials');
-  // Set to true if you need the website to include cookies in the requests sent
-  // to the API (e.g. in case you use sessions)
-  //res.setHeader('Access-Control-Allow-Credentials', true);
-  // Pass to next layer of middleware
   next();
 });
+
+app.use(function(req,res,next){
+  app.locals.user=req.user || null;
+  next();
+})
 
 var userRoutes = require('./routes/userRoutes')(app);
 var documentRoutes = require('./routes/documentRoutes')(app);
