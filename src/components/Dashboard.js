@@ -9,20 +9,44 @@ export default class Dashboard extends Component {
   constructor() {
     super();
     this.state = { 
-      posts: []
+      posts: [],
+      page:1
     }
   }
 
   componentWillMount(){
+    this.getData(1)
+    }
+
+  getData(page){
     var scope = this;
-    var data = HTTP.get('/documents')
-    .then(function(data){
-   //     console.log(data);
-        scope.setState({
-          posts: data
-        })
+    var data = HTTP.get('/documents?page='+page)
+      .then(function(data){
+        //     console.log(data);
+        if(data.length>0) {
+          scope.setState({
+            posts: data
+          })
+        }
       })
-    } 
+  }
+
+  nextPage(){
+    this.getData(this.state.page+1)
+    this.setState({page:this.state.page+1})
+  }
+
+  firstPage(){
+    this.getData(1)
+    this.setState({page:1})
+  }
+
+  previousPage(){
+    if(this.state.page>1) {
+      this.getData(this.state.page - 1)
+      this.setState({page: this.state.page - 1})
+    }
+  }
 
   render(){
   	return(
@@ -49,6 +73,9 @@ export default class Dashboard extends Component {
    			)}
   		)}
   		</ul>
+    <button onClick={this.firstPage.bind(this)}>First Page</button>
+    <button onClick={this.previousPage.bind(this)}>Previous Page</button>
+    <button onClick={this.nextPage.bind(this)}>Next Page</button>
   	</div>
   	)
   }

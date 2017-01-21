@@ -12,12 +12,17 @@ var documentRoutes = function(app){
 // GET ALL DOCUMENTS
 // add pagination - display most recent only
   app.get('/api/documents', function(req,res){
-    CodeDocument.find({})
-      .populate('_author')
-    .then(function(list){
-      if(!list){return res.status(404).send('list of documents not found')}
-      res.json(list);
-    })
+    var query   = {};
+    var options = {
+      sort:     { createdAt: -1 },
+      limit:    10,
+      page: req.query.page || 1,
+      populate: '_author'
+    };
+    CodeDocument.paginate(query, options).then(function(result) {
+      if(!result){return res.status(404).send('list of documents not found')}
+      res.json(result.docs);
+    });
   });
 
 // GET DOCUMENTS BY TAGS ??

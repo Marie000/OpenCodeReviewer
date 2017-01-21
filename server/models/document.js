@@ -1,4 +1,5 @@
 var mongoose = require ('mongoose');
+var mongoosePaginate = require('mongoose-paginate');
 var IdObject = mongoose.Schema.Types.ObjectId;
 
 var CodeDocSchema = mongoose.Schema({
@@ -42,6 +43,10 @@ var CodeDocSchema = mongoose.Schema({
   }]
 });
 CodeDocSchema.set('timestamps',true);
+CodeDocSchema.plugin(mongoosePaginate);
+
+
+
 var CodeDocument = mongoose.model('CodeDocument',CodeDocSchema);
 
 module.exports = CodeDocument;
