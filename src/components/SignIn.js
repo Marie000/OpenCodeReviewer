@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import HTTP from '../services/httpservice';
+import { hashHistory } from 'react-router';
 
 export default class SignIn extends Component {
   constructor() {
@@ -36,9 +37,11 @@ export default class SignIn extends Component {
 
   render(){
   	return(
-  	<div>
-      <li className='menu-link'> <Link className='link' to="/dashboard">Back</Link> </li>
-  		<p> Sign in here </p>
+      <div>
+      <button className='link button-darkgreen inline-blk' onClick={hashHistory.goBack}>Back</button>
+  	<div className='profile-container'>
+      
+  		<h1> Sign in here </h1>
 
       <form>
       <label> User Name: </label>
@@ -53,9 +56,10 @@ export default class SignIn extends Component {
           <input type="password" name="password"  value={this.state.password} 
                              onChange={this.handleChange.bind(this, 'password')}>
           </input><br/>
-          <button type="submit" onClick={this.handleSubmit.bind(this)} value="Sign In" >Sign In</button>
+          <button type="submit" className='button-darkgreen' onClick={this.handleSubmit.bind(this)} value="Sign In" >Sign In</button>
       </form>
   	</div>
+    </div>
   	)
   }
 }

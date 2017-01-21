@@ -14,6 +14,7 @@ export default class NewPost extends Component {
     this.state = { 
     	title: '',
       tags: [],
+      description:"",
       comments:[],
       submit: false,
       text: 'initial'
@@ -68,19 +69,28 @@ export default class NewPost extends Component {
 
   render() {
     return (
-      <div className='new-post-form'>
+      <div className='new-post-form form-container'>
       <form onSubmit={this.handleSubmit.bind(this)}>
+        <div className='form-item'>
           <label> Title: </label>
           <input type="text" name="title" value={this.state.title} 
                              onChange={this.handleChange.bind(this, 'title')}>
-          </input> <br/>        
-          <br/>
+          </input>        
+       </div>
+       <div className='form-item clearfix'>
+          <label> Description: </label>
+          <textarea type="text" name="description" value={this.state.description} 
+                             onChange={this.handleChange.bind(this, 'description')}>
+          </textarea>
+        </div>
+        <div className='form-item'>
           <label> Tags: </label>
           <input type="text" name="tags"  value={this.state.tags} 
                              onChange={this.handleChange.bind(this, 'tags')}>
-          </input><br/>
+          </input>
+          </div>
           <Code saveCode={this.saveCode.bind(this)} submit = {this.state.submit} > </Code>
-          <input className="button-darkgreen" type="submit" value="Submit your code" ></input>
+          <button className="button-darkgreen" type="submit" value="Submit your code" >Submit your code</button>
       </form>
       <br/>
       </div>

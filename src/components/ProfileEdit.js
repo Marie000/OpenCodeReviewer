@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import HTTP from '../services/httpservice';
+import { hashHistory } from 'react-router';
 
 export default class ProfileEdit extends Component {
   constructor() {
     super();
     this.state={
+        id: '',
         first_name:'',
         last_name: '',
         user_name: '',
-        location: ''
+        location: '', 
     }
   }
 
@@ -23,6 +25,7 @@ export default class ProfileEdit extends Component {
     var data = HTTP.get('/users/me')
     .then(function(data){
         scope.setState({
+        id: data._id,
         first_name:data.first_name,
         last_name: data.last_name,
         user_name: data.user_name,
@@ -48,24 +51,25 @@ export default class ProfileEdit extends Component {
 
     if (this.state.first_name.length>0){
       localStorage.first_name = this.state.first_name
-    }
+    } else {
+      localStorage.removeItem('first_name')}
 
     var data = this.state;
     HTTP.patch('/users/me', data);
 
     window.setTimeout(function () {  
-      this.context.router.push('/profile');
+      this.context.router.push('/profile/'+this.state.id);
     }.bind(this), 600); 
   }
 
   render(){
   	return(
   	<div >
-       <Link className='link' to="/profile"><li className='button-darkgreen inline-blk'>Back</li></Link> 
+      <button className='link button-darkgreen inline-blk' onClick={hashHistory.goBack}>Back</button> 
   		<div className='profile-container'>
       <form>
           <label> User Name: </label>
-          <input type="text" name="user_name"  value={this.state.user_name} 
+          <input type="text" name="user_name" disabled value={this.state.user_name} 
                               onChange={this.handleChange.bind(this, 'user_name')}>
           </input><br/>
           <label> First Name: </label>
