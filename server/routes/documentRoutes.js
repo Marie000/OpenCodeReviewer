@@ -21,9 +21,9 @@ var documentRoutes = function(app){
     }
     var options = {
       sort:     { createdAt: -1 },
-      limit:    10,
+      limit:    5,
       page: req.query.page || 1,
-      populate: '_author'
+      populate: {path:'_author',select:'user_name'}
     };
     CodeDocument.paginate(query, options).then(function(result) {
       if(!result){return res.status(404).send('list of documents not found')}

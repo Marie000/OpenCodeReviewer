@@ -19,7 +19,8 @@ var CodeDocSchema = mongoose.Schema({
     trim: true
   },
   tags:[{
-    type: String
+    type: String,
+    trim: true
   }],
   editedAt: {
     type: Date
