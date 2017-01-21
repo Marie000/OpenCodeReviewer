@@ -10,3 +10,5 @@ gen
 
 node_modules/
 config.js
+TODO
+server/npm-debug.log
