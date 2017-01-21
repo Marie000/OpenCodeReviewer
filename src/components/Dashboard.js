@@ -10,7 +10,8 @@ export default class Dashboard extends Component {
     super();
     this.state = { 
       posts: [],
-      page:1
+      page:1,
+      loggedIn: (localStorage.user_id? true : false)
     }
   }
 
@@ -26,6 +27,7 @@ export default class Dashboard extends Component {
         if(data.length>0) {
           scope.setState({
             posts: data
+            loggedIn: (localStorage.user_id ? true : false)
           })
         }
       })
@@ -49,12 +51,18 @@ export default class Dashboard extends Component {
   }
 
   render(){
+
+    var postNew;
+    if (this.state.loggedIn){
+      postNew = <Link className="link" to="/dashboard/NewPost"><button className='button-darkgreen'>Submit your code</button></Link>
+    }
+
   	return(
 
  	<div className="dashboard">
-
- 		 <Link className="link" to="/dashboard/NewPost"><button className='button-darkgreen'>Post a new question</button></Link><br/>
-  		<p className='main-title'> Posted questions </p>
+  {postNew}
+	<br/>
+  		<p className='main-title'> Posted Questions and Code  </p>
   		<ul>
   		{this.state.posts.map(post => { return (
   			<li className='post'>
@@ -67,7 +75,7 @@ export default class Dashboard extends Component {
             })
           }
           <div className="mrgTop10 mrgBtm10">
- 				  Posted by <span className="red">{post._author.user_name}</span> on {moment(post.createdAt).format("MMMM Do YYYY, h:mm:ss a")}
+ 				  Posted by <span className="red"> <Link className='link' to={'/profile/'+post._author._id}>{post._author.user_name}</Link></span> on {moment(post.createdAt).format("MMMM Do YYYY, h:mm:ss a")}
   			</div>
    			</li>
    			)}

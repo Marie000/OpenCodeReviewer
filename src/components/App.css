@@ -1,10 +1,11 @@
-
+body{
+  background-color: #eee;
+}
 .App {
   text-align: center;
   width: 100%;
   margin: 0 auto;
   font-size: 14px;
-  background-color: #eee;
 }
 
 .App-header {
@@ -27,6 +28,11 @@
 }
 .link{
   text-decoration: none;
+  color: inherit;
+}
+.link:hover{
+  text-decoration: none;
+  color: inherit;
 }
 h2{
   margin-top: 10px;
@@ -112,9 +118,15 @@ h4{
   line-height: 2rem;
 
  }
+ .profile-container h1{
+  padding: 15px 0;
+ }
 
 .profile-container input{
   line-height: 1rem;
+}
+.profile-container label{
+  padding-right: 20px;
 }
 
 /***********POST*********/
@@ -135,6 +147,7 @@ h4{
 .codemirror-wrapper{
   padding: 0;
   border: 1px solid #bbb; 
+  font-size: 14px;
 }
 
 .tags{
@@ -149,16 +162,63 @@ h4{
 
 
 
-
 .new-post-form{
   clear:both;
-  margin-top: 20px;
+  margin-top: 40px;
+  font-size: 2rem;
+  width: 95%;
 } 
-.new-post-form label {
+.form-item {
+  display: block;
+  margin-bottom: 30px;
+}
+.form-container label {
   margin-bottom: 20px;
-  font-size: 14px;
+  padding-right: 10px;
+  vertical-align: top;
+  max-width: 15%;
+}
+.form-container textarea, .form-container input {
+  width: 85%;
+  float: right;
 }
 
+textarea {
+  height: 100px;
+  margin-bottom: 10px;
+}
+
+.comment {
+   border: 1px solid #E0D7D7;
+  border-radius: .3em;
+  background-color: #f7f7f7;
+  border-radius: 5px;
+  list-style: none;
+  margin: 15px 0;
+  font-size: 18px;
+  padding: 0 0 10px 0;
+}
+
+.comment-header {
+  margin-bottom: 10px;
+  border-bottom: 1px solid #E0D7D7;
+  background: #fff;
+  padding: 10px;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  padding-left: 15px;
+}
+.comment .link {
+  padding-right: 0;
+
+}
+.comment-date {
+  float:right;
+}
+.comment-text {
+  padding: 15px;
+  overflow-wrap: all;
+}
 
 
 /******** OOCSS **********/
@@ -168,12 +228,21 @@ h4{
   padding: 8px 15px 10px;
   border-radius: .3em;
   font-family: 'Work Sans', sans-serif;
-  text-decoration: none;
   color: darkgreen;
   font-size: 1.8rem;
   text-decoration: none !important;
 }
-.button-darkgreen:hover{
+.button-darkgreen-small{
+  border: 1px solid darkgreen;
+  background-color: white;
+  padding: 8px 10px;
+  border-radius: .3em;
+  font-family: 'Work Sans', sans-serif;
+  color: darkgreen;
+  font-size: 1.5rem;
+  text-decoration: none !important;
+}
+.button-darkgreen:hover, .button-darkgreen-small:hover{
   background-color: darkgreen;
   color: white;
   border: 1px solid #eee;
@@ -186,8 +255,14 @@ h4{
 .mrgTop10{
   margin-top: 10px
 }
+.mrgTop12{
+  margin-top: 20px
+}
 .mrgBtm10{
   margin-bottom: 10px
+}
+.mrgBtm20{
+  margin-bottom: 20px
 }
 .mrgLeft10{
   margin-left: 10px;
@@ -204,3 +279,20 @@ h4{
 .font2rem{
   font-size: 2rem;
 }
+.font18rem{
+  font-size: 1.8rem !important;
+}
+.pull-right {
+  float:right;
+}
+.pull-left {
+  float:left;
+}
+.clearfix:after {
+     visibility: hidden;
+     display: block;
+     font-size: 0;
+     content: " ";
+     clear: both;
+     height: 0;
+     }

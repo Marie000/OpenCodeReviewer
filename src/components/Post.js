@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import HTTP from '../services/httpservice';
 import moment from 'moment';
+import { Link } from 'react-router';
+import { hashHistory } from 'react-router';
 
 import PostComment from './PostComment';
 
@@ -20,6 +22,7 @@ export default class Post extends Component {
     this.state = { 
     	id: this.props.params.postId,
       tags: [],
+      author: "",
       comments:[],
       currentComment:{
         text: 'mytest',
@@ -35,7 +38,8 @@ export default class Post extends Component {
         scope.setState({
           id: data._id,
           title:data.title,
-          author:data._author.first_name+" "+data._author.last_name,
+          author:data._author.user_name,
+          author_id: data._author._id,
           text: data.text,
           tags: data.tags,
           comments:data.comments,
@@ -121,7 +125,6 @@ componentDidMount(){
   }
     
   render() {
-
     var options = {
       lineNumbers: true,
       mode: 'javascript',
@@ -129,28 +132,42 @@ componentDidMount(){
       closebrackets: true,
       readOnly: true
     }
-  	
-    this.state.tags.forEach(tag => {
-      console.log(tag)
-    })
 
+    var author;
+  	
     return (
+      <div className="form-container">
+      <button className='link button-darkgreen inline-blk' onClick={hashHistory.goBack}>Back</button>
       <div className="post-wrapper">
         <h2>{this.state.title}</h2>
-          <div className="post-title"> Tags:  {this.state.tags.map(tag => { return <div className="tags"> {tag}</div>}
-              )
-            }
-          </div>
-      
-        <div className="codemirror-wrapper"><CodeMirror value={this.state.text} ref="codemirror" options={options} /></div>
-        <p className='post-title'> Posted by <span className='red'> {this.state.author} </span> on {moment(this.state.postCreationDate).format("MMMM Do YYYY, h:mm:ss a")} </p>
 
-        <p className="post-title"> Comments:  </p>
-        <ul>
+        <div className="post-title clearfix"> Tags:  {this.state.tags.map(tag => { return <div className="tags"> {tag}</div>}
+            )
+          }
+        </div>
+
+        <div className="clearfix mrgBtm20 font18rem">
+           To post an inline comment, place the cursor on the last line of the code you wish to comment and press <button className='button-darkgreen-small link  mrgLeft10' onClick={this.addWidget.bind(this)} > Add inline comment </button>
+        </div>
+
+        <div className="codemirror-wrapper"><CodeMirror value={this.state.text} ref="codemirror" options={options} /></div>
+        
+        <p className='post-title mrgBtm20 '> Posted by <span className='red'> <Link className='link' to={'/profile/'+this.state.author_id}>{this.state.author}</Link> </span> on {moment(this.state.postCreationDate).format("MMMM Do YYYY, h:mm:ss a")} </p>
+
+        
+
+        <strong className="post-title mrgTop10 mrgBtm20"> Comments:  </strong>
+        <ul >
           {this.state.comments.map(comment => { if (comment.position == null){return (
-            <li> {comment.text} <br/>
-             Comment by {comment._author.user_name}
-            </li>
+                
+          <li className='comment'> 
+            <div className="comment-header"> 
+              <Link className='link red' to={'/profile/'+comment._author._id}>{comment._author.user_name}</Link> 
+               <span className = "comment-date"> Posted on {moment(comment.createdAt).format("MMMM Do YYYY, h:mm:ss a")} </span>
+            </div>
+            <div className = "comment-text"> {comment.text} </div>       
+          </li>
+
           )}
         }
         )}       
@@ -159,10 +176,10 @@ componentDidMount(){
         <form >
         	<PostComment id={this.state.id} reload={this.reloadPage.bind(this)}></PostComment>
         </form>
-        <button className='button-darkgreen link mrgRight10' onClick={this.addWidget.bind(this)} > Add inline comment </button>
+      
         <button className='button-darkgreen link mrgRight10' onClick={this.saveComment.bind(this)} > Save comment </button>
       </div>
-
+      </div>
     )
   }
 

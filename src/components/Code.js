@@ -38,11 +38,9 @@ render() {
     }
 
     return (
-    		<div>
-          <label> Code: </label>
-           <CodeMirror value={this.state.code} onChange={this.handleChange} options={options} />
-           <br/>
-           </div>
+    		<div className='form-item'>
+           <CodeMirror className="codemirror-wrapper" value={this.state.code} onChange={this.handleChange} options={options} />
+        </div>
     	)
 	}
 }

@@ -65,6 +65,8 @@ export default class LogIn extends Component {
   	return(
   	<div>
       <li className='menu-link'> <Link className='link' to="/dashboard">Back</Link> </li>
+      <div className='profile-container'>
+      <h1> Log In </h1>
   		<form >
           <label> Email Address: </label>
           <input type="text" name="email"  value={this.state.email} 
@@ -74,11 +76,12 @@ export default class LogIn extends Component {
           <input type="password" name="password"  value={this.state.password} 
                              onChange={this.handleChange.bind(this, 'password')}>
           </input><br/>
-          <button type="button" value="Log In" onClick={this.handleSubmit.bind(this)} >Log In</button>
+          <button type="button"  className='button-darkgreen' value="Log In" onClick={this.handleSubmit.bind(this)} >Log In</button>
 
           <div>{this.state.error}</div>
 
       </form>
+      </div>
   	</div>
   	)
   }
