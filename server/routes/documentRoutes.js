@@ -13,6 +13,12 @@ var documentRoutes = function(app){
 // add pagination - display most recent only
   app.get('/api/documents', function(req,res){
     var query   = {};
+    if(req.query.tag){
+      query = {tags:req.query.tag}
+    }
+    if(req.query.search){
+      query = {$or:[{title:{ "$regex": req.query.search, "$options": "i" }}, {description: { "$regex": req.query.search, "$options":"i"}}]}
+    }
     var options = {
       sort:     { createdAt: -1 },
       limit:    10,
