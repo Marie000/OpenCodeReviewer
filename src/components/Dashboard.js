@@ -3,6 +3,8 @@ import { Link } from 'react-router';
 import HTTP from '../services/httpservice';
 import './Dashboard.css';
 import moment from 'moment';
+import taglist from'../../tag-list.js';
+
 
 
 export default class Dashboard extends Component {
@@ -10,21 +12,73 @@ export default class Dashboard extends Component {
     super();
     this.state = { 
       posts: [],
-      loggedIn: (localStorage.user_id? true : false)
+      page:1,
+      loggedIn: (localStorage.user_id? true : false),
+      search:'',
+      tag:''
     }
   }
 
   componentWillMount(){
+    this.getData(1,null,null)
+    }
+
+  getData(page,tag,search){
     var scope = this;
-    var data = HTTP.get('/documents')
-    .then(function(data){
-   //     console.log(data);
-        scope.setState({
-          posts: data,
-          loggedIn: (localStorage.user_id? true : false)
-        })
+    var query= '?page='+page;
+    if(tag){
+      query+='&tag='+tag;
+    } else if(search){
+      query+='&search='+search
+    }
+
+
+    var data = HTTP.get('/documents'+query)
+      .then(function(data){
+        //     console.log(data);
+          scope.setState({
+            posts: data,
+            loggedIn: (localStorage.user_id ? true : false)
+          })
       })
-    } 
+  }
+
+  nextPage(){
+    this.getData(this.state.page+1,this.state.tag,this.state.search)
+    this.setState({page:this.state.page+1})
+  }
+
+  firstPage(){
+    this.getData(1,this.state.tag,this.state.search)
+    this.setState({page:1})
+  }
+
+  previousPage(){
+    if(this.state.page>1) {
+      this.getData(this.state.page - 1,this.state.tag,this.state.search)
+      this.setState({page: this.state.page - 1})
+    }
+  }
+
+  selectTag(tag){
+    this.getData(1,tag,null);
+    this.setState({page:1,tag:tag})
+  }
+
+  getBySearch(e){
+    e.preventDefault();
+    this.getData(1,null,this.state.search);
+    this.setState({page:1});
+  }
+
+  handleSearchInput(e){
+    this.setState({search:e.target.value});
+  }
+
+  seeAll(){
+    this.getData(1);
+    this.setState({page:1, search:'',tag:''})
+  }
 
   render(){
 
@@ -36,10 +90,21 @@ export default class Dashboard extends Component {
   	return(
 
  	<div className="dashboard">
-  {postNew}
-	<br/>
-  		<p className='main-title'> Posted Questions and Code  </p>
-  		<ul>
+    {postNew}
+	  <br/>
+    <p className='main-title'> Posted Questions and Code  </p>
+
+    <button onClick={this.seeAll.bind(this)}>See All</button>
+    <br/>
+
+    {taglist.map((tag)=>{return <button onClick={this.selectTag.bind(this,tag)}>{tag}</button> }) }
+
+    <form onSubmit={this.getBySearch.bind(this)}>Search:
+      <input type="text" onChange={this.handleSearchInput.bind(this)} />
+      <input type="submit"/>
+    </form>
+
+    <ul>
   		{this.state.posts.map(post => { return (
   			<li className='post'>
   				<Link className='post-title' to={'/dashboard/'+post._id}> {post.title} </Link>
@@ -56,7 +121,11 @@ export default class Dashboard extends Component {
    			</li>
    			)}
   		)}
-  		</ul>
+    </ul>
+
+    <button onClick={this.firstPage.bind(this)}>First Page</button>
+    <button onClick={this.previousPage.bind(this)}>Previous Page</button>
+    <button onClick={this.nextPage.bind(this)}>Next Page</button>
   	</div>
   	)
   }

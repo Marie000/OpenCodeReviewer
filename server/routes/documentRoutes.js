@@ -12,12 +12,23 @@ var documentRoutes = function(app){
 // GET ALL DOCUMENTS
 // add pagination - display most recent only
   app.get('/api/documents', function(req,res){
-    CodeDocument.find({})
-      .populate('_author')
-    .then(function(list){
-      if(!list){return res.status(404).send('list of documents not found')}
-      res.json(list);
-    })
+    var query   = {};
+    if(req.query.tag){
+      query = {tags:req.query.tag}
+    }
+    if(req.query.search){
+      query = {$or:[{title:{ "$regex": req.query.search, "$options": "i" }}, {description: { "$regex": req.query.search, "$options":"i"}}]}
+    }
+    var options = {
+      sort:     { createdAt: -1 },
+      limit:    5,
+      page: req.query.page || 1,
+      populate: {path:'_author',select:'user_name'}
+    };
+    CodeDocument.paginate(query, options).then(function(result) {
+      if(!result){return res.status(404).send('list of documents not found')}
+      res.json(result.docs);
+    });
   });
 
 // GET DOCUMENTS BY TAGS ??
