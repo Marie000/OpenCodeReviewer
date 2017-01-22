@@ -14,7 +14,8 @@ export default class Profile extends Component {
         user_name: '',
         location: '',
         email: '', 
-        me: false
+        me: false,
+      badges: []
     }
   }
 
@@ -30,7 +31,8 @@ export default class Profile extends Component {
         last_name: data.last_name,
         user_name: data.user_name,
         email: data.email,
-        location: data.location
+        location: data.location,
+          badges:data.points.awards || []
         });
       })
     } else {
@@ -40,7 +42,8 @@ export default class Profile extends Component {
         first_name:data.first_name,
         last_name: data.last_name,
         user_name: data.user_name,
-        location: data.location
+        location: data.location,
+          badges: data.points.awards || []
         });
       })
     }
@@ -68,6 +71,11 @@ export default class Profile extends Component {
       profileTitle = <span>{this.state.user_name }'s profile</span>
     }
 
+    var badges;
+    if(this.state.badges.length>0){
+      badges = this.state.badges.map((badge)=><img src={"/badges/"+badge.name.toLowerCase()+'-'+badge.count+'.png'} width="250"/>)
+    }
+
   	return(
   	<div>
       <button className='link button-darkgreen inline-blk' onClick={hashHistory.goBack}>Back</button>
@@ -80,6 +88,7 @@ export default class Profile extends Component {
         Last Name:  {this.state.last_name} <br/>
         Location:  {this.state.location}<br/>
         {email}
+        {badges}
 
         {button}
       </div>
@@ -88,20 +97,3 @@ export default class Profile extends Component {
   }
 }
 
-/*
-email: String,
-  password: String (hashed),
-  first_name: String,
-  middle_name: String,
-  last_name: String,
-  user_name: String,
-  code_documents: [ Code _id ],
-  comments: [ Comment _id ],
-  points: object (TBD),
-  location: String,
-  skills: [ {skill: String, experience_level: String} ],  
-  contact_info: {
-    public_email:String,
-    social_media:[{media:String, url:String}]
-  }
-*/
