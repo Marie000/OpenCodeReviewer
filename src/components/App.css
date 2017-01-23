@@ -219,7 +219,13 @@ textarea {
   padding: 15px;
   overflow-wrap: all;
 }
-
+.react-selectize {
+  display: inline-block;
+  float:right;
+}
+.react-selectize.root-node {
+  width: 85% !important;
+}
 
 /******** OOCSS **********/
 .button-darkgreen{

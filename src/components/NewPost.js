@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import HTTP from '../services/httpservice';
+import  ReactSelectize from "react-selectize";
+var MultiSelect = ReactSelectize.MultiSelect;
+var SimpleSelect =  ReactSelectize.SimpleSelect;
 
-
-import Code from './Code.js'
+import Code from './Code.js';
+import 'react-selectize/dist/index.css';
+import taglist from '../../tag-list';
 
 
 export default class NewPost extends Component {
@@ -15,7 +19,6 @@ export default class NewPost extends Component {
     	title: '',
       tags: [],
       description:"",
-      comments:[],
       submit: false,
       text: 'initial'
     }
@@ -50,25 +53,33 @@ export default class NewPost extends Component {
 
     this.setState({submit:true});
 
-        
-
+    
   window.setTimeout(function () {
 
     var data = this.getState();
-    if (data.tags != ""){
-      data.tags = data.tags.split(',');
-    }
-    HTTP.post('/documents', data);
+   
+   HTTP.post('/documents', data);
     }.bind(this), 10); 
 
   window.setTimeout(function () {  
       this.context.router.push('/dashboard');
-    }.bind(this), 600); 
+    }.bind(this), 600);   
   }
 
 
   render() {
+
+    var self = this;
+    var options = taglist.map(function(tag){
+        return {label: tag, value: tag}
+    });
+
+
     return (
+     
+      <div >
+      
+
       <div className='new-post-form form-container'>
       <form onSubmit={this.handleSubmit.bind(this)}>
         <div className='form-item'>
@@ -83,17 +94,35 @@ export default class NewPost extends Component {
                              onChange={this.handleChange.bind(this, 'description')}>
           </textarea>
         </div>
-        <div className='form-item'>
+
+        <div className='form-item clearfix'>
+
           <label> Tags: </label>
-          <input type="text" name="tags"  value={this.state.tags} 
-                             onChange={this.handleChange.bind(this, 'tags')}>
-          </input>
+          <MultiSelect ref="select" options = {options} maxValues={5} placeholder = "Select tag"
+            value = {this.state.tags}
+           createFromSearch = {function(options, values, search){
+                var labels = values.map(function(value){ 
+                    return value.label; 
+                })
+                if (search.trim().length == 0 || labels.indexOf(search.trim()) != -1) 
+                    return null;
+                return {label: search.trim(), value: search.trim()};
+            }} 
+            onValuesChange={function(value){
+              var tags = [];
+              value.map(function(item){
+                tags.push(item.value);
+              });
+              self.setState({tags:tags});             
+            }}
+          ></MultiSelect>
           </div>
+
           <Code saveCode={this.saveCode.bind(this)} submit = {this.state.submit} > </Code>
           <button className="button-darkgreen" type="submit" value="Submit your code" >Submit your code</button>
       </form>
-      <br/>
       </div>
+     </div>
     )
   }
 
