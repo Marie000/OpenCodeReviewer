@@ -37,10 +37,11 @@ var documentRoutes = function(app){
 
 // GET A DOCUMENT
   app.get('/api/documents/:id', function(req,res){
+    var publicInfo = {first_name:1, middle_name:1,last_name:1,user_name:1,points:1,location:1, skills:1, code_documents:1,comments:1}
     CodeDocument.findOne({_id:req.params.id})
-      .populate('_author',{first_name:1, middle_name:1,last_name:1,user_name:1,points:1,location:1, skills:1, code_documents:1,comments:1,contact_info:1 })
+      .populate('_author',publicInfo)
       .populate('comments')
-      .populate({path:'comments', populate: {path:'_author'}})
+      .populate({path:'comments', populate: {path:'_author',publicInfo}})
       .then(function(doc){
         if(!doc){return res.status(404).send('document not found')}
         res.json(doc);
