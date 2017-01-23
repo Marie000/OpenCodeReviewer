@@ -41,10 +41,11 @@ var commentRoutes = function(app){
             if(!doc){return res.status(404).send('no document found for this comment')}
             console.log(doc._author);
             if(!user._id.equals(doc._author)){
-              //Is .save() a good idea? should I use .update()?
               var updatedUser = user;
               updatedUser.points.reviews.push(comment._document_id);
-              updatedUser.save();
+              User.update({_id:user._id},{ $set: { points: updatedUser.points }}, function(){
+                
+              })
               giveTagPoints(doc, user, false);
               checkForBadges(updatedUser);
             }

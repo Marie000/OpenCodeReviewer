@@ -20,7 +20,7 @@ var documentRoutes = function(app){
       query = {$or:[{title:{ "$regex": req.query.search, "$options": "i" }}, {description: { "$regex": req.query.search, "$options":"i"}}]}
     }
     var options = {
-      sort:     { createdAt: -1 },
+      sort:     { commentedAt: -1 },
       limit:    5,
       page: req.query.page || 1,
       populate: {path:'_author',select:'user_name'}
@@ -52,6 +52,7 @@ var documentRoutes = function(app){
     //create a document
     var newDoc = new CodeDocument(req.body);
     newDoc._author = req.user._id;
+    newDoc.commentedAt = Date.now();
     newDoc.save().then(function(doc){
       // add document id to the author's document list
       User.findByIdAndUpdate(

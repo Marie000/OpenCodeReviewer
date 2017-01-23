@@ -20,16 +20,23 @@ var giveTagPoints = function(document,user,isNewDoc){
             } else {
               user.points.comment_tags[index].count++
             }
-            var newUser = new User(user);
-            newUser.save();
+            //var newUser = new User(user);
+            //newUser.save();
+            User.update({_id:user._id},{ $set: { points: user.points }}, function(){
+              console.log('done!')
+            })
+
           } else {
             if (isNewDoc) {
               user.points.code_document_tags.push({name: item, count: 1})
             } else {
               user.points.comment_tags.push({name: item, count: 1})
             }
-            var newUser = new User(user);
-            newUser.save();
+            //var newUser = new User(user);
+            //newUser.save();
+            User.update({_id:user._id},{ $set: { points: user.points }}, function(){
+              console.log('done!!')
+            })
           }
         }
       })
