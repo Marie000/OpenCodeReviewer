@@ -11,6 +11,9 @@ import NewPost from './components/NewPost';
 import LogIn from './components/LogIn';
 import SignIn from './components/SignIn';
 import About from './components/About';
+import Learn from './components/Learn/Learn';
+import LearnCode from './components/Learn/Learn-Code';
+import LearnCodeContent from './components/Learn/Learn-Code-Content';
 
 import './index.css';
 
@@ -27,6 +30,9 @@ ReactDOM.render((
     	<Route path="/dashboard/NewPost" component={NewPost}/> 
     	<Route path="/dashboard/:postId" component={Post}/>
       <Route path="/about" component={About}/>
+      <Route path="/learn" component={Learn}/>
+      <Route path="/learn/code" component={LearnCode}/>
+      <Route path="/learn/code/:page" component={LearnCodeContent}/>
     </Route>  	
   </Router>
 ), document.getElementById('root'))
