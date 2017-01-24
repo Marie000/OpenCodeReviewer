@@ -21,7 +21,7 @@ var documentRoutes = function(app){
     }
     var options = {
       sort:     { commentedAt: -1 },
-      limit:    5,
+      limit:    10,
       page: req.query.page || 1,
       populate: {path:'_author',select:'user_name'}
     };
