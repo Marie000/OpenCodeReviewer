@@ -51,12 +51,12 @@ class App extends Component {
 
     var buttons;
       if (!localStorage.user_name){
-        buttons = <ul className='menu'><a className='link' to="/signin" ><li className='inline-blk button-darkgreen'>About</li></a>
+        buttons = <ul className='menu'><Link className='link' to="/about" ><li className='inline-blk button-darkgreen'>About</li></Link>
         <Link className='link' to="/signin" ><li className=' mrgLeft10 inline-blk  button-darkgreen'>Sign In</li></Link>
         <Link className='link' to="/login" ><li className='mrgLeft10 inline-blk  button-darkgreen'>Log In</li></Link>
         </ul>
       } else {
-        buttons = <ul className='menu'><a className='link' to="/signin" ><li className='inline-blk button-darkgreen'>About</li></a>
+        buttons = <ul className='menu'><Link className='link' to="/about" ><li className='inline-blk button-darkgreen'>About</li></Link>
         <Link className='link' to={'/profile/'+localStorage.user_id}><li className='button-darkgreen inline-blk mrgLeft10'>Profile</li></Link>
         <Link className='link' to="/dashboard" ><li className='mrgLeft10 button-darkgreen inline-blk' onClick={this.logOutUser.bind(this)}>Log Out</li></Link></ul>
       }
