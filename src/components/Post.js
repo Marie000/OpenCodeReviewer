@@ -20,6 +20,7 @@ export default class Post extends Component {
   constructor(props) {
     super(props);
     this.state = { 
+      loggedIn: localStorage.user_id? true: false,
     	id: this.props.params.postId,
       tags: [],
       author: "",
@@ -133,8 +134,7 @@ componentDidMount(){
       readOnly: true
     }
 
-    var author;
-  	
+ 	
     return (
       <div className="form-container">
       <button className='link button-darkgreen inline-blk' onClick={hashHistory.goBack}>Back</button>
@@ -173,9 +173,11 @@ componentDidMount(){
         )}       
    		 </ul>
         
-        <form >
-        	<PostComment id={this.state.id} reload={this.reloadPage.bind(this)}></PostComment>
-        </form>
+        { this.state.loggedIn? 
+          <form >
+            <PostComment id={this.state.id} reload={this.reloadPage.bind(this)}></PostComment>
+          </form>
+         : null}
       
         <button className='button-darkgreen link mrgRight10' onClick={this.saveComment.bind(this)} > Save comment </button>
       </div>

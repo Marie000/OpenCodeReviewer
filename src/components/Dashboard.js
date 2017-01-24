@@ -92,12 +92,10 @@ export default class Dashboard extends Component {
  	<div className="dashboard">
     {postNew}
 	  <br/>
-    <p className='main-title'> Posted Questions and Code  </p>
+    <p className='main-title'> Posted Questions </p>
 
-    <button onClick={this.seeAll.bind(this)}>See All</button>
-    <br/>
-
-    {taglist.map((tag)=>{return <button onClick={this.selectTag.bind(this,tag)}>{tag}</button> }) }
+    <p> Filter by tag: {taglist.map((tag)=>{return <button className='tags' onClick={this.selectTag.bind(this,tag)}>{tag}</button> }) }  </p>
+    <button className='tags mrgTop0' onClick={this.seeAll.bind(this)}>See All</button>
 
     <form onSubmit={this.getBySearch.bind(this)}>Search:
       <input type="text" onChange={this.handleSearchInput.bind(this)} />
@@ -123,9 +121,9 @@ export default class Dashboard extends Component {
   		)}
     </ul>
 
-    <button onClick={this.firstPage.bind(this)}>First Page</button>
-    <button onClick={this.previousPage.bind(this)}>Previous Page</button>
-    <button onClick={this.nextPage.bind(this)}>Next Page</button>
+    <button className='button-darkgreen-small inline-blk mrgRight10' onClick={this.firstPage.bind(this)}>First Page</button>
+    <button  className='button-darkgreen-small inline-blk mrgRight10' onClick={this.previousPage.bind(this)}>Previous Page</button>
+    <button  className='button-darkgreen-small inline-blk' onClick={this.nextPage.bind(this)}>Next Page</button>
   	</div>
   	)
   }

@@ -258,6 +258,9 @@ textarea {
     text-decoration: none;
     color: inherit;
 }
+.mrgTop0{
+  margin-top: 0px !important;
+}
 .mrgTop10{
   margin-top: 10px
 }
