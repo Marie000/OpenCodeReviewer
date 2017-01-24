@@ -181,6 +181,7 @@ UserSchema.pre('save', function(next){
     bcrypt.genSalt(10, function(err,salt){
       bcrypt.hash(user.password, salt, function(err,hash){
         user.password = hash;
+        console.log('WARNING: password just changed')
         next();
       })
     })

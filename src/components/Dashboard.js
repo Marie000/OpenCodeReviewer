@@ -110,7 +110,7 @@ export default class Dashboard extends Component {
 
           {
             post.tags.map(tag => {
-              return <div className="tags dashboard-tags"> {tag} </div>
+              return <div className="tags dashboard-tags" onClick={this.selectTag.bind(this,tag)}> {tag} </div>
             })
           }
           <div className="mrgTop10 mrgBtm10">

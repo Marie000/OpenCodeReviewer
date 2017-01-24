@@ -11,13 +11,20 @@ let updateBadge = function(user,name,count){
   if(index>-1 ){
     if(user.points.awards[index].count < count){
       user.points.awards[index].count = count;
-      let newUser = new User(user);
-      newUser.save();
+      //let newUser = new User(user);
+      //newUser.save();
+      User.update({_id:user._id},{ $set: { points: user.points }}, function(){
+        console.log('award upgraded')
+      })
     }
   } else {
     user.points.awards.push({name:name, count:count});
-    let newUser = new User(user);
-    newUser.save();
+    //let newUser = new User(user);
+    //newUser.save();
+    User.update({_id:user._id},{ $set: { points: user.points }}, function(){
+      console.log('award added')
+    })
+
   }
 };
 

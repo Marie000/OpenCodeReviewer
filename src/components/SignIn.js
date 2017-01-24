@@ -27,7 +27,6 @@ export default class SignIn extends Component {
   handleSubmit(e) {
     e.preventDefault();
     var data = this.state;
-    console.log(data)
     HTTP.post('/users', data);
 
      window.setTimeout(function () {  

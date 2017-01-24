@@ -51,15 +51,13 @@ app.use(cookieParser());
 
   // LOGOUT
   app.delete('/api/logout', authenticate, function(req,res){
-    User.findOne({_id:req.user._id}).then(function(user){
-      if(!user){return res.status(404).send('user not found')}
  //     user.tokens=[];
-      console.log('found user');
       res.cookie('token', "", {httpOnly: true, expires : new Date(Date.now() - 3600000)});
-      user.save();
-      res.json(user);
+    //  user.save();
+      User.update({_id:req.user._id},{ $set: { tokens: [] }},function(user){
+        res.json(user);
+      })
     })
-  })
 
 // GET A USER
 
