@@ -10,7 +10,7 @@ import Post from './components/Post';
 import NewPost from './components/NewPost';
 import LogIn from './components/LogIn';
 import SignIn from './components/SignIn';
-
+import About from './components/About';
 
 import './index.css';
 
@@ -26,6 +26,7 @@ ReactDOM.render((
     	<Route path="/dashboard" component={Dashboard}/> 
     	<Route path="/dashboard/NewPost" component={NewPost}/> 
     	<Route path="/dashboard/:postId" component={Post}/>
+      <Route path="/about" component={About}/>
     </Route>  	
   </Router>
 ), document.getElementById('root'))
