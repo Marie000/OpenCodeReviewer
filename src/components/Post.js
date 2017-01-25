@@ -13,8 +13,6 @@ import 'codemirror/mode/htmlmixed/htmlmixed';
 import 'codemirror/addon/edit/matchbrackets';
 import 'codemirror/addon/edit/closebrackets';
 
-var textarea_style="background:yellow;width:100%;height:auto"
-
 
 export default class Post extends Component {
   constructor(props) {
@@ -26,7 +24,7 @@ export default class Post extends Component {
       author: "",
       comments:[],
       currentComment:{
-        text: 'mytest',
+        text: 'mytest'
       }
     }
   }
@@ -50,13 +48,16 @@ export default class Post extends Component {
   }
 
   displayInlineComment(comment, line){
+    var date = moment(comment.createdAt).format("MMMM Do YYYY, h:mm:ss a")
+
     var codemir = this.refs.codemirror.getCodeMirror();
     var container = document.createElement("div");
     var commentText = comment.text.replace(/\r?\n/g,'<br/>');
-    container.innerHTML = "<div style="+textarea_style+">"+commentText+"<br>Commented by "+comment._author.user_name+" on "+comment.createdAt.toString()+"</div>";
-    codemir.addLineWidget(line, container, {
-      coverGutter: false
-    });
+
+    container.innerHTML = "<div class='inline-comment'><div class='inline-comment inline-comment-author'>"+comment._author.user_name+"<span class='comment-date'> Posted on "+date+"</span></div><div class='inline-comment inline-comment-text' >"+ commentText+"</div></div>";
+              codemir.addLineWidget(line, container, {
+                  coverGutter: false
+              });
   }
 
   getInlineComments(){
@@ -71,36 +72,43 @@ export default class Post extends Component {
     this.getPostData();
 }
 
-componentDidMount(){
+  componentDidMount(){
   window.setTimeout(function () {  
        this.getInlineComments()
     }.bind(this), 500);
-}
+  }
        
   reloadPage(){
     this.getPostData();
     this.getInlineComments();
-    console.log(this.state.comments)
-    
   }
 
   addWidget(){
     var container = document.createElement("div");
-    container.innerHTML = "<textarea style="+textarea_style+" id = 'comment'></textarea>" ;
+    container.id = "currentCommentDiv"
+    container.innerHTML = "<textarea class='inline-comment inline-comment-text' placeholder='Type your comment here' id = 'currentComment'></textarea>" ;
+
     var codemir = this.refs.codemirror.getCodeMirror();
 
-
     var line = codemir.getCursor("to").line
-    console.log(line+1)
-    codemir.addLineWidget(line, container, {
+    var currentWidget = codemir.addLineWidget(line, container, {
       coverGutter: false
     });
-    console.log(container)
+
     this.setState({currentComment:{
+      widget: currentWidget,
       line:line
 //      text: document.getElementById('comment').value
-}
+    }
     })
+  }
+
+  cancelWidget(){
+   // var element = document.getElementById("currentCommentDiv");
+
+    var codemir = this.refs.codemirror.getCodeMirror();
+    this.state.currentComment.widget.clear();
+    this.setState({currentComment:{widget:null}})
   }
 
   handleChange (e) {
@@ -113,16 +121,33 @@ componentDidMount(){
   }
 
   saveComment(){
+    var currentCommentText = document.getElementById('currentComment').value;
+
       var dataToSend={
         position: this.state.currentComment.line,
-        text: document.getElementById('comment').value,
+        text: currentCommentText,
         is_general: false,
-        _document_id: this.state.id
+        _document_id: this.state.id,      
       }
 
+      this.state.currentComment.widget.clear();
       console.log(dataToSend)
 
-      HTTP.post('/comments/', dataToSend)
+      HTTP.post('/comments/', dataToSend);
+
+      dataToSend._author = {}
+      dataToSend._author.user_name = localStorage.user_name;
+      dataToSend.createdAt = new Date();
+
+      window.setTimeout(function(){
+        this.displayInlineComment(dataToSend, dataToSend.position)
+        this.setState({
+          currentComment: {
+            line: null,
+            widget: null
+          }
+        })
+      }.bind(this), 500);
   }
     
   render() {
@@ -145,9 +170,20 @@ componentDidMount(){
             )
           }
         </div>
-
         <div className="clearfix mrgBtm20 font18rem">
-           To post an inline comment, place the cursor on the last line of the code you wish to comment and press <button className='button-darkgreen-small link  mrgLeft10' onClick={this.addWidget.bind(this)} > Add inline comment </button>
+
+        {this.state.currentComment.widget ? 
+          <div>
+          <button className='button-darkgreen-small link mrgRight10' onClick={this.saveComment.bind(this)} > Save comment </button>
+           <button className='button-darkgreen-small link mrgRight10' onClick={this.cancelWidget.bind(this)} > Cancel </button>
+           </div>
+        :
+          <div>
+          To post an inline comment, place the cursor on the last line of the code you wish to comment and press 
+           <button className='button-darkgreen-small link  mrgLeft10 mrgRight10' onClick={this.addWidget.bind(this)} > Add inline comment </button>
+          </div>
+        }
+          
         </div>
 
         <div className="codemirror-wrapper"><CodeMirror value={this.state.text} ref="codemirror" options={options} /></div>
@@ -179,7 +215,7 @@ componentDidMount(){
           </form>
          : null}
       
-        <button className='button-darkgreen link mrgRight10' onClick={this.saveComment.bind(this)} > Save comment </button>
+        
       </div>
       </div>
     )

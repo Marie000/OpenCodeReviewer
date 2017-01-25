@@ -1,5 +1,6 @@
 body{
   background-color: #eee;
+  font-family: 'Work Sans', sans-serif;
 }
 .App {
   text-align: center;
@@ -159,7 +160,10 @@ h4{
   font-size: 1.5rem;
 }
 
-
+.CodeMirror {
+  height: auto !important;
+  max-height: 800px;
+}
 
 .new-post-form{
   clear:both;
@@ -177,15 +181,17 @@ h4{
   vertical-align: top;
   max-width: 15%;
 }
-.form-container textarea, .form-container input {
+.form-container input, .form-container .input {
   width: 85%;
   float: right;
+  
 }
 
-textarea {
+.form-container .input {
   height: 100px;
   margin-bottom: 10px;
 }
+
 
 .comment {
    border: 1px solid #E0D7D7;
@@ -225,6 +231,25 @@ textarea {
 .react-selectize.root-node {
   width: 85% !important;
 }
+.inline-comment {
+ background:#e3ffe3;
+ width:100%;
+ height:auto;
+ font-size: 1.5rem;
+ color: #333;
+}
+.inline-comment-text{
+  padding: 10px;
+  min-height: 150px;
+  height: auto;
+}
+.inline-comment-author {
+  padding: 5px 10px;
+  border-bottom: 1px solid white;
+  color: #333;
+  background-color: #ded9d9;
+}
+
 
 /******** OOCSS **********/
 .button-darkgreen{

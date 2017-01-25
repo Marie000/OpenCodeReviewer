@@ -37,7 +37,7 @@ export default class PostComment extends Component {
   	return(
   		<div className="clearfix">
           <label className="post-title"> Your comment: </label>
-          <textarea className="" name="comment" value={this.state.text} onChange={this.handleChange.bind(this)} />     
+          <textarea className="input" name="comment" value={this.state.text} onChange={this.handleChange.bind(this)} />     
           <button className='button-darkgreen link mrgBtm10 pull-right ' onClick={this.handleSubmit.bind(this)} >Submit your comment</button>
          </div>       
   	)

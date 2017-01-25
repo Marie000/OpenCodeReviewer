@@ -90,7 +90,7 @@ export default class NewPost extends Component {
        </div>
        <div className='form-item clearfix'>
           <label> Description: </label>
-          <textarea type="text" name="description" value={this.state.description} 
+          <textarea className="input" type="text" name="description" value={this.state.description} 
                              onChange={this.handleChange.bind(this, 'description')}>
           </textarea>
         </div>
