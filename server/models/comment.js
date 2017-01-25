@@ -24,6 +24,13 @@ var CommentSchema = mongoose.Schema({
     }
   }],
   position: {
+    firstLine : {
+      type: Number
+    },
+    lastLine : {
+      type: Number
+    }
+
     // null for general comment, object TBD for inline comment
   },
   _document_id: {

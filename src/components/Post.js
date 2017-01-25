@@ -24,9 +24,33 @@ export default class Post extends Component {
       author: "",
       comments:[],
       currentComment:{
-        text: 'mytest'
+        text: ''
       }
     }
+  }
+
+   componentWillMount(){
+    this.getPostData();
+}
+
+  componentDidMount(){
+  window.setTimeout(function () {  
+       this.getInlineComments()
+    }.bind(this), 500);
+  }
+       
+  reloadPage(){
+    this.getPostData();
+    this.getInlineComments();
+  }
+
+  handleChange (e) {
+    var comment = e.target.value;   
+    this.setState({
+      currentComment:{
+        text:comment
+      }  
+    });
   }
 
   getPostData(){
@@ -47,40 +71,36 @@ export default class Post extends Component {
       })
   }
 
-  displayInlineComment(comment, line){
+  displayInlineComment(comment, selection){
+
     var date = moment(comment.createdAt).format("MMMM Do YYYY, h:mm:ss a")
 
     var codemir = this.refs.codemirror.getCodeMirror();
     var container = document.createElement("div");
     var commentText = comment.text.replace(/\r?\n/g,'<br/>');
+    var firstLine = selection.firstLine +1;
+    var lastLine = selection.lastLine +1;
 
-    container.innerHTML = "<div class='inline-comment'><div class='inline-comment inline-comment-author'>"+comment._author.user_name+"<span class='comment-date'> Posted on "+date+"</span></div><div class='inline-comment inline-comment-text' >"+ commentText+"</div></div>";
-              codemir.addLineWidget(line, container, {
-                  coverGutter: false
-              });
+   
+    container.innerHTML = "<div class='inline-comment'><div class='inline-comment inline-comment-header'><span class='author'>"+comment._author.user_name+"</span> <span class='lines'>commented lines "+firstLine+" to "+lastLine+"</span> <span class='comment-date'> Posted on "+date+"</span></div><div class='inline-comment inline-comment-text-display' >"+ commentText+"</div></div>";
+
+    codemir.addLineWidget(selection.lastLine, container, {
+        coverGutter: false
+    });
+   
+    var selFrom = {line: selection.firstLine, ch:0}
+    var selTo = {line:selection.lastLine+1, ch:0}
+    var option = {className: 'selection-background'}
+    codemir.markText(selFrom, selTo, option) 
+
   }
 
   getInlineComments(){
     this.state.comments.map(comment => { 
-      if (typeof comment.position == 'number') {
+      if (comment.position) {
           this.displayInlineComment(comment, comment.position)
       }
     })
-  }
-
-  componentWillMount(){
-    this.getPostData();
-}
-
-  componentDidMount(){
-  window.setTimeout(function () {  
-       this.getInlineComments()
-    }.bind(this), 500);
-  }
-       
-  reloadPage(){
-    this.getPostData();
-    this.getInlineComments();
   }
 
   addWidget(){
@@ -90,14 +110,21 @@ export default class Post extends Component {
 
     var codemir = this.refs.codemirror.getCodeMirror();
 
-    var line = codemir.getCursor("to").line
-    var currentWidget = codemir.addLineWidget(line, container, {
+   // var line = codemir.getCursor("to").line;
+    var lastLine = codemir.getCursor("end").line;
+    var lastch = codemir.getCursor("end").ch;
+    var firstch = codemir.getCursor("first").ch;
+    var firstLine = codemir.getCursor('start').line;
+
+    console.log( firstLine, firstch, lastLine, lastch)
+    var currentWidget = codemir.addLineWidget(lastLine, container, {
       coverGutter: false
     });
 
     this.setState({currentComment:{
       widget: currentWidget,
-      line:line
+      firstLine: firstLine,
+      lastLine:lastLine
 //      text: document.getElementById('comment').value
     }
     })
@@ -111,23 +138,16 @@ export default class Post extends Component {
     this.setState({currentComment:{widget:null}})
   }
 
-  handleChange (e) {
-    var comment = e.target.value;   
-    this.setState({
-      currentComment:{
-        text:comment
-      }  
-    });
-  }
-
   saveComment(){
     var currentCommentText = document.getElementById('currentComment').value;
 
       var dataToSend={
-        position: this.state.currentComment.line,
+        position: 
+          {firstLine:this.state.currentComment.firstLine, 
+            lastLine:this.state.currentComment.lastLine},
         text: currentCommentText,
         is_general: false,
-        _document_id: this.state.id,      
+        _document_id: this.state.id      
       }
 
       this.state.currentComment.widget.clear();
@@ -143,13 +163,17 @@ export default class Post extends Component {
         this.displayInlineComment(dataToSend, dataToSend.position)
         this.setState({
           currentComment: {
-            line: null,
+            firstLine: null,
+            lastLine: null,
             widget: null
           }
         })
       }.bind(this), 500);
   }
     
+
+
+
   render() {
     var options = {
       lineNumbers: true,
@@ -158,8 +182,7 @@ export default class Post extends Component {
       closebrackets: true,
       readOnly: true
     }
-
- 	
+	
     return (
       <div className="form-container">
       <button className='link button-darkgreen inline-blk' onClick={hashHistory.goBack}>Back</button>
@@ -179,7 +202,7 @@ export default class Post extends Component {
            </div>
         :
           <div>
-          To post an inline comment, place the cursor on the last line of the code you wish to comment and press 
+          To post an inline comment, select the part of code that you wish to comment and press 
            <button className='button-darkgreen-small link  mrgLeft10 mrgRight10' onClick={this.addWidget.bind(this)} > Add inline comment </button>
           </div>
         }

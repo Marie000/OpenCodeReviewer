@@ -158,6 +158,11 @@ h4{
   padding: 0px 5px 2px;
   margin: 10px 5px 5px 0;
   font-size: 1.5rem;
+  cursor:pointer; cursor:hand;
+}
+.tags:hover {
+  background-color: darkgreen;
+  color: white;
 }
 
 .CodeMirror {
@@ -238,18 +243,34 @@ h4{
  font-size: 1.5rem;
  color: #333;
 }
+
 .inline-comment-text{
   padding: 10px;
   min-height: 150px;
-  height: auto;
+  background:#D0F1F0;
 }
-.inline-comment-author {
+.inline-comment-text-display{
+  padding: 10px;
+
+}
+.inline-comment-header {
   padding: 5px 10px;
   border-bottom: 1px solid white;
   color: #333;
   background-color: #ded9d9;
 }
-
+.inline-comment .author{
+  font-weight: bold;
+  padding-left: 5px;
+}
+.inline-comment .lines{
+  padding-left: 2px;
+  color: #000;
+}
+.selection-background {
+  background-color: #D0F1F0;
+  padding: 2px 0;
+}
 
 /******** OOCSS **********/
 .button-darkgreen{
