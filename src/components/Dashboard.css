@@ -7,6 +7,11 @@
 ul{
 	padding: 0;
 }
+.dashboard .text {
+	font-size: 15px;
+	padding-bottom: 10px;
+	
+}
 .dashboard .post{
 	display: block;
 	width: 100%;

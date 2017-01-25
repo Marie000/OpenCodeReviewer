@@ -94,13 +94,13 @@ export default class Dashboard extends Component {
 	  <br/>
     <p className='main-title'> Posted Questions </p>
 
-    <p> Filter by tag: {taglist.map((tag)=>{return <button className='tags' onClick={this.selectTag.bind(this,tag)}>{tag}</button> }) }  </p>
-    <button className='tags mrgTop0' onClick={this.seeAll.bind(this)}>See All</button>
-
-    <form onSubmit={this.getBySearch.bind(this)}>Search:
+    <form className="text mrgTop10 mrgBtm10" onSubmit={this.getBySearch.bind(this)}>Search: 
       <input type="text" onChange={this.handleSearchInput.bind(this)} />
-      <input type="submit"/>
+      <input className='' type="submit"/>
     </form>
+
+    <p className="text"> Filter by tag: {taglist.map((tag)=>{return <button className='tags' onClick={this.selectTag.bind(this,tag)}>{tag}</button> }) }  </p>
+    <button className='tags mrgTop0' onClick={this.seeAll.bind(this)}>Clear Filters</button>
 
     <ul>
   		{this.state.posts.map(post => { return (
