@@ -3,6 +3,7 @@ import HTTP from '../services/httpservice';
 import moment from 'moment';
 import { Link } from 'react-router';
 import { hashHistory } from 'react-router';
+import $ from 'jquery';
 
 import PostComment from './PostComment';
 
@@ -23,6 +24,7 @@ export default class Post extends Component {
       tags: [],
       author: "",
       comments:[],
+      inlineComments: false,
       currentComment:{
         text: ''
       }
@@ -31,10 +33,11 @@ export default class Post extends Component {
 
    componentWillMount(){
     this.getPostData();
+    
 }
 
   componentDidMount(){
-  window.setTimeout(function () {  
+  window.setTimeout(function () { 
        this.getInlineComments()
     }.bind(this), 500);
   }
@@ -66,10 +69,12 @@ export default class Post extends Component {
           text: data.text,
           tags: data.tags,
           comments:data.comments,
-          postCreationDate:data.createdAt
+          postCreationDate:data.createdAt,
+          commentsHidden: false
         });
       })
   }
+
 
   displayInlineComment(comment, selection){
 
@@ -90,15 +95,18 @@ export default class Post extends Component {
    
     var selFrom = {line: selection.firstLine, ch:0}
     var selTo = {line:selection.lastLine+1, ch:0}
-    var option = {className: 'selection-background'}
-    codemir.markText(selFrom, selTo, option) 
+    var option = {className: 'selection'}
+    codemir.markText(selFrom, selTo, option);
+
+    $(".selection").parents('.CodeMirror-line').addClass('selection-background');
 
   }
 
   getInlineComments(){
     this.state.comments.map(comment => { 
       if (comment.position) {
-          this.displayInlineComment(comment, comment.position)
+          this.displayInlineComment(comment, comment.position);
+          this.setState({inlineComments:true})
       }
     })
   }
@@ -116,17 +124,17 @@ export default class Post extends Component {
     var firstch = codemir.getCursor("first").ch;
     var firstLine = codemir.getCursor('start').line;
 
-    console.log( firstLine, firstch, lastLine, lastch)
     var currentWidget = codemir.addLineWidget(lastLine, container, {
       coverGutter: false
     });
 
-    this.setState({currentComment:{
-      widget: currentWidget,
-      firstLine: firstLine,
-      lastLine:lastLine
-//      text: document.getElementById('comment').value
-    }
+    this.setState({
+      currentComment:{
+          widget: currentWidget,
+          firstLine: firstLine,
+          lastLine:lastLine
+//        text: document.getElementById('comment').value
+      }
     })
   }
 
@@ -166,11 +174,27 @@ export default class Post extends Component {
             firstLine: null,
             lastLine: null,
             widget: null
-          }
+          }, 
+          inlineComments: true
         })
       }.bind(this), 500);
   }
     
+
+  hideComments(){
+    $('.inline-comment').hide();
+    this.setState({commentsHidden : true})
+  }
+
+  showComments(){
+    this.setState({commentsHidden : false})
+
+    window.setTimeout(function(){
+     $('.inline-comment').show();
+     $(".selection").parents('.CodeMirror-line').addClass('selection-background');
+    }.bind(this), 50);
+  }
+
 
 
 
@@ -182,6 +206,8 @@ export default class Post extends Component {
       closebrackets: true,
       readOnly: true
     }
+
+    $(".selection").parents('.CodeMirror-line').addClass('selection-background');
 	
     return (
       <div className="form-container">
@@ -190,31 +216,40 @@ export default class Post extends Component {
         <h2>{this.state.title}</h2>
 
         <div className="post-title clearfix"> Tags:  {this.state.tags.map(tag => { return <div className="tags"> {tag}</div>}
-            )
-          }
+            )}
         </div>
-        <div className="clearfix mrgBtm20 font18rem">
 
-        {this.state.currentComment.widget ? 
-          <div>
-          <button className='button-darkgreen-small link mrgRight10' onClick={this.saveComment.bind(this)} > Save comment </button>
-           <button className='button-darkgreen-small link mrgRight10' onClick={this.cancelWidget.bind(this)} > Cancel </button>
-           </div>
-        :
-          <div>
-          To post an inline comment, select the part of code that you wish to comment and press 
-           <button className='button-darkgreen-small link  mrgLeft10 mrgRight10' onClick={this.addWidget.bind(this)} > Add inline comment </button>
+        {this.state.loggedIn ?
+          <div className="clearfix mrgBtm20 font18rem">
+          {this.state.currentComment.widget ? 
+            <div>
+            <button className='button-darkgreen-small link mrgRight10' onClick={this.saveComment.bind(this)} > Save comment </button>
+             <button className='button-darkgreen-small link mrgRight10' onClick={this.cancelWidget.bind(this)} > Cancel </button>
+             </div>
+          :
+            <div>
+            To post an inline comment, select the part of code that you wish to comment and press 
+             <button className='button-darkgreen-small link  mrgLeft10 mrgRight10' onClick={this.addWidget.bind(this)} > Add inline comment </button>
+            </div>
+          }
           </div>
-        }
-          
+        : null }      
         </div>
 
         <div className="codemirror-wrapper"><CodeMirror value={this.state.text} ref="codemirror" options={options} /></div>
-        
-        <p className='post-title mrgBtm20 '> Posted by <span className='red'> <Link className='link' to={'/profile/'+this.state.author_id}>{this.state.author}</Link> </span> on {moment(this.state.postCreationDate).format("MMMM Do YYYY, h:mm:ss a")} </p>
+   
 
-        
+      {this.state.inlineComments ? 
+        <div> {this.state.commentsHidden ? 
+        <button className='button-darkgreen-small link inline-blk pull-right mrgTop10 mrgLeft10 mrgRight10' onClick={this.showComments.bind(this)} > Show inline comments </button>
+        :
+        <button className='button-darkgreen-small link inline-blk pull-right mrgTop10 mrgLeft10 mrgRight10' onClick={this.hideComments.bind(this)} > Hide inline comments </button>  
+        }  </div> : null
+      } 
 
+         <div className='post-title mrgBtm20 inline-blk clearfix '> Posted by <span className='red'> <Link className='link' to={'/profile/'+this.state.author_id}>{this.state.author}</Link> </span> on {moment(this.state.postCreationDate).format("MMMM Do YYYY, h:mm:ss a")} </div>
+        
+         <div>
         <strong className="post-title mrgTop10 mrgBtm20"> Comments:  </strong>
         <ul >
           {this.state.comments.map(comment => { if (comment.position == null){return (
@@ -230,7 +265,8 @@ export default class Post extends Component {
           )}
         }
         )}       
-   		 </ul>
+   		   </ul>
+         </div>
         
         { this.state.loggedIn? 
           <form >
@@ -238,9 +274,8 @@ export default class Post extends Component {
           </form>
          : null}
       
-        
       </div>
-      </div>
+
     )
   }
 

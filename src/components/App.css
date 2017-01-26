@@ -268,7 +268,7 @@ h4{
   color: #000;
 }
 .selection-background {
-  background-color: #D0F1F0;
+  background: #D0F1F0 !important;
   padding: 2px 0;
 }
 

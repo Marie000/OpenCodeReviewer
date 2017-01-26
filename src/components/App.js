@@ -38,7 +38,7 @@ class App extends Component {
 
     window.setTimeout(function () {  
       this.context.router.push('/login');
-    }.bind(this), 1000); 
+    }.bind(this), 500); 
   }
 
   render() {
