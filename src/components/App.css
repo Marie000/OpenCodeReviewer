@@ -350,3 +350,41 @@ h4{
      clear: both;
      height: 0;
      }
+
+/******** LEARN **********/
+.learn {
+  text-align: center;
+}
+.learn h1 {
+  margin: 30px;
+}
+.learn h2 {
+  font-size: 25px;
+}
+.learn p {
+  font-size: 20px;
+}
+
+.learn-section {
+  margin: 30px 20%;
+  padding: 20px;
+  border: 2px solid black;
+}
+.learn-code{
+  text-align: center;
+  margin: 30px 20%;
+  padding: 20px;
+  border: 2px solid black;
+}
+.learn-code p{
+  font-size: 20px;
+}
+.learn-code .start-button{
+  font-size:30px;
+  padding: 10px;
+  margin: 10px 0 30px 0;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  border: none;
+}

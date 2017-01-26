@@ -15,14 +15,16 @@ export default class Learn extends Component {
   render(){
 
     return(
-      <div>
+      <div className="learn">
       <h1>Learning Resources</h1>
-        <h2>How to do a Code Review</h2>
-        <strong>Coming Soon!</strong>
-
-        <h2>How to write better code</h2>
-        <Link to="/learn/code">Javascript</Link>
-        
+        <div className="learn-section">
+          <h2>How to do a Code Review</h2>
+          <p>Coming Soon!</p>
+        </div>
+        <div className="learn-section">
+          <h2>How to write better code</h2>
+          <p><Link to="/learn/code">Javascript</Link></p>
+        </div>
       </div>
     )
   }
