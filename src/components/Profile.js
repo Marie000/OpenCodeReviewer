@@ -118,10 +118,10 @@ export default class Profile extends Component {
         Location:  {this.state.location}<br/>
         Github Username: {github_username}
         <br/>
-        <a href={facebook}><i className="fa fa-facebook fa-2x"></i></a>
-        <a href={github_url}><i className="fa fa-github fa-2x"></i></a>
-        <a href={twitter}><i className="fa fa-twitter fa-2x"></i></a>
-        <a href={linkedIn}><i className="fa fa-linkedin fa-2x"></i></a>
+        {facebook ? <a href={facebook}><i className="fa fa-facebook fa-2x"></i></a> : null}
+        {github_url ? <a href={github_url}><i className="fa fa-github fa-2x"></i></a> : null}
+        {twitter ? <a href={twitter}><i className="fa fa-twitter fa-2x"></i></a> : null}
+        {linkedIn ? <a href={linkedIn}><i className="fa fa-linkedin fa-2x"></i></a> : null}
         <br />
         {email}
         {badges}
