@@ -124,9 +124,17 @@ h4{
 
 .profile-container input{
   line-height: 1rem;
+  width:100%;
 }
 .profile-container label{
-  padding-right: 20px;
+  font-size:2rem;
+  display:block;
+  line-height:2rem;
+  margin-top:25px;
+}
+
+.profile-container i {
+  padding: 0 10px;
 }
 
 /***********POST*********/

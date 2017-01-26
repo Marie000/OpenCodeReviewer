@@ -87,7 +87,7 @@ app.use(cookieParser());
 
 // UPDATE USER PROFILE
   app.patch('/api/users/me', authenticate, function(req,res){
-    // filter body to updated only fields that exist!
+    // filter body to update only fields that exist!
     var body = req.body;
     User.findByIdAndUpdate(req.user._id, {$set: body}, {new:true}).then(function(user){
       res.send(user);
