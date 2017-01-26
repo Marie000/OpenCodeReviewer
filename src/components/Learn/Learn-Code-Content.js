@@ -34,6 +34,8 @@ export default class LearnCodeContent extends Component {
           return <p key={text}>{text}</p>
         })}
         <button onClick={this.toggleImage.bind(this)}>Get {this.state.displayGood ? "bad" : "good"} Code</button>
+        <br/>
+        {this.state.displayGood ? <i className="fa fa-thumbs-up fa-3x"/> : <i className="fa fa-thumbs-down fa-3x"/>}
         <br />
         {this.state.displayGood ? goodImage : badImage}
 
