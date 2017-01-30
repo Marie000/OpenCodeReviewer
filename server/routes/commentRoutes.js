@@ -19,6 +19,8 @@ var commentRoutes = function(app){
   app.post('/api/comments/', authenticate, function(req,res){
     // add comment 
     var body = req.body;
+    console.log('body'+body)
+    console.log('body',body);
     body._author = req.user._id;
     var newComment = new Comment(req.body);
     newComment.save().then(function(comment){
@@ -39,13 +41,13 @@ var commentRoutes = function(app){
           //Make sure you are not the author of the original document
           CodeDocument.findOne({_id:comment._document_id}).then(function(doc){
             if(!doc){return res.status(404).send('no document found for this comment')}
-            console.log(doc._author);
             if(!user._id.equals(doc._author)){
               var updatedUser = user;
               updatedUser.points.reviews.push(comment._document_id);
               User.update({_id:user._id},{ $set: { points: updatedUser.points }}, function(){
                 
               })
+              console.log('before checking for points: '+ doc + user)
               giveTagPoints(doc, user, false);
               checkForBadges(updatedUser);
             }

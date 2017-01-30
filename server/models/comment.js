@@ -30,8 +30,6 @@ var CommentSchema = mongoose.Schema({
     lastLine : {
       type: Number
     }
-
-    // null for general comment, object TBD for inline comment
   },
   _document_id: {
     type: ObjectId,

@@ -138,40 +138,27 @@ var UserSchema = mongoose.Schema({
       type: String
     }
   }],
-  contact_info: {
-    public_email: {
-      type: String,
-      validate: {
-        validator: validator.isEmail,
-        message: '{VALUE} is not a valid email'
-      }
-    },
-    social_media: [{
-      media: {
-        type: String,
-        required: true,
-        trim: true,
-        minlength: 1
-      },
-      username: {
-        type:String,
-        trim: true,
-        minlength: 1
-      },
-      url: {
-        type: String,
-        validate: {
-          validator: validator.isURL,
-          message: '{VALUE} is not a valid url'
-        },
-        minlength: 1
-      },
-      public: {
-        type: Boolean,
-        default: true
-      }
-    }]
+  facebook_url: {
+    type: String,
+    trim: true
+  },
+  github_username: {
+    type: String,
+    trim: true
+  },
+  github_url: {
+    type: String,
+    trim: true
+  },
+  twitter_url: {
+    type: String,
+    trim: true
+  },
+  linkedIn_url: {
+    type: String,
+    trim: true
   }
+
 });
 
 // if password is modified, hash before save()

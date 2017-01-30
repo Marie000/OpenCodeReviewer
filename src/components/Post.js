@@ -208,7 +208,7 @@ export default class Post extends Component {
     }
 
     $(".selection").parents('.CodeMirror-line').addClass('selection-background');
-	
+
     return (
       <div className="form-container">
       <button className='link button-darkgreen inline-blk' onClick={hashHistory.goBack}>Back</button>
@@ -252,9 +252,11 @@ export default class Post extends Component {
          <div>
         <strong className="post-title mrgTop10 mrgBtm20"> Comments:  </strong>
         <ul >
-          {this.state.comments.map(comment => { if (comment.position == null){return (
-                
-          <li className='comment'> 
+          {this.state.comments.map(comment => {
+            if (comment.is_general) {
+              console.log(comment)
+              return (
+          <li className='comment' key={comment._id}>
             <div className="comment-header"> 
               <Link className='link red' to={'/profile/'+comment._author._id}>{comment._author.user_name}</Link> 
                <span className = "comment-date"> Posted on {moment(comment.createdAt).format("MMMM Do YYYY, h:mm:ss a")} </span>
