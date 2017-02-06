@@ -277,7 +277,35 @@ h4{
 }
 .selection-background {
   background: #D0F1F0 !important;
-  padding: 2px 0;
+  padding: 2px
+}
+
+.github input{
+  margin-left: 30px;
+  width: 40%;
+  display: inline-block;
+  float: none;
+}
+#simple-select-repos {
+  width: 60%;
+  margin-left: 70px;
+  height: 50px;
+}
+
+.github-file {
+  list-style: none;
+  margin: 10px 0 10px 40px;
+  text-decoration: none;
+  font-size: 22px !important;
+  cursor:pointer; cursor:hand;
+}
+.github-folder{
+  margin: 10px 0 10px 40px;
+  list-style: none;
+  font-size: 22px !important;
+}
+#github1-ok {
+  margin-top:0;
 }
 
 /******** OOCSS **********/
@@ -290,6 +318,8 @@ h4{
   color: darkgreen;
   font-size: 1.8rem;
   text-decoration: none !important;
+  margin: 10px;
+  width: auto;
 }
 .button-darkgreen-small{
   border: 1px solid darkgreen;
@@ -300,6 +330,7 @@ h4{
   color: darkgreen;
   font-size: 1.5rem;
   text-decoration: none !important;
+  margin: 10px;
 }
 .button-darkgreen:hover, .button-darkgreen-small:hover{
   background-color: darkgreen;
@@ -334,6 +365,9 @@ h4{
 }
 .red{
   color: #c7254e;
+}
+.red:hover{
+  color: #FB4D79;
 }
 .inline-blk{
   display: inline-block;

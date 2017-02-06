@@ -11,7 +11,7 @@ export default class Code extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      code:"// Code \n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+      code:"// Code \n\n\n\n\n\n\n\n\n\n\n\n\n"
     };
     this.handleChange = this.handleChange.bind(this);
   }

@@ -7,6 +7,7 @@ var SimpleSelect =  ReactSelectize.SimpleSelect;
 import Code from './Code.js';
 import 'react-selectize/dist/index.css';
 import taglist from '../../tag-list';
+import Github from "./Github";
 
 
 export default class NewPost extends Component {
@@ -20,7 +21,8 @@ export default class NewPost extends Component {
       tags: [],
       description:"",
       submit: false,
-      text: 'initial'
+      text: 'initial',
+      importGithub: false
     }
   }
 
@@ -33,6 +35,10 @@ export default class NewPost extends Component {
 
  static contextTypes= {
     router: React.PropTypes.object.isRequired
+  }
+
+  importCode(){
+    this.setState({importGithub: true})
   }
 
   handleChange (input, e) {
@@ -117,10 +123,18 @@ export default class NewPost extends Component {
             }}
           ></MultiSelect>
           </div>
-
-          <Code saveCode={this.saveCode.bind(this)} submit = {this.state.submit} > </Code>
-          <button className="button-darkgreen" type="submit" value="Submit your code" >Submit your code</button>
       </form>
+          <div>
+           <button className="button-darkgreen" onClick={this.importCode.bind(this)} value="import" >Import code from GitHub</button>
+      {this.state.importGithub ? 
+          <Github saveCode={this.saveCode.bind(this)} submit = {this.state.submit}/> 
+          :
+          <Code saveCode={this.saveCode.bind(this)} submit = {this.state.submit} > </Code>
+        }    
+          </div>
+
+          <button className="button-darkgreen" onClick={this.handleSubmit.bind(this)} value="Submit your code" >Submit your code</button>
+               
       </div>
      </div>
     )

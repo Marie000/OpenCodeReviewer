@@ -105,8 +105,13 @@ export default class Post extends Component {
   getInlineComments(){
     this.state.comments.map(comment => { 
       if (comment.position) {
-          this.displayInlineComment(comment, comment.position);
           this.setState({inlineComments:true})
+          window.setTimeout(function(){
+              this.displayInlineComment(comment, comment.position);
+          }.bind(this), 50);
+
+          
+          
       }
     })
   }
@@ -168,15 +173,17 @@ export default class Post extends Component {
       dataToSend.createdAt = new Date();
 
       window.setTimeout(function(){
-        this.displayInlineComment(dataToSend, dataToSend.position)
         this.setState({
           currentComment: {
             firstLine: null,
             lastLine: null,
             widget: null
           }, 
-          inlineComments: true
+          inlineComments:true
         })
+        window.setTimeout(function(){
+              this.displayInlineComment(dataToSend, dataToSend.position)
+          }.bind(this), 50);
       }.bind(this), 500);
   }
     
