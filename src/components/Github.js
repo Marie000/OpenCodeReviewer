@@ -51,7 +51,7 @@ export default class Github extends Component {
     var scope = this;
     if(this.state.user_name) {
       $.get('https://api.github.com/users/' + this.state.user_name + '/repos', (data)=> {
-        scope.setState({repos: data, selectedRepo:'', files:[], fileContent:''})
+        scope.setState({repos: data, selectedRepo:'', files:[], fileContent:'', stage3:false, stage4:false})
       })
     }
   }
@@ -62,7 +62,6 @@ export default class Github extends Component {
     var scope = this;
     if(this.state.repos) {
       $.get('https://api.github.com/repos/'+this.state.user_name + '/'+ repo+'/branches', (data)=>{
-        console.log(data)
         scope.setState({branches: data})
       })
     }
@@ -106,41 +105,72 @@ export default class Github extends Component {
     let branchList='';
 
     let fileList=this.state.files.map((file)=>{
-
-      return file.type==='file' ? <li className='github-file red' onClick={this.selectFile.bind(this,file.path)}>{file.name}</li> :
-        <li className='github-folder'><button className='tags' onClick={this.resolvePath.bind(this,file.path)}>{file.name}</button></li>;
+      return file.type==='file' ? <li className='github-file red pull-right' onClick={this.selectFile.bind(this,file.path)}>{file.name}</li> :
+        <li className='github-folder pull-left' onClick={this.resolvePath.bind(this,file.path)}>{file.name}</li>;
     })
 
+  var options = {
+      lineNumbers: true,
+      mode: 'javascript',
+      readOnly: false
+    }
 
 
     return(
-      <div>
+      <div className='github-container'>
+      <div className='mrgBtm20 mrgTop20'> Import code from a GitHub Repository </div>
+      <div className="row">
         <form className='github'>
-          <label> User Name: </label>
-          <input  type="text" name="user_name"  value={this.state.user_name}
-                 onChange={this.handleChange.bind(this, 'user_name')}>
-          </input>
-          <button className='button-darkgreen-small inline-blk' type="submit" onClick={this.submitUserName.bind(this)}>OK</button>
-        </form>
-
-        {this.state.stage1 ? 
-          <div id='simple-select-repos'>
-          <button className='button-darkgreen-small inline-blk pull-right ' id="github1-ok" type="submit" onClick={this.getFiles.bind(this,'master', this.state.selectedRepo)}>OK</button>
-        <SimpleSelect ref="simpleselect" options={repoList} placeholder = "Select repository"  value={{'label':this.state.selectedRepo, 'value':this.state.selectedRepo}}
-        onValueChange = {function(value){
-                   scope.setState({selectedRepo: value.value});
-        }}></SimpleSelect>
-        
+          <label className='col-md-2'> GitHub User Name: </label>
+          <div className='col-md-6'>
+            <input className='full-width' type="text" name="user_name"  value={this.state.user_name}
+                   onChange={this.handleChange.bind(this, 'user_name')}>
+            </input>
           </div>
-          : null}
+          <div className='col-md-1'>  
+            <button className='button-darkgreen-small inline-blk' type="submit" onClick={this.submitUserName.bind(this)}>OK</button>
+          </div>
+        </form>
+      </div>
+
+      {this.state.stage1 ? 
+        <div className='row'>
+          <label className='col-md-2'> Repository: </label>
+          <div className='col-md-6'>
+            <SimpleSelect className='full-width' ref="simpleselect" options={repoList} value={{'label':this.state.selectedRepo, 'value':this.state.selectedRepo}}
+            onValueChange = {function(value){
+                       scope.setState({selectedRepo: value.value});
+            }}></SimpleSelect>
+           </div> 
+          <div className='col-md-1'>
+            <button className='button-darkgreen-small inline-blk' id="github1-ok" type="submit" onClick={this.getFiles.bind(this,'master', this.state.selectedRepo)}>OK</button>
+          </div>
+        </div>
+      : null}
 
         {/*stage 2 is not used right now.*/}
         {this.state.stage2 ? <ul>{branchList}</ul> : null}
 
-        {this.state.stage3 ? <div><ul>{fileList}</ul><button onClick={this.getFiles.bind(this,'master',this.state.selectedRepo)}>Back to top</button></div> : null}
+        {this.state.stage3 ? 
+        <div>
+        <div className='row'>
+          <div className='col-md-6 col-md-offset-2 no-padding'>
+            <strong className='pull-left mrgBtm10'> Folders: </strong>
+            <strong className='pull-right mrgBtm10'> Files: </strong>
+            <ul>{fileList}</ul>
+          </div> 
+        </div>
+
+        <div className='row'> 
+          <div className='col-md-offset-2 col-md-2'>
+            <button onClick={this.getFiles.bind(this,'master',this.state.selectedRepo)}>Back to top</button>
+          </div>
+        </div>
+        </div>
+        : null}
 
         {this.state.stage4 ?
-        <CodeMirror className="codemirror-wrapper" value={this.state.fileContent}  /> : null}
+        <CodeMirror className="codemirror-wrapper" value={this.state.fileContent} options={options}/> : null}
       </div>
     )
   }

@@ -22,6 +22,7 @@ export default class Post extends Component {
       loggedIn: localStorage.user_id? true: false,
     	id: this.props.params.postId,
       tags: [],
+      description:"",
       author: "",
       comments:[],
       inlineComments: false,
@@ -67,6 +68,7 @@ export default class Post extends Component {
           author:data._author.user_name,
           author_id: data._author._id,
           text: data.text,
+          description:data.description,
           tags: data.tags,
           comments:data.comments,
           postCreationDate:data.createdAt,
@@ -218,12 +220,18 @@ export default class Post extends Component {
 
     return (
       <div className="form-container">
-      <button className='link button-darkgreen inline-blk' onClick={hashHistory.goBack}>Back</button>
+      <button className='link button-darkgreen-small inline-blk' onClick={hashHistory.goBack}>Back</button>
       <div className="post-wrapper">
         <h2>{this.state.title}</h2>
+        <div className='row post-title'> 
+          <div className='col-md-10'> {this.state.description} </div>
+        </div>
 
-        <div className="post-title clearfix"> Tags:  {this.state.tags.map(tag => { return <div className="tags"> {tag}</div>}
-            )}
+        <div className='row'> 
+          <div className ='col-md-10'>
+            {this.state.tags.map(tag => { return <div className="tags"> {tag}</div>}
+              )}
+           </div> 
         </div>
 
         {this.state.loggedIn ?

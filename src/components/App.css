@@ -149,13 +149,21 @@ h4{
 }
 .post-title{
   font-size: 2rem;
-  padding: 10px 0;
+  padding-top:10px;
+  padding-bottom: 10px;
 }
 
+.CodeMirror {
+  height: auto !important;
+}
 .codemirror-wrapper{
   padding: 0;
   border: 1px solid #bbb; 
   font-size: 14px;
+}
+.CodeMirror-scroll {
+  overflow-y: hidden;
+  overflow-x: auto;
 }
 
 .tags{
@@ -173,10 +181,7 @@ h4{
   color: white;
 }
 
-.CodeMirror {
-  height: auto !important;
-  max-height: 800px;
-}
+
 
 .new-post-form{
   clear:both;
@@ -188,12 +193,14 @@ h4{
   display: block;
   margin-bottom: 30px;
 }
+
 .form-container label {
   margin-bottom: 20px;
   padding-right: 10px;
   vertical-align: top;
   max-width: 15%;
 }
+
 .form-container input, .form-container .input {
   width: 85%;
   float: right;
@@ -241,7 +248,7 @@ h4{
   display: inline-block;
   float:right;
 }
-.react-selectize.root-node {
+.react-selectize.root-node.multi-select{
   width: 85% !important;
 }
 .inline-comment {
@@ -280,35 +287,53 @@ h4{
   padding: 2px
 }
 
+/*
+
 .github input{
   margin-left: 30px;
   width: 40%;
   display: inline-block;
   float: none;
+} */
+.github-container {
+  margin: 20px 0;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
 }
-#simple-select-repos {
-  width: 60%;
-  margin-left: 70px;
-  height: 50px;
+
+.row{
+  margin-top:10px;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.github-title{
+  font-size: 30px;
+  margin: 20px 0 0 20px;
 }
 
 .github-file {
+  clear:right;
   list-style: none;
-  margin: 10px 0 10px 40px;
+  margin: 10px 0;
   text-decoration: none;
   font-size: 22px !important;
   cursor:pointer; cursor:hand;
 }
 .github-folder{
-  margin: 10px 0 10px 40px;
+  margin: 10px 0;
   list-style: none;
-  font-size: 22px !important;
-}
-#github1-ok {
-  margin-top:0;
+  font-size: 24px !important;
+  text-decoration: underline;
+  clear:left;
+  text-align: left;
+  cursor:pointer; cursor:hand;
 }
 
+
 /******** OOCSS **********/
+
+
 .button-darkgreen{
   border: 1px solid darkgreen;
   background-color: white;
@@ -318,7 +343,6 @@ h4{
   color: darkgreen;
   font-size: 1.8rem;
   text-decoration: none !important;
-  margin: 10px;
   width: auto;
 }
 .button-darkgreen-small{
@@ -330,7 +354,6 @@ h4{
   color: darkgreen;
   font-size: 1.5rem;
   text-decoration: none !important;
-  margin: 10px;
 }
 .button-darkgreen:hover, .button-darkgreen-small:hover{
   background-color: darkgreen;
@@ -348,7 +371,7 @@ h4{
 .mrgTop10{
   margin-top: 10px
 }
-.mrgTop12{
+.mrgTop20{
   margin-top: 20px
 }
 .mrgBtm10{
@@ -362,6 +385,9 @@ h4{
 }
 .mrgRight10{
   margin-right: 10px;
+}
+.mrgRight40{
+  margin-right: 40px;
 }
 .red{
   color: #c7254e;
@@ -383,6 +409,12 @@ h4{
 }
 .pull-left {
   float:left;
+}
+.full-width{
+  width: 100% !important;
+}
+.no-padding{
+  padding:0;
 }
 .clearfix:after {
      visibility: hidden;

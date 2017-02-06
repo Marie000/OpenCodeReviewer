@@ -41,6 +41,10 @@ export default class NewPost extends Component {
     this.setState({importGithub: true})
   }
 
+  cancelGithubImport(){
+    this.setState({importGithub: false})
+  }
+
   handleChange (input, e) {
     var change = {};
     change[input] = e.target.value;
@@ -124,16 +128,23 @@ export default class NewPost extends Component {
           ></MultiSelect>
           </div>
       </form>
-          <div>
-           <button className="button-darkgreen" onClick={this.importCode.bind(this)} value="import" >Import code from GitHub</button>
+          <div>        
+           
       {this.state.importGithub ? 
+        <div>
           <Github saveCode={this.saveCode.bind(this)} submit = {this.state.submit}/> 
+          <button className="button-darkgreen-small mrgBtm10" onClick={this.cancelGithubImport.bind(this)} >Cancel Github import</button>
+        </div>  
           :
+        <div>  
+          <button className="button-darkgreen-small mrgBtm10" onClick={this.importCode.bind(this)} value="import" >Import code from GitHub</button>
           <Code saveCode={this.saveCode.bind(this)} submit = {this.state.submit} > </Code>
-        }    
-          </div>
+        </div>  
+        }      
+      
+      </div>
 
-          <button className="button-darkgreen" onClick={this.handleSubmit.bind(this)} value="Submit your code" >Submit your code</button>
+      <button className="button-darkgreen-small" onClick={this.handleSubmit.bind(this)} value="Submit" >Submit</button>
                
       </div>
      </div>
