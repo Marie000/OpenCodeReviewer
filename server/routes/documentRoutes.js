@@ -13,35 +13,38 @@ var documentRoutes = function(app){
 // add pagination - display most recent only
   app.get('/api/documents', function(req,res){
     var query   = {};
+    // by tag
     if(req.query.tag){
       query = {tags:req.query.tag}
     }
+    // by search
     if(req.query.search){
-      query = {$or:[{title:{ "$regex": req.query.search, "$options": "i" }}, {description: { "$regex": req.query.search, "$options":"i"}}]}
+      var queryParam= {"$regex":req.query.search, "$options": "i" }
+      query = {$or:[{title:queryParam}, {description: queryParam},{tags: queryParam}]}
     }
+    //pagination options
     var options = {
       sort:     { commentedAt: -1 },
       limit:    10,
       page: req.query.page || 1,
       populate: {path:'_author',select:'user_name'}
     };
+    //get documents
     CodeDocument.paginate(query, options).then(function(result) {
       if(!result){return res.status(404).send('list of documents not found')}
       res.json(result.docs);
     });
   });
 
-// GET DOCUMENTS BY TAGS ??
-
-// GET DOCUMENTS BY SEARCH ??
 
 // GET A DOCUMENT
   app.get('/api/documents/:id', function(req,res){
-    var publicInfo = {first_name:1, middle_name:1,last_name:1,user_name:1,points:1,location:1, skills:1, code_documents:1,comments:1}
+    var publicInfo = {first_name:1, middle_name:1,last_name:1,user_name:1,points:1,location:1, skills:1,
+      code_documents:1,comments:1,github_url:1,github_username:1,facebook_url:1,twitter_url:1,linkedIn_url:1}
     CodeDocument.findOne({_id:req.params.id})
       .populate('_author',publicInfo)
       .populate('comments')
-      .populate({path:'comments', populate: {path:'_author',publicInfo}})
+      .populate({path:'comments', populate: {path:'_author',select:'user_name'}})
       .then(function(doc){
         if(!doc){return res.status(404).send('document not found')}
         res.json(doc);
@@ -60,7 +63,9 @@ var documentRoutes = function(app){
         doc._author,
         {$push: {'code_docs': doc._id}},
         {safe: true, new: true}
-      ).then(function(author){
+      )
+        // check for points
+        .then(function(author){
         giveTagPoints(doc, author,true);
         checkForBadges(author);
         if(!author){return res.status(404).send('author not found')}

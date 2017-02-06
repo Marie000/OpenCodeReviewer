@@ -15,9 +15,13 @@ export default class Profile extends Component {
         user_name: '',
         location: '',
         email: '',
-      contact_info:{},
         me: false,
-      badges: []
+      badges: [],
+        facebook_url: '',
+        twitter_url:'',
+        linkedIn_url:'',
+        github_url:'',
+        github_username:''
     }
   }
 
@@ -25,7 +29,7 @@ export default class Profile extends Component {
     var scope = this;
 
     if (this.state.id === localStorage.user_id){
-      var data = HTTP.get('/users/me')
+      HTTP.get('/users/me')
       .then(function(data){
         scope.setState({
         me: true,
@@ -34,20 +38,28 @@ export default class Profile extends Component {
         user_name: data.user_name,
         email: data.email,
         location: data.location,
-          contact_info:data.contact_info,
-          badges:data.points.awards || []
+          badges:data.points.awards || [],
+          facebook_url: data.facebook_url,
+          twitter_url: data.twitter_url,
+          github_url: data.github_url,
+          github_username: data.github_username,
+          linkedIn_url: data.linkedIn_url
         });
       })
     } else {
       var data = HTTP.get('/users/'+this.state.id)
       .then(function(data){
         scope.setState({
-        first_name:data.first_name,
-        last_name: data.last_name,
-        user_name: data.user_name,
-        location: data.location,
-          contact_info:data.contact_info,
-          badges: data.points.awards || []
+          first_name:data.first_name,
+          last_name: data.last_name,
+          user_name: data.user_name,
+          location: data.location,
+          badges: data.points.awards || [],
+          facebook_url: data.facebook_url,
+          twitter_url: data.twitter_url,
+          github_url: data.github_url,
+          github_username: data.github_username,
+          linkedIn_url: data.linkedIn_url
         });
       })
     }
@@ -80,30 +92,6 @@ export default class Profile extends Component {
       badges = this.state.badges.map((badge)=><img src={"/badges/"+badge.name.toLowerCase()+'-'+badge.count+'.png'} width="250"/>)
     }
 
-    var github_username;
-    if(_.find(this.state.contact_info.social_media,{media:'github'})){
-      github_username =_.find(this.state.contact_info.social_media,{media:'github'}).username
-    }
-
-    var github_url;
-    if(_.find(this.state.contact_info.social_media,{media:'github'})){
-      github_url =_.find(this.state.contact_info.social_media,{media:'github'}).url
-    }
-
-    var facebook;
-    if(_.find(this.state.contact_info.social_media,{media:'facebook'})){
-      facebook =_.find(this.state.contact_info.social_media,{media:'facebook'}).url
-    }
-
-    var twitter;
-    if(_.find(this.state.contact_info.social_media,{media:'twitter'})){
-      twitter =_.find(this.state.contact_info.social_media,{media:'twitter'}).url
-    }
-
-    var linkedIn;
-    if(_.find(this.state.contact_info.social_media,{media:'linkedIn'})){
-      linkedIn =_.find(this.state.contact_info.social_media,{media:'linkedIn'}).url
-    }
 
   	return(
   	<div>
@@ -116,12 +104,12 @@ export default class Profile extends Component {
         First Name:  {this.state.first_name} <br/>
         Last Name:  {this.state.last_name} <br/>
         Location:  {this.state.location}<br/>
-        Github Username: {github_username}
+        Github Username: {this.state.github_username}
         <br/>
-        {facebook ? <a href={facebook}><i className="fa fa-facebook fa-2x"></i></a> : null}
-        {github_url ? <a href={github_url}><i className="fa fa-github fa-2x"></i></a> : null}
-        {twitter ? <a href={twitter}><i className="fa fa-twitter fa-2x"></i></a> : null}
-        {linkedIn ? <a href={linkedIn}><i className="fa fa-linkedin fa-2x"></i></a> : null}
+        {this.state.facebook_url ? <a href={this.state.facebook_url}><i className="fa fa-facebook fa-2x" /></a> : null}
+        {this.state.github_url ? <a href={this.state.github_url}><i className="fa fa-github fa-2x" /></a> : null}
+        {this.state.twitter_url ? <a href={this.state.twitter_url}><i className="fa fa-twitter fa-2x" /></a> : null}
+        {this.state.linkedIn_url ? <a href={this.state.linkedIn_url}><i className="fa fa-linkedin fa-2x" /></a> : null}
         <br />
         {email}
         {badges}

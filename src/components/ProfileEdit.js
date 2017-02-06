@@ -13,12 +13,11 @@ export default class ProfileEdit extends Component {
         last_name: '',
         user_name: '',
         location: '',
-        contact:{social_media: []},
         github_username:'',
         github_url:'',
-        facebook:'',
-        twitter:'',
-        linkedIn:''
+        facebook_url:'',
+        twitter_url:'',
+        linkedIn_url:''
 
     }
   }
@@ -32,18 +31,7 @@ export default class ProfileEdit extends Component {
 
     var data = HTTP.get('/users/me')
     .then(function(data){
-
-      var github_username, github_url, facebook, twitter, linkedIn;
-      if(data.contact_info.social_media) {
-        console.log('social_media found')
-        github_username = _.find(data.contact_info.social_media, {media: 'github'}) ?_.find(data.contact_info.social_media, {media: 'github'}).username : '';
-        github_url = _.find(data.contact_info.social_media, {media: 'github'}) ? _.find(data.contact_info.social_media, {media: 'github'}).url : '';
-        facebook = _.find(data.contact_info.social_media, {media: 'facebook'}) ? _.find(data.contact_info.social_media, {media: 'facebook'}).url : '';
-        twitter = _.find(data.contact_info.social_media, {media: 'twitter'}) ? _.find(data.contact_info.social_media, {media: 'twitter'}).url : '';
-        linkedIn = _.find(data.contact_info.social_media, {media: 'linkedIn'}) ? _.find(data.contact_info.social_media, {media: 'linkedIn'}).url : '';
-
-      }
-
+      console.log('my data: '+ JSON.stringify(data))
         scope.setState({
           id: data._id,
           first_name:data.first_name,
@@ -51,12 +39,11 @@ export default class ProfileEdit extends Component {
           user_name: data.user_name,
           location: data.location,
           email:data.email,
-          contact:data.contact_info,
-          github_username:github_username || '',
-          github_url:github_url || '',
-          facebook:facebook || '',
-          twitter:twitter || '',
-          linkedIn:linkedIn || ''
+          github_username:data.github_username,
+          github_url:data.github_url,
+          facebook_url:data.facebook_url,
+          twitter_url:data.twitter_url,
+          linkedIn_url:data.linkedIn_url
         });
       })
     }
@@ -80,43 +67,7 @@ export default class ProfileEdit extends Component {
     } else {
       localStorage.removeItem('first_name')}
 
-    var social_media = [];
-    if(this.state.github_username || this.state.github_url){
-      social_media.push({
-        media:'github',
-        username:this.state.github_username || '',
-        url:this.state.github_url || ''
-      })
-    }
-    if(this.state.facebook){
-      social_media.push({
-        media:'facebook',
-        url:this.state.facebook
-      })
-    }
-    if(this.state.twitter){
-      social_media.push({
-        media:'twitter',
-        url:this.state.twitter
-      })
-    }
-    if(this.state.linkedIn){
-      social_media.push({
-        media:'linkedIn',
-        url:this.state.linkedIn
-      })
-    }
-
-    var data = {
-      id: this.state.id,
-      first_name:this.state.first_name,
-      last_name: this.state.last_name,
-      user_name: this.state.user_name,
-      location: this.state.location,
-      email:this.state.email,
-      contact_info:{social_media:social_media}
-
-    };
+    var data = this.state;
     HTTP.patch('/users/me', data);
 
     window.setTimeout(function () {  
@@ -162,18 +113,18 @@ export default class ProfileEdit extends Component {
         <br/>
 
         <label>Facebook:</label>
-        <input type="text" name="facebook" value={this.state.facebook}
-               onChange={this.handleChange.bind(this,'facebook')} />
+        <input type="text" name="facebook_url" value={this.state.facebook_url}
+               onChange={this.handleChange.bind(this,'facebook_url')} />
         <br/>
 
         <label>Twitter:</label>
-        <input type="text" name="twitter" value={this.state.twitter}
-               onChange={this.handleChange.bind(this,'twitter')} />
+        <input type="text" name="twitter_url" value={this.state.twitter_url}
+               onChange={this.handleChange.bind(this,'twitter_url')} />
         <br/>
 
         <label>LinkedIn:</label>
-        <input type="text" name="linkedIn" value={this.state.linkedIn}
-               onChange={this.handleChange.bind(this,'linkedIn')} />
+        <input type="text" name="linkedIn_url" value={this.state.linkedIn_url}
+               onChange={this.handleChange.bind(this,'linkedIn_url')} />
         <br/>
 
 

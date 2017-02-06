@@ -33,10 +33,7 @@ app.use(cookieParser());
   app.post('/api/login',function(req,res){
     User.findOne({email: req.body.email}).then(function(user){
       if(!user){return res.status(400).send('Login error')}
-        var loggedUser={
-          _id:user._id, 
-          user_name:user.user_name, 
-          first_name:user.first_name}
+        var loggedUser=_.pick(user,['_id','user_name','first_name']);
         bcrypt.compare(req.body.password, user.password, function(err, response){
           if(response){
             user.generateAuthToken().then(function(token){
@@ -55,7 +52,7 @@ app.use(cookieParser());
       res.cookie('token', "", {httpOnly: true, expires : new Date(Date.now() - 3600000)});
     //  user.save();
       User.update({_id:req.user._id},{ $set: { tokens: [] }},function(user){
-        res.json(user);
+        res.status(200);
       })
     })
 
@@ -78,7 +75,7 @@ app.use(cookieParser());
       if(!user){ return res.status(404).send('user not found')}
       // pick public parts of the user object
       filteredUser = _.pick(user,
-        ['first_name','middle_name','last_name','user_name','code_docs','comments','points','location','skills','contact_info']);
+        ['first_name','middle_name','last_name','user_name','code_docs','comments','points','location','skills','facebook_url','twitter_url','linkedIn_url','github_url','github_username']);
       res.send(filteredUser);
     }).catch(function(err){
       res.status(400).send(err)
@@ -87,8 +84,8 @@ app.use(cookieParser());
 
 // UPDATE USER PROFILE
   app.patch('/api/users/me', authenticate, function(req,res){
-    // filter body to update only fields that exist!
-    var body = req.body;
+    // filter body to update only fields that exist
+    var body = _.pick(req.body,['first_name','last_name','location','skills','email','facebook_url','twitter_url','linkedIn_url','github_url','github_username']);
     User.findByIdAndUpdate(req.user._id, {$set: body}, {new:true}).then(function(user){
       res.send(user);
     }).catch(function(err){
