@@ -19,8 +19,6 @@ var commentRoutes = function(app){
   app.post('/api/comments/', authenticate, function(req,res){
     // add comment 
     var body = req.body;
-    console.log('body'+body)
-    console.log('body',body);
     body._author = req.user._id;
     var newComment = new Comment(req.body);
     newComment.save().then(function(comment){
@@ -47,7 +45,6 @@ var commentRoutes = function(app){
               User.update({_id:user._id},{ $set: { points: updatedUser.points }}, function(){
                 
               })
-              console.log('before checking for points: '+ doc + user)
               giveTagPoints(doc, user, false);
               checkForBadges(updatedUser);
             }

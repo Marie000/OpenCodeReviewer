@@ -31,7 +31,7 @@ export default class LogIn extends Component {
     var scope = this;
 
     var request = new XMLHttpRequest();
-    request.open('POST', 'http://localhost:8080/api/login', true);
+    request.open('POST', 'http://localhost:9000/api/login', true);
     request.setRequestHeader('Content-Type', 'application/JSON');
     request.withCredentials = true;
     request.onload = function () {

@@ -166,7 +166,6 @@ export default class Post extends Component {
       }
 
       this.state.currentComment.widget.clear();
-      console.log(dataToSend)
 
       HTTP.post('/comments/', dataToSend);
 
@@ -229,7 +228,7 @@ export default class Post extends Component {
 
         <div className='row'> 
           <div className ='col-md-10'>
-            {this.state.tags.map(tag => { return <div className="tags"> {tag}</div>}
+            {this.state.tags.map(tag => { return <div key={tag} className="tags"> {tag}</div>}
               )}
            </div> 
         </div>
@@ -269,7 +268,6 @@ export default class Post extends Component {
         <ul >
           {this.state.comments.map(comment => {
             if (comment.is_general) {
-              console.log(comment)
               return (
           <li className='comment' key={comment._id}>
             <div className="comment-header"> 

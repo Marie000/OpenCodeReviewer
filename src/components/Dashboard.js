@@ -35,7 +35,6 @@ export default class Dashboard extends Component {
 
     var data = HTTP.get('/documents'+query)
       .then(function(data){
-        //     console.log(data);
           scope.setState({
             posts: data,
             loggedIn: (localStorage.user_id ? true : false)
@@ -110,7 +109,7 @@ export default class Dashboard extends Component {
 
           {
             post.tags.map(tag => {
-              return <div className="tags dashboard-tags" onClick={this.selectTag.bind(this,tag)}> {tag} </div>
+              return <div key={tag} className="tags dashboard-tags" onClick={this.selectTag.bind(this,tag)}> {tag} </div>
             })
           }
           <div className="mrgTop10 mrgBtm10">
@@ -122,7 +121,7 @@ export default class Dashboard extends Component {
     </ul>
 
     <button className='button-darkgreen-small inline-blk mrgRight10' onClick={this.firstPage.bind(this)}>First Page</button>
-    <button  className='button-darkgreen-small inline-blk mrgRight10' onClick={this.previousPage.bind(this)}>Previous Page</button>
+    {this.state.page===1 ? null : <button  className='button-darkgreen-small inline-blk mrgRight10' onClick={this.previousPage.bind(this)}>Previous Page</button>}
     <button  className='button-darkgreen-small inline-blk' onClick={this.nextPage.bind(this)}>Next Page</button>
   	</div>
   	)

@@ -17,7 +17,6 @@ var service = {
 		})
 		.then(function(response){
 			var res = response.json();
-			console.log('receiving from server: ', res);
 			return res;
 		}).catch(function(){
 			console.log("error")
@@ -25,7 +24,6 @@ var service = {
 	},
 
 	post: function(url, data){
-		console.log('sending POST request');
 		var request = new XMLHttpRequest();
     	request.open('POST', baseURL + url, true);
     	request.withCredentials = true;
@@ -34,7 +32,6 @@ var service = {
     	},
 
     patch: function(url, data){
-		console.log('sending POST request');
 		var request = new XMLHttpRequest();
     	request.open('PATCH', baseURL + url, false);
     	request.withCredentials = true;

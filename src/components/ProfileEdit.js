@@ -31,7 +31,6 @@ export default class ProfileEdit extends Component {
 
     var data = HTTP.get('/users/me')
     .then(function(data){
-      console.log('my data: '+ JSON.stringify(data))
         scope.setState({
           id: data._id,
           first_name:data.first_name,

@@ -89,7 +89,7 @@ export default class Profile extends Component {
 
     var badges;
     if(this.state.badges.length>0){
-      badges = this.state.badges.map((badge)=><img src={"/badges/"+badge.name.toLowerCase()+'-'+badge.count+'.png'} width="250"/>)
+      badges = this.state.badges.map((badge)=><img key={badge.name+badge.count} src={"/badges/"+badge.name.toLowerCase()+'-'+badge.count+'.png'} width="250"/>)
     }
 
 

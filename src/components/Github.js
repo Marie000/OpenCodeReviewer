@@ -98,7 +98,6 @@ export default class Github extends Component {
 
  //   let reposList=this.state.repos.map((repo)=><li key={repo.id}><button onClick={this.getFiles.bind(this,'master',repo.name)}>{repo.name}</button></li>)
     var repoList = this.state.repos.map(function(repo){
-      console.log(repo)
         return {label: repo.name, value: repo.name}
     });
 
