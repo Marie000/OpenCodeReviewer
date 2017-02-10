@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import HTTP from '../services/httpservice';
 import './Dashboard.css';
 import moment from 'moment';
-import taglist from'../../tag-list.js';
+import taglist from'../services/tag-list.js';
 
 
 

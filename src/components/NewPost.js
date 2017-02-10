@@ -6,7 +6,7 @@ var SimpleSelect =  ReactSelectize.SimpleSelect;
 
 import Code from './Code.js';
 import 'react-selectize/dist/index.css';
-import taglist from '../../tag-list';
+import taglist from '../services/tag-list';
 import Github from "./Github";
 
 

@@ -1,6 +1,6 @@
 var _ = require('lodash');
 var User = require ('../models/user.js');
-var taglist = require('../../tag-list.js');
+var taglist = require('../../src/services/tag-list.js');
 
 
 //Documents:
