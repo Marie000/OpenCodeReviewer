@@ -27,7 +27,7 @@ app.use(function (req, res, next) {
 app.use(function(req,res,next){
   app.locals.user=req.user || null;
   next();
-})
+});
 
 var userRoutes = require('./routes/userRoutes')(app);
 var documentRoutes = require('./routes/documentRoutes')(app);
