@@ -10,5 +10,6 @@ gen
 
 node_modules/
 config.js
+apiKey.properties
 TODO
 server/npm-debug.log

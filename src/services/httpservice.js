@@ -1,6 +1,6 @@
 import cookie from 'react-cookie';
 
-var baseURL = '/api';
+var baseURL = 'http://localhost:9000/api';
 
 
 var service = {
