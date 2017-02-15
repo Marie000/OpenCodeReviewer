@@ -5,7 +5,7 @@ import ReactStormpath, { Router, AuthenticatedRoute, LoginLink, LogoutRoute } fr
 
 ReactStormpath.init({
   endpoints: {
-    baseUri: 'https://striking-tactic.apps.stormpath.io'
+    baseUri: 'http://localhost:9000'
   }
 });
 

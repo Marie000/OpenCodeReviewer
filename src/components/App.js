@@ -1,14 +1,7 @@
 import React, { Component } from 'react';
-import HTTP from '../services/httpservice';
 import { Link } from 'react-router';
 import './App.css';
-import { Router, Route } from 'react-router';
 import { Authenticated, NotAuthenticated } from 'react-stormpath'
-
-
-
-//this is only there to test the Github thing:
-import Github from './Github.js';
 
 
 class App extends Component {
@@ -16,23 +9,6 @@ class App extends Component {
    static contextTypes= {
     router: React.PropTypes.object.isRequired,
      user: React.PropTypes.object
-  }
-
-  constructor() {
-    super();
-    this.state = { 
-      loggedIn:false
-    }
-  }
-
-  logOutUser(){
-    var data = {'user._id':localStorage.user_id}
-    HTTP.delete('/logout', data);
-    localStorage.clear();
-
-    window.setTimeout(function () {  
-      this.context.router.push('/login');
-    }.bind(this), 500); 
   }
 
   render() {
@@ -56,10 +32,10 @@ class App extends Component {
         <div className="App-header">
           <div className="header-text">
             <h2> <Link className='link' to="/dashboard">Ch3ck My C0de</Link></h2>
-            <h4>Open Code Review Platform</h4> {this.state.loggedIn}
+            <h4>Open Code Review Platform</h4> 
           </div>
           <div className="buttons"> {buttons} </div>
-          <div className="greeting">    {this.context.user ? this.context.user.email : null}
+          <div className="greeting">    {this.context.user ? this.context.user.username : null}
           </div>
         </div>
         <div>

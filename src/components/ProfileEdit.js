@@ -11,7 +11,6 @@ export default class ProfileEdit extends Component {
         id: '',
         first_name:'',
         last_name: '',
-        user_name: '',
         location: '',
         github_username:'',
         github_url:'',
@@ -35,7 +34,6 @@ export default class ProfileEdit extends Component {
           id: data._id,
           first_name:data.first_name,
           last_name: data.last_name,
-          user_name: data.user_name,
           location: data.location,
           email:data.email,
           github_username:data.github_username,
@@ -80,10 +78,6 @@ export default class ProfileEdit extends Component {
       <button className='link button-darkgreen inline-blk' onClick={hashHistory.goBack}>Back</button> 
   		<div className='profile-container'>
       <form>
-          <label> User Name: </label>
-          <input type="text" name="user_name" disabled value={this.state.user_name} 
-                              onChange={this.handleChange.bind(this, 'user_name')}>
-          </input><br/>
           <label> First Name: </label>
           <input type="text" name="first_name"  value={this.state.first_name} 
                               onChange={this.handleChange.bind(this, 'first_name')}>
@@ -95,10 +89,6 @@ export default class ProfileEdit extends Component {
           <label> Location: </label>
           <input type="text" name="location"  value={this.state.location} 
                              onChange={this.handleChange.bind(this, 'location')}>
-          </input><br/>
-           <label> Email Address: </label>
-          <input type="text" name="email"  value={this.state.email} 
-                             onChange={this.handleChange.bind(this, 'email')}>
           </input><br/>
 
           <label> Github username: </label>

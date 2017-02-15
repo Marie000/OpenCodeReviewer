@@ -10,6 +10,6 @@ gen
 
 node_modules/
 config.js
-apiKey.properties
+stormpath/apiKey.properties
 TODO
 server/npm-debug.log

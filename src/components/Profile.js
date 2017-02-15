@@ -14,7 +14,6 @@ export default class Profile extends Component {
         last_name: '',
         user_name: '',
         location: '',
-        email: '',
         me: false,
       badges: [],
         facebook_url: '',
@@ -36,7 +35,6 @@ export default class Profile extends Component {
         first_name:data.first_name,
         last_name: data.last_name,
         user_name: data.user_name,
-        email: data.email,
         location: data.location,
           badges:data.points.awards || [],
           facebook_url: data.facebook_url,
@@ -75,10 +73,6 @@ export default class Profile extends Component {
       button = <Link className='link' to="/editprofile" ><button className='button-darkgreen'>Edit your profile</button></Link>
     }
 
-    var email;
-    if (this.state.me){
-      email = <span>Email Address: {this.state.email}<br/></span>
-    }
 
     var profileTitle;
     if (this.state.me){
@@ -111,7 +105,6 @@ export default class Profile extends Component {
         {this.state.twitter_url ? <a href={this.state.twitter_url}><i className="fa fa-twitter fa-2x" /></a> : null}
         {this.state.linkedIn_url ? <a href={this.state.linkedIn_url}><i className="fa fa-linkedin fa-2x" /></a> : null}
         <br />
-        {email}
         {badges}
 
         {}

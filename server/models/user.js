@@ -9,7 +9,7 @@ var _ = require('lodash');
 var config = process.env.SECRET || config.secret;
 
 var UserSchema = mongoose.Schema({
-  email:{
+ /* email:{
     type: String,
     required: true,
     minlength: 1,
@@ -33,11 +33,8 @@ var UserSchema = mongoose.Schema({
     token: {
       type: String
     }
-  }],
+  }],*/
   first_name: {
-    type: String
-  },
-  middle_name: {
     type: String
   },
   last_name: {

@@ -4,6 +4,7 @@ import HTTP from '../services/httpservice';
 import './Dashboard.css';
 import moment from 'moment';
 import taglist from'../services/tag-list.js';
+import { Authenticated } from 'react-stormpath';
 
 
 
@@ -13,7 +14,6 @@ export default class Dashboard extends Component {
     this.state = { 
       posts: [],
       page:1,
-      loggedIn: (localStorage.user_id? true : false),
       search:'',
       tag:''
     }
@@ -36,8 +36,7 @@ export default class Dashboard extends Component {
     var data = HTTP.get('/documents'+query)
       .then(function(data){
           scope.setState({
-            posts: data,
-            loggedIn: (localStorage.user_id ? true : false)
+            posts: data
           })
       })
   }
@@ -81,15 +80,12 @@ export default class Dashboard extends Component {
 
   render(){
 
-    var postNew;
-    if (this.state.loggedIn){
-      postNew = <Link className="link" to="/dashboard/NewPost"><button className='button-darkgreen'>Submit your code</button></Link>
-    }
-
   	return(
 
  	<div className="dashboard">
-    {postNew}
+    <Authenticated>
+      <Link className="link" to="/dashboard/NewPost"><button className='button-darkgreen'>Submit your code</button></Link>
+    </Authenticated>
 	  <br/>
     <p className='main-title'> Posted Questions </p>
 

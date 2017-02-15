@@ -1,7 +1,7 @@
 var express = require ('express')
 var bodyParser = require('body-parser');
 var mongoose = require ('./database/mongoose.js');
-var cookieParser = require('cookie-parser');
+var stormpath = require('express-stormpath');
 
 var PORT = process.env.port || 9000;
 var app = express();
@@ -12,27 +12,40 @@ app.use(cookieParser()); */
 app.use(express.static(__dirname + '/../build/'));
 
 app.use(function (req, res, next) {
-  // Website you wish to allow to connect
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-  res.setHeader('Access-Control-Allow-Credentials', 'true'); //only while we develop, should be deleted later
-
-  // Request methods you wish to allow
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-
-  // Request headers you wish to allow
-  res.setHeader('Access-Control-Allow-Headers', 'x-auth, Content-Type, credentials');
+  res.setHeader('Access-Control-Allow-Headers', 'x-auth, Content-Type, credentials, x-stormpath-agent, X-Stormpath-Agent');
   next();
 });
 
-app.use(function(req,res,next){
-  app.locals.user=req.user || null;
-  next();
-});
+app.use(stormpath.init(app, {
+  web: {
+    produces: ['application/json'],
+    register: {
+      form: {
+        fields: {
+          username: {
+            enabled: true,
+            label: 'User Name',
+            placeholder: 'unique username',
+            required: true,
+            unique: true,
+            type: 'text'
+          }
+        }
+      }
+    }
+  }
 
+}));
 var userRoutes = require('./routes/userRoutes')(app);
 var documentRoutes = require('./routes/documentRoutes')(app);
 var commentRoutes = require('./routes/commentRoutes')(app);
 
-app.listen(PORT,function(){
-  console.log('server listening on port '+PORT);
+app.on('stormpath.ready', function() {
+  console.log('stormpath ready')
+  app.listen(PORT,function(){
+    console.log('server listening on port '+PORT);
+  });
 });

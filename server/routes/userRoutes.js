@@ -2,7 +2,9 @@ var bcrypt = require('bcryptjs');
 var _ = require('lodash');
 var User = require ('../models/user.js');
 var authenticate = require('../middleware/authenticate.js');
+var getUserId = require('../middleware/findUserId');
 var cookieParser = require('cookie-parser');
+var stormpath = require('express-stormpath');
 
 var userRoutes = function(app) {
 app.use(cookieParser());
@@ -19,6 +21,7 @@ app.use(cookieParser());
   });
 */
 // CREATE A NEW USER
+  
   app.post('/api/users',function(req,res){
     var newUser = new User(req.body);
     newUser.save().then(function(doc){
@@ -29,6 +32,7 @@ app.use(cookieParser());
     });
   });
 
+  /*
 // LOGIN
   app.post('/api/login',function(req,res){
     User.findOne({email: req.body.email}).then(function(user){
@@ -55,12 +59,14 @@ app.use(cookieParser());
         res.status(200);
       })
     })
-
+*/
+  
 // GET A USER
 
   // when user is logged in, get all information for that user (private and public)
-  app.get('/api/users/me',authenticate, function(req,res){
-    User.findOne({_id: req.user._id}).then(function(user){
+  app.get('/api/users/me',stormpath.authenticationRequired, function(req,res){
+    console.log(req.user)
+    User.findOne({user_name: req.user.username}).then(function(user){
       if(!user){return res.status(404).send('user not found')}
       res.send(user);
     }).catch(function(err){
@@ -83,7 +89,7 @@ app.use(cookieParser());
   });
 
 // UPDATE USER PROFILE
-  app.patch('/api/users/me', authenticate, function(req,res){
+  app.patch('/api/users/me', stormpath.authenticationRequired, getUserId, function(req,res){
     // filter body to update only fields that exist
     var body = _.pick(req.body,['first_name','last_name','location','skills','email','facebook_url','twitter_url','linkedIn_url','github_url','github_username']);
     User.findByIdAndUpdate(req.user._id, {$set: body}, {new:true}).then(function(user){
@@ -93,6 +99,7 @@ app.use(cookieParser());
     })
   });
 
+  /*
   // UPDATE USER PASSWORD
   app.patch('/api/users/me/password',authenticate, function(req,res){
     var user = req.user;
@@ -106,7 +113,7 @@ app.use(cookieParser());
         return res.status(400).send('wrong password')
       }
     })
-  })
+  }) */
 };
 
 module.exports = userRoutes;

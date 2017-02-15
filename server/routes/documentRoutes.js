@@ -1,8 +1,10 @@
 var _ = require('lodash');
+var stormpath = require('express-stormpath');
 
 var CodeDocument = require ('../models/document.js');
 var authenticate = require('../middleware/authenticate.js');
 var User = require ('../models/user.js');
+var findUserId = require('../middleware/findUserId');
 
 var checkForBadges = require('../utils/check-badges.js');
 var giveTagPoints = require('../utils/tag-points.js');
@@ -52,7 +54,7 @@ var documentRoutes = function(app){
   });
 
 // CREATE A DOCUMENT
-  app.post('/api/documents', authenticate, function(req,res){
+  app.post('/api/documents', stormpath.authenticationRequired, findUserId, function(req,res){
     //create a document
     var newDoc = new CodeDocument(req.body);
     newDoc._author = req.user._id;

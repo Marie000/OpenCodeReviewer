@@ -1,12 +1,15 @@
 var _ = require('lodash');
+var stormpath = require('express-stormpath');
 
 // models
 var User = require ('../models/user.js');
 var CodeDocument = require ('../models/document.js');
 var Comment = require('../models/comment.js');
+
 // middleware
 var authenticate = require('../middleware/authenticate.js');
 var authenticateAuthor = require('../middleware/authenticate-author.js');
+var findUserId = require('../middleware/findUserId');
 
 var checkForBadges = require('../utils/check-badges.js');
 var giveTagPoints = require('../utils/tag-points.js');
@@ -16,7 +19,7 @@ var giveTagPoints = require('../utils/tag-points.js');
 var commentRoutes = function(app){
 
 // CREATE A COMMENT
-  app.post('/api/comments/', authenticate, function(req,res){
+  app.post('/api/comments/', stormpath.authenticationRequired, findUserId, function(req,res){
     // add comment 
     var body = req.body;
     body._author = req.user._id;
@@ -67,7 +70,7 @@ var commentRoutes = function(app){
   });
 
 // THANK SOMEONE FOR A COMMENT
-  app.post('/api/comments/:id/thanks', authenticate, function(req,res){
+  app.post('/api/comments/:id/thanks', stormpath.authenticationRequired, findUserId, function(req,res){
     // Check that the person can send that thanks
     Comment.findById(req.params.id).then(function(comment){
       // Do not thank yourself
@@ -106,12 +109,12 @@ var commentRoutes = function(app){
 
 // DELETE A COMMENT
   // NOTE: keep :comment_id because it is needed for authenticateAuthor middleware
-  app.delete('/api/comments/:comment_id', authenticate, authenticateAuthor, function(req,res){
+  app.delete('/api/comments/:comment_id', stormpath.authenticationRequired, findUserId, authenticateAuthor, function(req,res){
     res.send('trying to delete');
   });
 
 // EDIT A COMMENT
-  app.put('/api/comments/:comment_id', authenticate, authenticateAuthor, function(req,res){
+  app.put('/api/comments/:comment_id', stormpath.authenticationRequired, findUserId, authenticateAuthor, function(req,res){
     res.send('trying to edit');
   });
 
