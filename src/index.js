@@ -3,11 +3,7 @@ import ReactDOM from 'react-dom';
 import { Route, hashHistory, Redirect } from 'react-router';
 import ReactStormpath, { Router, AuthenticatedRoute, LoginLink, LogoutRoute } from 'react-stormpath';
 
-ReactStormpath.init({
-  endpoints: {
-    baseUri: 'http://localhost:9000'
-  }
-});
+ReactStormpath.init();
 
 import App from './components/App';
 import Dashboard from './components/Dashboard';
