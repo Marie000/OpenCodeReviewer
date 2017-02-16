@@ -7,8 +7,6 @@ var PORT = process.env.port || 9000;
 var app = express();
 
 app.use(bodyParser.json());
-/*app.use(express.static(__dirname + '/src/public'));
-app.use(cookieParser()); */
 app.use(express.static(__dirname + '/../build/'));
 
 app.use(function (req, res, next) {

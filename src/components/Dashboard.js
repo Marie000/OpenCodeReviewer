@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import HTTP from '../services/httpservice';
 import './Dashboard.css';
 import moment from 'moment';
 import taglist from'../services/tag-list.js';
 import { Authenticated } from 'react-stormpath';
+import axios from 'axios';
 
 
 
@@ -32,12 +32,9 @@ export default class Dashboard extends Component {
       query+='&search='+search
     }
 
-
-    var data = HTTP.get('/documents'+query)
-      .then(function(data){
-          scope.setState({
-            posts: data
-          })
+    axios.get('/api/documents'+query)
+      .then((res)=>{
+        scope.setState({posts:res.data})
       })
   }
 

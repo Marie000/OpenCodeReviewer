@@ -1,41 +1,11 @@
 var mongoose = require('mongoose');
 var validator = require('validator');
 var ObjectId = mongoose.Schema.Types.ObjectId;
-var bcrypt = require('bcryptjs');
-var config = require('../../config.js');
-var jwt = require('jsonwebtoken');
-var _ = require('lodash');
-
-var config = process.env.SECRET || config.secret;
 
 var UserSchema = mongoose.Schema({
- /* email:{
-    type: String,
-    required: true,
-    minlength: 1,
-    trim: true,
-    unique: true,
-    validate: {
-      validator: validator.isEmail,
-      message: '{VALUE} is not a valid email'
-    }
-  },
-  password:{
-    type: String,
-    required: true,
-    trim: true,
-    minlength: 6
-  },
-  tokens: [{
-    auth: {
-      type: String
-    },
-    token: {
-      type: String
-    }
-  }],*/
   first_name: {
-    type: String
+    type: String,
+    required: true
   },
   last_name: {
     type: String
@@ -158,43 +128,6 @@ var UserSchema = mongoose.Schema({
 
 });
 
-// if password is modified, hash before save()
-UserSchema.pre('save', function(next){
-  var user = this;
-  if(user.isModified('password')){
-    bcrypt.genSalt(10, function(err,salt){
-      bcrypt.hash(user.password, salt, function(err,hash){
-        user.password = hash;
-        console.log('WARNING: password just changed')
-        next();
-      })
-    })
-  } else {
-    next();
-  }
-});
-
-UserSchema.statics.findByToken = function(token){
-  var User = this;
-  var decoded;
-  try {
-    decoded = jwt.verify(token,config)
-  } catch(e) {
-    return Promise.reject('verify did not work');
-  }
-  return User.findOne({_id:decoded._id, 'tokens.token':token, 'tokens.auth':'auth'});
-};
-
-UserSchema.methods.generateAuthToken = function(){
-  var user = this;
-  var token = jwt.sign({_id:user._id.toHexString(), auth:'auth'},config).toString();
-  // remove any 'auth' token before pushing the new one
-  _.pullAllBy(user.tokens,[{'auth':'auth'}],'auth');
-  user.tokens.push({auth: 'auth', token: token});
-  return user.save().then(function(){
-    return token;
-  })
-};
 UserSchema.set('timestamps',true);
 var User = mongoose.model('User',UserSchema);
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import HTTP from '../services/httpservice';
+import axios from 'axios';
 
 export default class PostComment extends Component {
 
@@ -23,14 +23,13 @@ export default class PostComment extends Component {
   handleSubmit(e) {
     e.preventDefault();
     var data = this.state;
-    HTTP.post('/comments/', data);
-
-    window.setTimeout(function () {  
-       this.props.reload();
-       this.setState({
+    axios.post('/api/comments/',data)
+      .then(()=>{
+        this.props.reload();
+        this.setState({
           text:""
-       })
-    }.bind(this), 800); 
+        })
+      });
 	}
 
   render(){

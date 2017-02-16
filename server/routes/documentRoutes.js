@@ -2,7 +2,6 @@ var _ = require('lodash');
 var stormpath = require('express-stormpath');
 
 var CodeDocument = require ('../models/document.js');
-var authenticate = require('../middleware/authenticate.js');
 var User = require ('../models/user.js');
 var findUserId = require('../middleware/findUserId');
 

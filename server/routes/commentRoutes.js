@@ -7,7 +7,6 @@ var CodeDocument = require ('../models/document.js');
 var Comment = require('../models/comment.js');
 
 // middleware
-var authenticate = require('../middleware/authenticate.js');
 var authenticateAuthor = require('../middleware/authenticate-author.js');
 var findUserId = require('../middleware/findUserId');
 

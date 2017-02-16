@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import HTTP from '../services/httpservice';
 import moment from 'moment';
 import { Link } from 'react-router';
 import { hashHistory } from 'react-router';
 import $ from 'jquery';
+import axios from 'axios';
 
 import PostComment from './PostComment';
 
@@ -59,19 +59,18 @@ export default class Post extends Component {
 
   getPostData(){
   	var scope = this;
-
-  	var data = HTTP.get('/documents/'+this.state.id)
-    .then(function(data){
+    axios.get('/api/documents/'+this.state.id)
+      .then(function(res){
         scope.setState({
-          id: data._id,
-          title:data.title,
-          author:data._author.user_name,
-          author_id: data._author._id,
-          text: data.text,
-          description:data.description,
-          tags: data.tags,
-          comments:data.comments,
-          postCreationDate:data.createdAt,
+          id: res.data._id,
+          title:res.data.title,
+          author:res.data._author.user_name,
+          author_id: res.data._author._id,
+          text: res.data.text,
+          description:res.data.description,
+          tags: res.data.tags,
+          comments:res.data.comments,
+          postCreationDate:res.data.createdAt,
           commentsHidden: false
         });
       })
@@ -111,9 +110,6 @@ export default class Post extends Component {
           window.setTimeout(function(){
               this.displayInlineComment(comment, comment.position);
           }.bind(this), 50);
-
-          
-          
       }
     })
   }
@@ -167,25 +163,21 @@ export default class Post extends Component {
 
       this.state.currentComment.widget.clear();
 
-      HTTP.post('/comments/', dataToSend);
-
-      dataToSend._author = {}
-      dataToSend._author.user_name = localStorage.user_name;
-      dataToSend.createdAt = new Date();
-
-      window.setTimeout(function(){
-        this.setState({
-          currentComment: {
-            firstLine: null,
-            lastLine: null,
-            widget: null
-          }, 
-          inlineComments:true
+      axios.post('/api/comments/', dataToSend)
+        .then(()=>{
+          dataToSend._author = {}
+          dataToSend._author.user_name = localStorage.user_name;
+          dataToSend.createdAt = new Date();
+          this.setState({
+            currentComment: {
+              firstLine: null,
+              lastLine: null,
+              widget: null
+            },
+            inlineComments:true
+          })
+          this.displayInlineComment(dataToSend, dataToSend.position)
         })
-        window.setTimeout(function(){
-              this.displayInlineComment(dataToSend, dataToSend.position)
-          }.bind(this), 50);
-      }.bind(this), 500);
   }
     
 
