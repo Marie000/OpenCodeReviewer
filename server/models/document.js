@@ -41,7 +41,11 @@ var CodeDocSchema = mongoose.Schema({
   comments: [{
     type: IdObject,
     ref: 'Comment'
-  }]
+  }],
+  language: {
+    type: String,
+    default:'text'
+  }
 });
 CodeDocSchema.set('timestamps',true);
 CodeDocSchema.plugin(mongoosePaginate);

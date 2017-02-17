@@ -14,6 +14,8 @@ import 'codemirror/mode/htmlmixed/htmlmixed';
 import 'codemirror/addon/edit/matchbrackets';
 import 'codemirror/addon/edit/closebrackets';
 
+import languageList from '../services/codemirror-languages';
+
 
 export default class Post extends Component {
   constructor(props) {
@@ -27,7 +29,8 @@ export default class Post extends Component {
       comments:[],
       inlineComments: false,
       currentComment:{
-        text: ''
+        text: '',
+        language:'text'
       }
     }
   }
@@ -71,7 +74,8 @@ export default class Post extends Component {
           tags: res.data.tags,
           comments:res.data.comments,
           postCreationDate:res.data.createdAt,
-          commentsHidden: false
+          commentsHidden: false,
+          language:res.data.language
         });
       })
   }
@@ -199,9 +203,16 @@ export default class Post extends Component {
 
 
   render() {
+    var codemirrorMode="text";
+    languageList.forEach((language)=>{
+      if(language[0]===this.state.language){
+        codemirrorMode = language[1]
+      }
+    });
+
     var options = {
       lineNumbers: true,
-      mode: 'javascript',
+      mode: codemirrorMode,
       matchBrackets: true,
       closebrackets: true,
       readOnly: true
