@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import $ from 'jquery';
 import CodeMirror from 'react-codemirror';
+import Code from './Code';
 import  ReactSelectize from "react-selectize";
 import axios from 'axios';
 var SimpleSelect =  ReactSelectize.SimpleSelect;
@@ -110,14 +111,7 @@ export default class Github extends Component {
       return file.type==='file' ? <li className='github-file red pull-right' onClick={this.selectFile.bind(this,file.path)}>{file.name}</li> :
         <li className='github-folder pull-left' onClick={this.resolvePath.bind(this,file.path)}>{file.name}</li>;
     })
-
-  var options = {
-      lineNumbers: true,
-      mode: 'javascript',
-      readOnly: false
-    }
-
-
+    
     return(
       <div className='github-container'>
       <div className='mrgBtm20 mrgTop20'> Import code from a GitHub Repository </div>
@@ -172,7 +166,7 @@ export default class Github extends Component {
         : null}
 
         {this.state.stage4 ?
-        <CodeMirror className="codemirror-wrapper" value={this.state.fileContent} options={options}/> : null}
+        <Code saveCode={this.props.saveCode} setLanguage={this.props.setLanguage} code={this.state.fileContent} /> : null}
       </div>
     )
   }

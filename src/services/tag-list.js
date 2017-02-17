@@ -1,10 +1,20 @@
 let taglist = [
   "HTML",
-  "CSS","SASS","LESS","Bootstrap",
+  "CSS","SASS","LESS","Bootstrap","SCSS",
   "Javascript","jQuery","Angular","Angular2","ReactJS","VueJS",
-  "NodeJS","Express",
+  "NodeJS",
   "MongoDB","SQL",
-  "D3","Backbone"
+  "D3","Backbone",
+  "C","C++","C#",
+  "Java",
+  "CoffeeScript",
+  "Go",
+  "PHP",
+  "Python",
+  "R",
+  "Ruby",
+  "Objective C",
+  "Swift"
 ]
 
 module.exports = taglist;

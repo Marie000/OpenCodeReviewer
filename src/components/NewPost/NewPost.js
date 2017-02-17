@@ -22,7 +22,8 @@ export default class NewPost extends Component {
       description:"",
       submit: false,
       text: 'initial',
-      importGithub: false
+      importGithub: false,
+      language:'text'
     }
   }
 
@@ -54,13 +55,18 @@ export default class NewPost extends Component {
     this.setState({text: text});
   }
 
+  setLanguage(language){
+    this.setState({language:language});
+  }
+
   handleSubmit(e) {
     e.preventDefault();
     var data = {
       title: this.state.title,
       tags: this.state.tags,
       description:this.state.description,
-      text: this.state.text
+      text: this.state.text,
+      language: this.state.language
     };
     axios.post('/api/documents', data)
       .then(()=>{
@@ -124,13 +130,13 @@ export default class NewPost extends Component {
            
       {this.state.importGithub ? 
         <div>
-          <Github saveCode={this.saveCode.bind(this)} />
+          <Github saveCode={this.saveCode.bind(this)} setLanguage={this.setLanguage.bind(this)} />
           <button className="button-darkgreen-small mrgBtm10" onClick={this.cancelGithubImport.bind(this)} >Cancel Github import</button>
         </div>  
           :
         <div>  
           <button className="button-darkgreen-small mrgBtm10" onClick={this.importCode.bind(this)} value="import" >Import code from GitHub</button>
-          <Code saveCode={this.saveCode.bind(this)} />
+          <Code saveCode={this.saveCode.bind(this)} setLanguage={this.setLanguage.bind(this)} />
         </div>  
         }      
       

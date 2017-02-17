@@ -55,7 +55,8 @@ export default class Dashboard extends Component {
     }
   }
 
-  selectTag(tag){
+  selectTag(e){
+    var tag = e.target.value;
     this.getData(1,tag,null);
     this.setState({page:1,tag:tag})
   }
@@ -91,7 +92,15 @@ export default class Dashboard extends Component {
       <input className='' type="submit"/>
     </form>
 
-    <p className="text"> Filter by tag: {taglist.map((tag)=>{return <button className='tags' onClick={this.selectTag.bind(this,tag)}>{tag}</button> }) }  </p>
+    <p className="text"> Filter by tag:
+      <select onChange={this.selectTag.bind(this)} value={this.state.tag}>
+        <option value=""> </option>
+        {taglist.map((tag)=>{
+          return <option value={tag}>{tag}</option>
+        })}
+        </select>
+      </p>
+
     <button className='tags mrgTop0' onClick={this.seeAll.bind(this)}>Clear Filters</button>
 
     <ul>
