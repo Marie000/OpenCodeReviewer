@@ -5,6 +5,7 @@ import moment from 'moment';
 import taglist from'../services/tag-list.js';
 import { Authenticated } from 'react-stormpath';
 import axios from 'axios';
+import PostList from './PostList';
 
 
 
@@ -61,6 +62,11 @@ export default class Dashboard extends Component {
     this.setState({page:1,tag:tag})
   }
 
+  selectTagFromPost(tag){
+    this.getData(1,tag,null);
+    this.setState({page:1,tag:tag})
+  }
+
   getBySearch(e){
     e.preventDefault();
     this.getData(1,null,this.state.search);
@@ -103,32 +109,7 @@ export default class Dashboard extends Component {
 
     <button className='tags mrgTop0' onClick={this.seeAll.bind(this)}>Clear Filters</button>
 
-    <ul>
-  		{this.state.posts.map(post => { return (
-  			<li className='post'>
-  				<Link className='post-title' to={'/dashboard/'+post._id}> {post.title} </Link>
-  				<br/>
-
-          {
-            post.tags.map(tag => {
-              return <div key={tag} className="tags dashboard-tags" onClick={this.selectTag.bind(this,tag)}> {tag} </div>
-            })
-          }
-          <div className="numberOfComments">
-            {post.comments.length===1 ? "1 comment" : post.comments.length+" comments" }
-            <br/>
-            Last comment: {moment(post.commentedAt).format("MMMM Do YYYY, h:mm:ss a")}
-            </div>
-          <div className="mrgTop10 mrgBtm10">
- 				  Posted by <span className="red">
-            <Link className='link' to={'/profile/'+post._author._id}>{post._author.user_name}</Link>
-          </span>
-            on {moment(post.createdAt).format("MMMM Do YYYY, h:mm:ss a")}
-  			</div>
-   			</li>
-   			)}
-  		)}
-    </ul>
+    <PostList posts={this.state.posts} selectTagFromPost={this.selectTagFromPost.bind(this)} />
 
     <button className='button-darkgreen-small inline-blk mrgRight10' onClick={this.firstPage.bind(this)}>First Page</button>
     {this.state.page===1 ? null : <button  className='button-darkgreen-small inline-blk mrgRight10' onClick={this.previousPage.bind(this)}>Previous Page</button>}
