@@ -88,7 +88,7 @@ export default class Dashboard extends Component {
     <p className='main-title'> Posted Questions </p>
 
     <form className="text mrgTop10 mrgBtm10" onSubmit={this.getBySearch.bind(this)}>Search: 
-      <input type="text" onChange={this.handleSearchInput.bind(this)} />
+      <input type="text" value={this.state.search} onChange={this.handleSearchInput.bind(this)} />
       <input className='' type="submit"/>
     </form>
 
@@ -114,8 +114,16 @@ export default class Dashboard extends Component {
               return <div key={tag} className="tags dashboard-tags" onClick={this.selectTag.bind(this,tag)}> {tag} </div>
             })
           }
+          <div className="numberOfComments">
+            {post.comments.length===1 ? "1 comment" : post.comments.length+" comments" }
+            <br/>
+            Last comment: {moment(post.commentedAt).format("MMMM Do YYYY, h:mm:ss a")}
+            </div>
           <div className="mrgTop10 mrgBtm10">
- 				  Posted by <span className="red"> <Link className='link' to={'/profile/'+post._author._id}>{post._author.user_name}</Link></span> on {moment(post.createdAt).format("MMMM Do YYYY, h:mm:ss a")}
+ 				  Posted by <span className="red">
+            <Link className='link' to={'/profile/'+post._author._id}>{post._author.user_name}</Link>
+          </span>
+            on {moment(post.createdAt).format("MMMM Do YYYY, h:mm:ss a")}
   			</div>
    			</li>
    			)}

@@ -43,7 +43,7 @@ ReactDOM.render((
       <Route path="/learn/code/:page" component={LearnCodeContent}/>
       <Route path="/forgot" component={ResetPassword} />
       <Route path="/change" component={ChangePassword} />
-      <LogoutRoute path='/logout' redirectTo="/login" />
+      <LogoutRoute path='/logout' redirectTo="/dashboard" />
     </Route>  	
   </Router>
 ), document.getElementById('root'))
