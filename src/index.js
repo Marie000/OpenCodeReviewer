@@ -9,7 +9,7 @@ import App from './components/App';
 import Dashboard from './components/Dashboard';
 import Profile from './components/Users/Profile';
 import ProfileEdit from './components/Users/ProfileEdit';
-import Post from './components/Post';
+import Post from './components/Post/Post';
 import NewPost from './components/NewPost/NewPost';
 import LogIn from './components/Users/LogIn';
 import About from './components/About';
