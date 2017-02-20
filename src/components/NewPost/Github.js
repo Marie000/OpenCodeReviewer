@@ -136,7 +136,7 @@ export default class Github extends Component {
             <SimpleSelect className='full-width' ref="simpleselect" options={repoList} value={{'label':this.state.selectedRepo, 'value':this.state.selectedRepo}}
             onValueChange = {function(value){
                        scope.setState({selectedRepo: value.value});
-            }}></SimpleSelect>
+            }}/>
            </div> 
           <div className='col-md-1'>
             <button className='button-darkgreen-small inline-blk' id="github1-ok" type="submit" onClick={this.getFiles.bind(this,'master', this.state.selectedRepo)}>OK</button>

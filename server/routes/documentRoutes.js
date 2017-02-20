@@ -46,6 +46,7 @@ var documentRoutes = function(app){
       .populate('_author',publicInfo)
       .populate('comments')
       .populate({path:'comments', populate: {path:'_author',select:'user_name'}})
+      .populate({path:'comments', populate: {path:'thanks.from',select:'user_name'}})
       .then(function(doc){
         if(!doc){return res.status(404).send('document not found')}
         res.json(doc);

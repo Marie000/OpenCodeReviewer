@@ -269,11 +269,11 @@ export default class Post extends Component {
          <div className='post-title mrgBtm20 inline-blk clearfix '> Posted by <span className='red'> <Link className='link' to={'/profile/'+this.state.author_id}>{this.state.author}</Link> </span> on {moment(this.state.postCreationDate).format("MMMM Do YYYY, h:mm:ss a")} </div>
         
         
-        <PostCommentList comments={this.state.comments} />
+        <PostCommentList comments={this.state.comments} reload={this.reloadPage.bind(this)} />
         
         <Authenticated>
           <form >
-            <CommentForm id={this.state.id} reload={this.reloadPage.bind(this)}></CommentForm>
+            <CommentForm id={this.state.id} reload={this.reloadPage.bind(this)}/>
           </form>
          </Authenticated>
       
