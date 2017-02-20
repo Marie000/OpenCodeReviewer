@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import {Link} from 'react-router';
+import Comment from './Comment';
 
 export default function PostCommentList(props){
   return (
@@ -10,13 +11,7 @@ export default function PostCommentList(props){
         {props.comments.map(comment => {
             if (comment.is_general) {
               return (
-                <li className='comment' key={comment._id}>
-                  <div className="comment-header">
-                    <Link className='link red' to={'/profile/'+comment._author._id}>{comment._author.user_name}</Link>
-                    <span className = "comment-date"> Posted on {moment(comment.createdAt).format("MMMM Do YYYY, h:mm:ss a")} </span>
-                  </div>
-                  <div className = "comment-text"> {comment.text} </div>
-                </li>
+                <Comment comment={comment} reload={props.reload} />
               )}
           }
         )}
