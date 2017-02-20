@@ -3,19 +3,13 @@ import React, { Component } from 'react';
 const About = ()=>{
   return <div>
     <h1>About CheckMyCode</h1>
-    <p>Lorem ipsum dolor sit amet, affert epicurei nec eu.
-      Pri malis theophrastus te, sea eu nisl vivendum, ius te posse mnesarchum necessitatibus.
-      Ad quo congue graecis accommodare, at tibique constituto quo. Ne viris audiam recusabo vim. Id eam fugit iracundia.</p>
+    <p>This app was created by two beginning developers who had learned web development through online tutorials, mostly freeCodeCamp.<i class="fa fa-free-code-camp" aria-hidden="true"></i></p>
+    <p>The goal of this app is to make it easier for coders of all levels - especially beginners - to receive and give code reviews.</p>
+    <p>Our plans with this app is to make it as easy as possible for people to post their code and to review other people's code.
+      We also want to provide learning resources for developers to learn how to write better code and how to write helpful code reviews.</p>
     <h2>Our Code of Conduct</h2>
-    <p>Lorem ipsum dolor sit amet, cu vis elitr nonumes definitionem, delicata facilisis ut vim. Ne feugait expetendis philosophia vim. His eu zril fastidii molestie, mollis noluisse at sea. Qui ex quidam malorum inimicus, dolor urbanitas eam an. Vitae omnesque ut usu.
-    </p>
-      <p>
-      Hinc accumsan delicatissimi in mea, adhuc constituto nam ex. Purto oratio meliore an sea. Idque tantas erroribus te pro. Qui ut munere vivendo appellantur, mel rebum expetenda patrioque ut.
-</p>
-      <p>
-      Id pri primis expetendis, te pro iusto accommodare, ludus equidem pri ad. Ad vis cetero tamquam. Eum ad modus legere scripserit. Id eam quaeque dolorum sententiae. Pri ex graecis apeirian persequeris, ne pro veri falli omittam. Ea nec natum eruditi atomorum.
-</p><p>
-      Summo choro iisque eum ut. Te solet diceret delicata usu, natum veniam forensibus mei ut, et nulla iisque pri. Falli vocibus prodesset an duo, ancillae suavitate eu mea. Ei probo volumus assentior sea.</p>
+    <p>Coming soon, but basically, we expect people to be helpful and respectful of all participants, regardless of skill level.</p>
+    <p>Also, no discriminatory behaviour of any sort will be tolerated.</p>
   </div>
 }
 
