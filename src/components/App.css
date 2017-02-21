@@ -467,3 +467,43 @@ h4{
 .registerLink {
   text-align:center;
 }
+
+/********* MEDIA QUERIES MOBILE FOR NAVIGATION **********/
+
+/* ----------- iPhone 6+ ----------- */
+
+/* Portrait */
+@media only screen 
+  and (min-device-width: 414px) 
+  and (max-device-width: 736px) 
+  and (-webkit-min-device-pixel-ratio: 3)
+  and (orientation: portrait) { 
+
+    .App-header {
+      height: 180px;
+    }
+
+    .button-darkgreen {
+      margin-top: 10px;
+      font-size: 1.6rem;
+    }
+}
+
+/* ----------- iPhone 6 ----------- */
+
+/* Portrait */
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 667px) 
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) { 
+
+    .App-header {
+      height: 200px;
+    }
+
+    .button-darkgreen {
+      margin-top: 10px;
+      font-size: 1.3rem;
+    }
+}
