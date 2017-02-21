@@ -5,7 +5,8 @@ import moment from 'moment'
 export default function (props) {
     return (
       <ul>
-        {props.posts.map(post => { return (
+        {props.posts.map(post => {
+          return (
             <li className='post'>
               <Link className='post-title' to={'/dashboard/'+post._id}> {post.title} </Link>
               <br/>

@@ -4,6 +4,7 @@ var stormpath = require('express-stormpath');
 var CodeDocument = require ('../models/document.js');
 var User = require ('../models/user.js');
 var findUserId = require('../middleware/findUserId');
+var File = require('../models/file');
 
 var checkForBadges = require('../utils/check-badges.js');
 var giveTagPoints = require('../utils/tag-points.js');
@@ -51,6 +52,7 @@ var documentRoutes = function(app){
       .populate('comments')
       .populate({path:'comments', populate: {path:'_author',select:'user_name'}})
       .populate({path:'comments', populate: {path:'thanks.from',select:'user_name'}})
+      .populate('files')
       .then(function(doc){
         if(!doc){return res.status(404).send('document not found')}
         res.json(doc);

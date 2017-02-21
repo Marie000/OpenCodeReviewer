@@ -221,7 +221,7 @@ export default class Post extends Component {
     }
 
     $(".selection").parents('.CodeMirror-line').addClass('selection-background');
-
+    
     return (
       <div className="form-container">
       <button className='link button-darkgreen-small inline-blk' onClick={hashHistory.goBack}>Back</button>

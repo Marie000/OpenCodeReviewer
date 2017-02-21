@@ -45,12 +45,15 @@ var CodeDocSchema = mongoose.Schema({
   language: {
     type: String,
     default:'text'
-  }
+  },
+  files: [{
+    type: IdObject,
+    ref:'File'
+  }]
 });
+
 CodeDocSchema.set('timestamps',true);
 CodeDocSchema.plugin(mongoosePaginate);
-
-
 
 var CodeDocument = mongoose.model('CodeDocument',CodeDocSchema);
 
