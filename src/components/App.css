@@ -470,24 +470,41 @@ h4{
 
 /********* MEDIA QUERIES MOBILE FOR NAVIGATION **********/
 
-/* ----------- iPhone 6+ ----------- */
+
+/* ----------- iPhone 5 and 5S ----------- */
 
 /* Portrait */
 @media only screen 
-  and (min-device-width: 414px) 
-  and (max-device-width: 736px) 
-  and (-webkit-min-device-pixel-ratio: 3)
-  and (orientation: portrait) { 
+  and (min-device-width: 320px) 
+  and (max-device-width: 568px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) {
 
-    .App-header {
-      height: 180px;
+     .App-header {
+      height: 220px;
     }
 
     .button-darkgreen {
       margin-top: 10px;
-      font-size: 1.6rem;
+      font-size: 1.2rem;
+      padding: 5px 10px;
     }
 }
+
+/* Landscape */
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 568px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: landscape) {  
+    .App-header {
+      height: 180px;
+    }
+    .buttons{
+      float: left;
+    }
+}
+
 
 /* ----------- iPhone 6 ----------- */
 
@@ -505,5 +522,55 @@ h4{
     .button-darkgreen {
       margin-top: 10px;
       font-size: 1.3rem;
+      padding: 8px 15px 10px;
+    }
+}
+
+/* Landscape */
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 667px) 
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: landscape) { 
+    .App-header {
+      height: 180px;
+    }
+    .buttons{
+      float: left;
+    }
+}
+
+
+/* ----------- iPhone 6+ ----------- */
+
+/* Portrait */
+@media only screen 
+  and (min-device-width: 414px) 
+  and (max-device-width: 736px) 
+  and (-webkit-min-device-pixel-ratio: 3)
+  and (orientation: portrait) { 
+
+    .App-header {
+      height: 180px;
+    }
+
+    .button-darkgreen {
+      margin-top: 10px;
+      font-size: 1.6rem;
+      padding: 8px 15px 10px;
+    }
+}
+
+/* Landscape */
+@media only screen 
+  and (min-device-width: 414px) 
+  and (max-device-width: 736px) 
+  and (-webkit-min-device-pixel-ratio: 3)
+  and (orientation: landscape) { 
+    .App-header {
+      height: 180px;
+    }
+    .buttons{
+      float: left;
     }
 }
