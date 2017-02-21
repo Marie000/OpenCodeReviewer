@@ -40,6 +40,7 @@ app.use(stormpath.init(app, {
 var userRoutes = require('./routes/userRoutes')(app);
 var documentRoutes = require('./routes/documentRoutes')(app);
 var commentRoutes = require('./routes/commentRoutes')(app);
+var fileRoutes = require('./routes/fileRoutes')(app);
 
 app.on('stormpath.ready', function() {
   console.log('stormpath ready')
