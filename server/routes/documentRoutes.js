@@ -23,6 +23,10 @@ var documentRoutes = function(app){
       var queryParam= {"$regex":req.query.search, "$options": "i" }
       query = {$or:[{title:queryParam}, {description: queryParam},{tags: queryParam}]}
     }
+    // by author
+    if(req.query.author){
+      query = {_author:req.query.author}
+    }
     //pagination options
     var options = {
       sort:     { commentedAt: -1 },

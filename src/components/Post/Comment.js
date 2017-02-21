@@ -42,17 +42,19 @@ export default class Comment extends Component{
   
   render(){
     let comment = this.props.comment;
-    let button = <button onClick={this.handleThanks.bind(this)}><i className="fa fa-heart" aria-hidden="true"></i>
-    </button>
+    let emptyHeart = <span onClick={this.handleThanks.bind(this)}>Like this comment: <i className="fa fa-heart-o" aria-hidden="true"></i>
+    </span>
+    let fullHeart = <i className="fa fa-heart" aria-hidden="true"></i>
     return(
       <li className='comment' key={comment._id}>
         <div className="comment-header">
           <Link className='link red' to={'/profile/'+comment._author._id}>{comment._author.user_name}</Link>
-          {this.state.thankButton ? this.state.alreadyThanked ? 'thanked!': button : null}
-          {comment.thanks.length>0 ? <span><i className="fa fa-heart" aria-hidden="true"></i>X{comment.thanks.length}</span> : null}
+          {comment.thanks.length>0 ? <span>{fullHeart}X{comment.thanks.length}</span> : null}
           <span className = "comment-date"> Posted on {moment(comment.createdAt).format("MMMM Do YYYY, h:mm:ss a")} </span>
         </div>
         <div className = "comment-text"> {comment.text} </div>
+         {this.state.thankButton ? this.state.alreadyThanked ? fullHeart: emptyHeart : null}
+
       </li>
     )
   }
