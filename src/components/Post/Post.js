@@ -9,6 +9,7 @@ import {Authenticated} from 'react-stormpath';
 import CommentForm from './CommentForm';
 import PostCommentList from './PostCommentList';
 import PostContent from './PostContent';
+import FileList from './FileList';
 
 import CodeMirror from 'react-codemirror';
 import 'codemirror/lib/codemirror.css';
@@ -30,11 +31,13 @@ export default class Post extends Component {
       description:"",
       author: "",
       comments:[],
+      file:null,
       inlineComments: false,
       currentComment:{
         text: '',
         language:'text'
-      }
+      },
+      files:[],
     }
   }
 
@@ -51,12 +54,16 @@ export default class Post extends Component {
        
   reloadPage(){
     this.getPostData();
+    axios.get('/api/files/'+this.state.file._id)
+      .then((res)=>{
+        this.setState({file:res.data});
+      })
     this.getInlineComments();
   }
 
   getPostData(){
   	var scope = this;
-    axios.get('/api/documents/'+this.state.id)
+    axios.get('/api/documents/'+this.props.params.postId)
       .then(function(res){
         scope.setState({
           id: res.data._id,
@@ -69,7 +76,8 @@ export default class Post extends Component {
           comments:res.data.comments,
           postCreationDate:res.data.createdAt,
           commentsHidden: false,
-          language:res.data.language
+          language:res.data.language,
+          files:res.data.files || [],
         });
       })
   }
@@ -112,6 +120,10 @@ export default class Post extends Component {
     })
   }
 
+  getFileContent(file){
+    this.setState({file:file})
+  }
+
   render() {
     var codemirrorMode="text";
     languageList.forEach((language)=>{
@@ -120,16 +132,8 @@ export default class Post extends Component {
       }
     });
 
-    var options = {
-      lineNumbers: true,
-      mode: codemirrorMode,
-      matchBrackets: true,
-      closebrackets: true,
-      readOnly: true
-    }
 
     $(".selection").parents('.CodeMirror-line').addClass('selection-background');
-    
     return (
       <div className="form-container">
       <button className='link button-darkgreen-small inline-blk' onClick={hashHistory.goBack}>Back</button>
@@ -145,18 +149,27 @@ export default class Post extends Component {
               )}
            </div> 
         </div>
+        
+        {this.state.files.length>0 ? 
+        <FileList files={this.state.files} getFileContent={this.getFileContent.bind(this)} />
+          :
+          null }
+        {this.state.file_title ? <h2>{this.state.file_title}</h2> : null}
 
-       <PostContent text={this.state.text} 
+        {this.state.text || this.state.file ?
+       <PostContent text={this.state.file? this.state.file.text : this.state.text}
+                    title={this.state.file? this.state.file.name : ''}
                     reload={this.reloadPage.bind(this)}
-                    id={this.state.id}
-                    comments={this.state.comments}
-       />
+                    id={this.state.file ? this.state.file._id : this.state.id}
+                    comments={this.state.file ? this.state.file.comments : this.state.comments}
+       /> : null }
 
+        <strong className="post-title mrgTop10 mrgBtm20"> Comments:  </strong>
         <PostCommentList comments={this.state.comments} reload={this.reloadPage.bind(this)} />
         
         <Authenticated>
           <form >
-            <CommentForm id={this.state.id} reload={this.reloadPage.bind(this)}/>
+            <CommentForm id={this.props.params.postId} reload={this.reloadPage.bind(this)} fileSpecific={false} />
           </form>
          </Authenticated>
       

@@ -11,6 +11,8 @@ var fileRoutes = function(app){
   app.get('/api/files/:id',function(req,res){
     File.findById(req.params.id)
       .populate('children')
+      .populate('comments')
+      .populate({path:'children', populate: {path:'comments'}})
       .then(function(file){
         if(!file){res.status(404).send('file not found')}
         res.json(file);

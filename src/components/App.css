@@ -467,3 +467,8 @@ h4{
 .registerLink {
   text-align:center;
 }
+
+/********** MULTIFILE FILE SYSTEM ***********/
+.highlightedFile {
+  color:dodgerblue;
+}

@@ -31,10 +31,14 @@ export default class PostContent extends Component {
     }
   }
 
-  componentDidMount(){
+  componentWillMount(){
     window.setTimeout(function () {
       this.getInlineComments()
     }.bind(this), 500);
+  }
+
+  componentWillReceiveProps(nextProps){
+   // this.getInlineComments()
   }
 
   handleChange (e) {
@@ -129,7 +133,8 @@ export default class PostContent extends Component {
         lastLine:this.state.currentComment.lastLine},
       text: currentCommentText,
       is_general: false,
-      _document_id: this.props.id
+      _document_id: this.props.title.length>0 ? null : this.props.id,
+      _file_id: this.props.title.length>0 ? this.props.id : null
     }
 
     this.state.currentComment.widget.clear();
@@ -220,14 +225,19 @@ export default class PostContent extends Component {
           on {moment(this.state.postCreationDate).format("MMMM Do YYYY, h:mm:ss a")}
         </div>
 
+        {this.props.title ?
+          <div>
+            <h3>Comments on {this.props.title}</h3>
+            <PostCommentList comments={this.props.comments} reload={this.props.reload}  />
 
-        <PostCommentList comments={[]} reload={this.props.reload}  />
+            <Authenticated>
+              <form >
+                <CommentForm id={this.props.id} reload={this.props.reload} fileSpecific={true} />
+              </form>
+            </Authenticated>
+          </div>
+         : null}
 
-        <Authenticated>
-          <form >
-            <CommentForm id={this.props.id} reload={this.props.reload}/>
-          </form>
-        </Authenticated>
 
       </div>
     )
