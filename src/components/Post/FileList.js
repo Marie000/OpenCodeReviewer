@@ -13,7 +13,7 @@ export default class FileList extends Component {
   }
 
   openFolder(file){
-    if(file.name==="top"){
+    if(file.name==="home"){
       this.setState({files:this.props.files,path:[]})
     } else {
       axios.get('/api/files/'+file._id)
@@ -28,33 +28,37 @@ export default class FileList extends Component {
   }
 
   openFile(file){
+    axios.get('/api/files/'+file._id)
+      .then((res)=>{
+        this.props.getFileContent(res.data)
+      })
     this.setState({highLightedFile:file._id});
-    this.props.getFileContent(file)
   }
 
   render(){
     return (
-      <div>
-        <span onClick={this.openFolder.bind(this,{name:'top'})}>Top </span>
-        {this.state.path.map((path)=>{
-          return <span onClick={this.openFolder.bind(this,path)}>/ {path.name}</span>
-        })}
-        <div>
-        {this.state.files.map((file)=>{
-          console.log(file)
-          if(file.is_folder){
-            return <div onClick={this.openFolder.bind(this,file)}>
-              <i className="fa fa-folder" aria-hidden="true"></i>
-              {file.name}
-            </div>
-          } else {
-            return <div onClick={this.openFile.bind(this,file)}>
-              <i className="fa fa-file" aria-hidden="true"></i>
-              <span className={file._id === this.state.highlightedFile ? 'highlightedFile' : null}>{file.name}</span>
-            </div>
-          }
-        })}
-          </div>
+      <div className="filesystem">
+        <div className="filepath">
+          <span onClick={this.openFolder.bind(this,{name:'home'})}>Home </span>
+          {this.state.path.map((path)=>{
+            return <span onClick={this.openFolder.bind(this,path)}>/ {path.name}</span>
+          })}
+        </div>
+        <div className="listoffiles">
+          {this.state.files.map((file)=>{
+            if(file.is_folder){
+              return <div onClick={this.openFolder.bind(this,file)} className="file-item folder">
+                <i className="fa fa-folder" aria-hidden="true"></i>
+                {file.name}
+              </div>
+            } else {
+              return <div onClick={this.openFile.bind(this,file)} className="file-item file">
+                <i className="fa fa-file-code-o" aria-hidden="true"></i>
+                <span className={file._id === this.state.highlightedFile ? 'highlightedFile' : null}>{file.name}</span>
+              </div>
+            }
+          })}
+        </div>
       </div>
     )
   }

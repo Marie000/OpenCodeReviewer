@@ -12,6 +12,7 @@ var fileRoutes = function(app){
     File.findById(req.params.id)
       .populate('children')
       .populate('comments')
+      .populate({path:'comments',populate:{path:'_author', select:'user_name'}})
       .populate({path:'children', populate: {path:'comments'}})
       .then(function(file){
         if(!file){res.status(404).send('file not found')}

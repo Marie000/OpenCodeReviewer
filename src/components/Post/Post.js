@@ -139,9 +139,7 @@ export default class Post extends Component {
       <button className='link button-darkgreen-small inline-blk' onClick={hashHistory.goBack}>Back</button>
       <div className="post-wrapper">
         <h2>{this.state.title}</h2>
-        <div className='row post-title'> 
-          <div className='col-md-10'> {this.state.description} </div>
-        </div>
+          <div className='col-md-10 postdescription'> {this.state.description} </div>
 
         <div className='row'> 
           <div className ='col-md-10'>

@@ -54,8 +54,10 @@ var documentRoutes = function(app){
       .populate({path:'comments', populate: {path:'thanks.from',select:'user_name'}})
       .populate('files')
       .populate({path:'files', populate: {path:'comments'}})
+      .populate({path:'files',populate:{path:'comments._author',select:'user_name'}})
       .then(function(doc){
         if(!doc){return res.status(404).send('document not found')}
+        console.log(doc.files)
         res.json(doc);
       })
   });

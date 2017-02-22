@@ -193,8 +193,11 @@ export default class PostContent extends Component {
     $(".selection").parents('.CodeMirror-line').addClass('selection-background');
 
     return (
-      <div>
-          <Authenticated>
+      <div className={this.props.title ? "fileContent" : "documentContent" }>
+        {this.props.title ? <h2>{this.props.title}</h2> : null}
+        <div className="fileContentAfterTitle">
+
+        <Authenticated>
             <div className="clearfix mrgBtm20 font18rem">
               {this.state.currentComment.widget ?
                 <div>
@@ -237,7 +240,7 @@ export default class PostContent extends Component {
             </Authenticated>
           </div>
          : null}
-
+        </div>
 
       </div>
     )
