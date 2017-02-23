@@ -13,3 +13,4 @@ config.js
 stormpath/apiKey.properties
 TODO
 server/npm-debug.log
+apiKey.properties
