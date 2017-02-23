@@ -24,7 +24,6 @@ var commentRoutes = function(app){
     var body = req.body;
     body._author = req.user._id;
     var newComment = new Comment(req.body);
-    console.log(newComment)
     newComment.save().then(function(comment){
       // add comment id to the author's comment list
       User.findByIdAndUpdate(
