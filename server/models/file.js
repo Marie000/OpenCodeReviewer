@@ -24,10 +24,10 @@ var FileSchema = mongoose.Schema({
     type: String,
     default:'text'
   },
-  children: [{
+  _parent: {
     type: IdObject,
-    ref:'File'
-  }]
+    required:true
+  }
 });
 FileSchema.set('timestamps',true);
 

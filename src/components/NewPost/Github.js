@@ -4,6 +4,8 @@ import CodeMirror from 'react-codemirror';
 import Code from './Code';
 import  ReactSelectize from "react-selectize";
 import axios from 'axios';
+import getGithubRepo from './Github-repo';
+
 var SimpleSelect =  ReactSelectize.SimpleSelect;
 
 export default class Github extends Component {
@@ -14,6 +16,7 @@ export default class Github extends Component {
       stage2:false,
       stage3: false,
       stage4: false,
+      getWholeRepo:false,
       user_name:'',
       selectedRepo:'',
       repos:[],
@@ -24,11 +27,15 @@ export default class Github extends Component {
     }
   }
 
+  static contextTypes= {
+    router: React.PropTypes.object.isRequired
+  }
+
   // for the username input only
-  handleChange (input, e) {
-    var change = {};
-    change[input] = e.target.value;
-    this.setState(change);
+  handleChange (e) {
+    //var change = {};
+    //change[input] = e.target.value;
+    this.setState({user_name:e.target.value});
   }
 
   submitUserName(e){
@@ -46,6 +53,7 @@ export default class Github extends Component {
   // if the user has it set in his user info)
   getRepos(){
     var scope = this;
+    this.props.removeSubmitButton()
     if(this.state.user_name) {
       axios.get('https://api.github.com/users/' + this.state.user_name + '/repos')
         .then((res)=> {
@@ -81,7 +89,7 @@ export default class Github extends Component {
       .then((res)=>{
         this.setState({fileContent:atob(res.data.content), stage4:true})
         this.props.saveCode(atob(res.data.content));
-
+        this.props.displaySubmitButton();
       })
   }
 
@@ -90,6 +98,27 @@ export default class Github extends Component {
     axios.get('https://api.github.com/repos/'+this.state.user_name+'/'+this.state.selectedRepo+'/contents'+path)
       .then((res)=>{
         this.setState({files:res.data})
+      })
+  }
+
+  getGithubRepo(){
+    this.setState({getWholeRepo:true});
+  }
+  
+  submitRepo(){
+    let newDoc = {
+      title:this.props.name,
+      description:this.props.description,
+      tags:this.props.tags,
+      text:'',
+      language:'text',
+      multi_files:true
+    }
+    console.log(newDoc)
+    axios.post('/api/documents',newDoc)
+      .then((doc)=>{
+        getGithubRepo('https://api.github.com/repos/'+this.state.user_name+'/'+this.state.selectedRepo+'/contents/',doc.data._id)
+        this.context.router.push('/dashboard')
       })
   }
 
@@ -115,19 +144,27 @@ export default class Github extends Component {
     return(
       <div className='github-container'>
       <div className='mrgBtm20 mrgTop20'> Import code from a GitHub Repository </div>
-      <div className="row">
+        <div className="row">
         <form className='github'>
-          <label className='col-md-2'> GitHub User Name: </label>
-          <div className='col-md-6'>
-            <input className='full-width' type="text" name="user_name"  value={this.state.user_name}
-                   onChange={this.handleChange.bind(this, 'user_name')}>
-            </input>
-          </div>
-          <div className='col-md-1'>  
-            <button className='button-darkgreen-small inline-blk' type="submit" onClick={this.submitUserName.bind(this)}>OK</button>
-          </div>
+          <div className="col-md-3">
+          <div> GitHub User Name: </div>
+            </div>
+          <div className="col-md-6">
+            <input type="text"
+                   name="user_name"
+                   value={this.state.user_name}
+                   onChange={this.handleChange.bind(this)} />
+            </div>
+          <div className="col-md-1">
+            <button className='button-darkgreen-small'
+                    type="submit"
+                    onClick={this.submitUserName.bind(this)}>
+              Ok
+            </button>
+            </div>
         </form>
-      </div>
+          </div>
+
 
       {this.state.stage1 ? 
         <div className='row'>
@@ -149,12 +186,16 @@ export default class Github extends Component {
 
         {this.state.stage3 ? 
         <div>
-        <div className='row'>
+          <button onClick={this.getGithubRepo.bind(this)}>Import whole repo</button>
+          <div>Warning: only works with small repo. Large repos might end up missing some files and folders.</div>
+          {this.state.getWholeRepo ? null :
+          <div>
+          <div className='row'>
           <div className='col-md-6 col-md-offset-2 no-padding'>
             <strong className='pull-left mrgBtm10'> Folders: </strong>
             <strong className='pull-right mrgBtm10'> Files: </strong>
             <ul>{fileList}</ul>
-          </div> 
+          </div>
         </div>
 
         <div className='row'> 
@@ -162,12 +203,13 @@ export default class Github extends Component {
             <button onClick={this.getFiles.bind(this,'master',this.state.selectedRepo)}>Back to top</button>
           </div>
         </div>
-        </div>
-        : null}
+        </div>}
 
         {this.state.stage4 ?
         <Code saveCode={this.props.saveCode} setLanguage={this.props.setLanguage} code={this.state.fileContent} /> : null}
-      </div>
+        </div> : null}
+        {this.state.getWholeRepo ? <button onClick={this.submitRepo.bind(this)}>Submit repository</button> : null }
+        </div>
     )
   }
 }

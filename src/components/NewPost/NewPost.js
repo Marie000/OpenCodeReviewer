@@ -8,6 +8,7 @@ import Code from './Code';
 import 'react-selectize/dist/index.css';
 import taglist from '../../services/tag-list';
 import Github from "./Github";
+import getGithubRepo from './Github-repo';
 
 
 export default class NewPost extends Component {
@@ -23,7 +24,8 @@ export default class NewPost extends Component {
       submit: false,
       text: 'initial',
       importGithub: false,
-      language:'text'
+      language:'text',
+      submitVisible:true
     }
   }
 
@@ -42,7 +44,7 @@ export default class NewPost extends Component {
   }
 
   cancelGithubImport(){
-    this.setState({importGithub: false})
+    this.setState({importGithub: false, submitVisible:true})
   }
 
   handleChange (input, e) {
@@ -72,6 +74,14 @@ export default class NewPost extends Component {
       .then(()=>{
         this.context.router.push('/dashboard');
       })
+  }
+
+  removeSubmitButton(){
+    this.setState({submitVisible:false})
+  }
+
+  displaySubmitButton(){
+    this.setState({submitVisible:true})
   }
 
 
@@ -123,14 +133,21 @@ export default class NewPost extends Component {
               });
               self.setState({tags:tags});             
             }}
-          ></MultiSelect>
+          />
           </div>
       </form>
           <div>        
            
       {this.state.importGithub ? 
         <div>
-          <Github saveCode={this.saveCode.bind(this)} setLanguage={this.setLanguage.bind(this)} />
+          <Github saveCode={this.saveCode.bind(this)}
+                  setLanguage={this.setLanguage.bind(this)}
+                  removeSubmitButton={this.removeSubmitButton.bind(this)}
+                  displaySubmitButton={this.displaySubmitButton.bind(this)}
+                  name={this.state.title}
+                  description={this.state.description}
+                  tags={this.state.tags}
+          />
           <button className="button-darkgreen-small mrgBtm10" onClick={this.cancelGithubImport.bind(this)} >Cancel Github import</button>
         </div>  
           :
@@ -142,7 +159,9 @@ export default class NewPost extends Component {
       
       </div>
 
-      <button className="button-darkgreen-small" onClick={this.handleSubmit.bind(this)} value="Submit" >Submit</button>
+        {this.state.submitVisible ?
+        <button className="button-darkgreen-small" onClick={this.handleSubmit.bind(this)} value="Submit" >Submit</button>
+          : null }
                
       </div>
      </div>

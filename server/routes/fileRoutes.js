@@ -13,16 +13,25 @@ var fileRoutes = function(app){
       .populate('children')
       .populate('comments')
       .populate({path:'comments',populate:{path:'_author', select:'user_name'}})
-      .populate({path:'children', populate: {path:'comments'}})
+     // .populate({path:'children', populate: {path:'comments'}})
       .then(function(file){
         if(!file){res.status(404).send('file not found')}
-        res.json(file);
+        File.find({_parent:file._id})
+          .populate('comments')
+          .populate({path:'comments',populate:{path:'_author', select:'user_name'}})
+          .then((children)=>{
+            let newfile = file.toObject()
+            newfile.children=children
+            res.json(newfile)
+          })
       })
   })
   
   app.post('/api/files',function(req,res){
-    var newFile = new File(req.body);
-    newFile.save()
+    console.log(req.body);
+    var newFile = new File(req.body)
+    newFile.save().then((file)=>{res.json(file)})
+
   })
   
   

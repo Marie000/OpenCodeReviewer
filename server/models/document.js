@@ -33,10 +33,7 @@ var CodeDocSchema = mongoose.Schema({
     default: true
   },
   text: {
-    type: String,
-    require: true,
-    trim: true,
-    minlength: 1
+    type: String
   },
   comments: [{
     type: IdObject,
@@ -46,10 +43,10 @@ var CodeDocSchema = mongoose.Schema({
     type: String,
     default:'text'
   },
-  files: [{
-    type: IdObject,
-    ref:'File'
-  }]
+  multi_files: {
+    type:Boolean,
+    default:false
+  }
 });
 
 CodeDocSchema.set('timestamps',true);

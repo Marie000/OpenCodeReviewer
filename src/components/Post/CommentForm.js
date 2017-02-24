@@ -18,6 +18,13 @@ export default class PostComment extends Component {
     this.setState({text:e.target.value});
   }
 
+  componentWillReceiveProps(nextProps){
+    this.setState({
+      _document_id: nextProps.fileSpecific ? null : nextProps.id,
+      _file_id: nextProps.fileSpecific ? nextProps.id : null
+    })
+  }
+
   handleSubmit(e) {
     e.preventDefault();
     var data = this.state;

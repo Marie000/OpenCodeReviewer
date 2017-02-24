@@ -45,29 +45,41 @@ var documentRoutes = function(app){
 
 // GET A DOCUMENT
   app.get('/api/documents/:id', function(req,res){
-    var publicInfo = {first_name:1, middle_name:1,last_name:1,user_name:1,points:1,location:1, skills:1,
-      code_documents:1,comments:1,github_url:1,github_username:1,facebook_url:1,twitter_url:1,linkedIn_url:1}
     CodeDocument.findOne({_id:req.params.id})
-      .populate('_author',publicInfo)
+      .populate('_author')
       .populate('comments')
       .populate({path:'comments', populate: {path:'_author',select:'user_name'}})
       .populate({path:'comments', populate: {path:'thanks.from',select:'user_name'}})
-      .populate('files')
-      .populate({path:'files', populate: {path:'comments'}})
-      .populate({path:'files',populate:{path:'comments._author',select:'user_name'}})
+     // .populate('files')
+     // .populate({path:'files', populate: {path:'comments'}})
+     // .populate({path:'files',populate:{path:'comments._author',select:'user_name'}})
       .then(function(doc){
         if(!doc){return res.status(404).send('document not found')}
-        res.json(doc);
+        File.find({_parent:doc._id})
+          .populate('comments')
+          .populate({path:'comments',populate:{path:'_author'}})
+          .then(function(files){
+            let newdoc = doc.toObject()
+              newdoc.files=files;
+            res.json(newdoc)
+          })
       })
   });
 
 // CREATE A DOCUMENT
   app.post('/api/documents', stormpath.authenticationRequired, findUserId, function(req,res){
     //create a document
+
     var newDoc = new CodeDocument(req.body);
     newDoc._author = req.user._id;
     newDoc.commentedAt = Date.now();
+    console.log(newDoc);
     newDoc.save().then(function(doc){
+      if(!doc){
+        console.log('document not saved')
+        return res.status(400).send('document not saved')
+      }
+      console.log(doc)
       // add document id to the author's document list
       User.findByIdAndUpdate(
         doc._author,

@@ -30,6 +30,7 @@ export default class FileList extends Component {
   openFile(file){
     axios.get('/api/files/'+file._id)
       .then((res)=>{
+        console.log('res.data in openFile: '+res.data)
         this.props.getFileContent(res.data)
       })
     this.setState({highLightedFile:file._id});

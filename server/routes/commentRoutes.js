@@ -20,7 +20,7 @@ var commentRoutes = function(app){
 
 // CREATE A COMMENT
   app.post('/api/comments/', stormpath.authenticationRequired, findUserId, function(req,res){
-    // add comment 
+    // add comment
     var body = req.body;
     body._author = req.user._id;
     var newComment = new Comment(req.body);
