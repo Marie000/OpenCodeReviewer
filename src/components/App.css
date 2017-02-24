@@ -482,7 +482,6 @@ h4{
   text-align:center;
 }
 
-<<<<<<< HEAD
 /********* MEDIA QUERIES MOBILE FOR NAVIGATION **********/
 
 
@@ -588,7 +587,6 @@ h4{
     .buttons{
       float: left;
     }
-=======
 /********** MULTIFILE FILE SYSTEM ***********/
 .highlightedFile {
   color:dodgerblue;
@@ -611,5 +609,4 @@ h4{
 }
 .listoffiles .fa {
   padding:0 5px;
->>>>>>> multifilesFrontend
 }
