@@ -33,8 +33,11 @@ var CommentSchema = mongoose.Schema({
   },
   _document_id: {
     type: ObjectId,
-    ref: 'CodeDocument',
-    required: true
+    ref: 'CodeDocument'
+  },
+  _file_id: {
+    type: ObjectId,
+    ref: 'File'
   }
 });
 CommentSchema.set('timestamps',true);

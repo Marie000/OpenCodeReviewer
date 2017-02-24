@@ -5,6 +5,7 @@ var stormpath = require('express-stormpath');
 var User = require ('../models/user.js');
 var CodeDocument = require ('../models/document.js');
 var Comment = require('../models/comment.js');
+var File = require('../models/file.js');
 
 // middleware
 var authenticateAuthor = require('../middleware/authenticate-author.js');
@@ -19,7 +20,7 @@ var commentRoutes = function(app){
 
 // CREATE A COMMENT
   app.post('/api/comments/', stormpath.authenticationRequired, findUserId, function(req,res){
-    // add comment 
+    // add comment
     var body = req.body;
     body._author = req.user._id;
     var newComment = new Comment(req.body);
@@ -33,6 +34,7 @@ var commentRoutes = function(app){
         if(!author){return res.status(404).send('author not found')}
       });
 
+      /* Disabled while I work on the file-specific comments
       // add document id to the author's point.comments array
       // (list of documents commented on)
       User.findOne({_id:comment._author}).then(function(user){
@@ -54,15 +56,36 @@ var commentRoutes = function(app){
 
         }
       })
+      */
       // add comment's id to the code document's comment list
-      CodeDocument.findByIdAndUpdate(
-        comment._document_id,
-        {$push: {'comments': comment._id}, $set: {'commentedAt':Date.now()}},
-        {safe: true, new: true}
-      ).then(function(document){
-        if(!document){return res.status(404).send('document not found')}
-        else {res.send('comment added')}
-      })
+      if(comment._document_id) {
+        CodeDocument.findByIdAndUpdate(
+          comment._document_id,
+          {$push: {'comments': comment._id}, $set: {'commentedAt': Date.now()}},
+          {safe: true, new: true}
+        ).then(function (document) {
+          if (!document) {
+            return res.status(404).send('document not found')
+            console.log('document not found')
+          }
+          else {
+            res.send('comment added to document')
+          }
+        })
+      }
+
+      if(comment._file_id){
+        File.findByIdAndUpdate(
+          comment._file_id,
+          {$push: {'comments': comment._id}},
+          {safe: true, new:true}
+        ).then(function(file){
+          if(!file){ return res.status(404).send('file not found')
+            console.log('file not found')
+          }
+          else {res.send('comment added to file')}
+        })
+      }
     }).catch(function(err){
       res.status(400);
     });
