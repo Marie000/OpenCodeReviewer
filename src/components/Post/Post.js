@@ -148,7 +148,7 @@ export default class Post extends Component {
            </div> 
         </div>
         
-        {this.state.files.length>0 ? 
+        {this.state.files.length>0 ?
         <FileList files={this.state.files} getFileContent={this.getFileContent.bind(this)} />
           :
           null }

@@ -170,7 +170,9 @@ export default class Github extends Component {
         <div className='row'>
           <label className='col-md-2'> Repository: </label>
           <div className='col-md-6'>
-            <SimpleSelect className='full-width' ref="simpleselect" options={repoList} value={{'label':this.state.selectedRepo, 'value':this.state.selectedRepo}}
+            <SimpleSelect className='full-width' 
+                          ref="simpleselect" 
+                          options={repoList} value={{'label':this.state.selectedRepo, 'value':this.state.selectedRepo}}
             onValueChange = {function(value){
                        scope.setState({selectedRepo: value.value});
             }}/>

@@ -5,6 +5,7 @@ var SimpleSelect =  ReactSelectize.SimpleSelect;
 import axios from 'axios';
 
 import Code from './Code';
+import Codepen from './codepen';
 import 'react-selectize/dist/index.css';
 import taglist from '../../services/tag-list';
 import Github from "./Github";
@@ -24,6 +25,7 @@ export default class NewPost extends Component {
       submit: false,
       text: 'initial',
       importGithub: false,
+      importCodepen:false,
       language:'text',
       submitVisible:true
     }
@@ -39,12 +41,19 @@ export default class NewPost extends Component {
     router: React.PropTypes.object.isRequired
   }
 
-  importCode(){
-    this.setState({importGithub: true})
+  importGithub(){
+    this.setState({importGithub: true, importCodepen: false})
+  }
+
+  importCodepen(){
+    this.setState({importGithub: false, importCodepen: true, submitVisible:false})
   }
 
   cancelGithubImport(){
     this.setState({importGithub: false, submitVisible:true})
+  }
+  cancelCodepenImport(){
+    this.setState({importCodepen:false, submitVisible:true})
   }
 
   handleChange (input, e) {
@@ -136,7 +145,8 @@ export default class NewPost extends Component {
           />
           </div>
       </form>
-          <div>        
+          <div>
+
            
       {this.state.importGithub ? 
         <div>
@@ -150,12 +160,30 @@ export default class NewPost extends Component {
           />
           <button className="button-darkgreen-small mrgBtm10" onClick={this.cancelGithubImport.bind(this)} >Cancel Github import</button>
         </div>  
-          :
+          : null}
+
+            {this.state.importCodepen ?
+              <div>
+              <Codepen name={this.state.title}
+                       description={this.state.description}
+                       tags={this.state.tags}
+              />
+                <button className="button-darkgreen-small mrgBtm10" onClick={this.cancelCodepenImport.bind(this)} >Cancel Codepen import</button>
+            </div>
+              : null
+            }
+
+            {!this.state.importCodepen && !this.state.importGithub ?
         <div>  
-          <button className="button-darkgreen-small mrgBtm10" onClick={this.importCode.bind(this)} value="import" >Import code from GitHub</button>
+          <button className="button-darkgreen-small mrgBtm10" onClick={this.importGithub.bind(this)} value="import" >Import code from GitHub</button>
+          <button className="button-darkgreen-small mrgBtm10" onClick={this.importCodepen.bind(this)} value="import" >Import code from Codepen</button>
+
           <Code saveCode={this.saveCode.bind(this)} setLanguage={this.setLanguage.bind(this)} />
-        </div>  
-        }      
+        </div>
+              : null }
+
+
+
       
       </div>
 
