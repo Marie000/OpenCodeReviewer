@@ -43,7 +43,7 @@ ul{
 }
 .filter-header{
 	background-color:#bdbdbd;
-	padding:15px 15px 0 15px;
+	padding:15px 0 15px 0;
 }
 .search-button, .accent-button, .clear-filter-button {
 	background-color:#FFEB3B;
@@ -66,4 +66,17 @@ ul{
 .card-panel{
 	padding:0;
 
+}
+.row {
+	margin:0;
+}
+
+.dashboard .post {
+	padding:0;
+}
+.dashboard .post-title {
+	color:#212121;
+}
+.dashboard .post-title:hover {
+	color:white;
 }

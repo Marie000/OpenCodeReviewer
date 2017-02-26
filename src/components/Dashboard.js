@@ -105,12 +105,12 @@ export default class Dashboard extends Component {
     </form>
     </Col>
 
-      <Input m={5} type="select" onChange={this.selectTag.bind(this)} label="Filter by Tag" value={this.state.tag} defaultValue={this.state.tag}>
+      <select m={5} type="select" onChange={this.selectTag.bind(this)} label="Filter by Tag" value={this.state.tag} defaultValue={this.state.tag}>
         <option value=""> </option>
         {taglist.map((tag)=>{
           return <option value={tag}>{tag}</option>
         })}
-        </Input>
+        </select>
       <Col m={2}>
     <Button onClick={this.seeAll.bind(this)} className="clear-filter-button">Clear Filters</Button>
         </Col>

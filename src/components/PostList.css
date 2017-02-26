@@ -1,0 +1,28 @@
+/*
+.dark-primary-color    { background: #0097A7; }
+.default-primary-color { background: #00BCD4; }
+.light-primary-color   { background: #B2EBF2; }
+.text-primary-color    { color: #FFFFFF; }
+.accent-color          { background: #FFEB3B; }
+.primary-text-color    { color: #212121; }
+.secondary-text-color  { color: #757575; }
+.divider-color         { border-color: #BDBDBD; }
+*/
+
+.post-header {
+    background-color:#00BCD4;
+    padding:5px;
+    color:#757575;
+}
+.post-header a {
+    color:#757575;
+}
+.card .card-content {
+    padding:0;
+}
+.badge-comments {
+    background-color:#B2EBF2;
+}
+.has-comments {
+    background-color:#FFEB3B;
+}

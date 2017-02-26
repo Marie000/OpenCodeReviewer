@@ -18,11 +18,13 @@ export default class Comment extends Component{
   };
 
   componentWillMount(){
-    if(this.context.user.username===this.props.comment._author.user_name){
-      this.setState({thankButton:false});
-    }
-    if(_.findIndex(this.props.comment.thanks,{from:{user_name:this.context.user.username}})>-1){
-      this.setState({alreadyThanked:true});
+    if(this.context.user) {
+      if (this.context.user.username === this.props.comment._author.user_name) {
+        this.setState({thankButton: false});
+      }
+      if (_.findIndex(this.props.comment.thanks, {from: {user_name: this.context.user.username}}) > -1) {
+        this.setState({alreadyThanked: true});
+      }
     }
   }
 

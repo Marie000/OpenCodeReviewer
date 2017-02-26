@@ -14,20 +14,6 @@ class App extends Component {
 
   render() {
 
-    var buttons = (
-      <ul className='menu'>
-        <Link className='link' to="/learn"><li className='inline-blk button-darkgreen'>Learn</li></Link>
-        <Link className='link' to="/about" ><li className='inline-blk button-darkgreen mrgLeft10'>About</li></Link>
-        <NotAuthenticated>
-          <Link className='link' to="/register"><li className=' mrgLeft10 inline-blk  button-darkgreen'>Register</li></Link>
-          <Link className='link' to="/login" ><li className='mrgLeft10 inline-blk  button-darkgreen'>Log In</li></Link>
-        </NotAuthenticated>
-        <Authenticated>
-          <Link className='link' to={'/profile/'+localStorage.user_id}><li className='button-darkgreen inline-blk mrgLeft10'>Profile</li></Link>
-          <Link className='link' to="/logout" ><li className='mrgLeft10 button-darkgreen inline-blk'>Log Out</li></Link>
-        </Authenticated>
-      </ul>
-    )
     let brand = <div className="brand"> <Link to="/dashboard"><h2>Ch3ck My C0de</h2>
       <h3>Open Code Review Platform</h3></Link>
     </div>
@@ -49,8 +35,12 @@ class App extends Component {
             <NavItem><Link className='link' to="/register">Register</Link></NavItem>
             <NavItem><Link className='link' to="/login" >Log In</Link></NavItem>
           </NotAuthenticated>
+          <Authenticated>
+            <Link className='link' to={'/profile/'+localStorage.user_id}>Profile</Link>
+            <Link className='link' to="/logout" >Log Out</Link>
+          </Authenticated>
           <div className="greeting">{this.context.user ? this.context.user.username : null}</div>
-          </Navbar>
+        </Navbar>
 
 
         <div className = 'child'>

@@ -72,7 +72,7 @@ nav ul a:hover, nav ul a:visited, nav ul a:active{
 h2{
   margin-top: 10px;
 }
-h2 a, h2 a:visited, h3 a, h3 a:visited{
+h2 a, h2 a:visited, h2 a:focus, h3 a, h3 a:visited, h3 a:active, h3 a:focus h2 a:active{
   color: #eee;
   font-size: 3.7rem;
   text-decoration: none !important;
@@ -80,7 +80,13 @@ h2 a, h2 a:visited, h3 a, h3 a:visited{
 }
 h2 a:hover, h3 a:hover {
   text-decoration: none;
+  color: #eee;
 }
+a:hover, a:focus, a:visited {
+  text-decoration: none;
+  color: #eee;
+}
+
 h4{
   letter-spacing: 2px;
 }
