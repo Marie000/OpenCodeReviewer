@@ -38,3 +38,32 @@ ul{
   clear: both;
   margin-left: 10px;
 }
+.search-box{
+	width:100%;
+}
+.filter-header{
+	background-color:#bdbdbd;
+	padding:15px 15px 0 15px;
+}
+.search-button, .accent-button, .clear-filter-button {
+	background-color:#FFEB3B;
+	color:black;
+	transition: all .2s ease-in-out;
+}
+.search-button:hover, .btn:hover, .search-button:visited, .clear-filter-button:hover, .clear-filter-button:visited .accent-button:hover, .accent-button:visited {
+	background-color: #FFEB3B !important;
+}
+.search-button:hover, .clear-filter-button:hover, .accent-button:hover{
+	transform: scale(1.1);
+}
+.input-field label{
+	font-size:1.5rem ;
+}
+.input-field .prefix{
+	font-size:3rem;
+}
+
+.card-panel{
+	padding:0;
+
+}

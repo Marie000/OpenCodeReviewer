@@ -6,6 +6,7 @@ import taglist from'../services/tag-list.js';
 import { Authenticated } from 'react-stormpath';
 import axios from 'axios';
 import PostList from './PostList';
+import {Row,Col,Input,Icon,Button,Card,CardPanel} from 'react-materialize';
 
 
 
@@ -88,32 +89,38 @@ export default class Dashboard extends Component {
 
  	<div className="dashboard">
     <Authenticated>
-      <Link className="link" to="/dashboard/NewPost"><button className='button-darkgreen'>Submit your code</button></Link>
+      <Link className="link" to="/dashboard/NewPost"><Button className='accent-button'>Submit your code</Button></Link>
     </Authenticated>
 	  <br/>
     <p className='main-title'> Posted Questions </p>
+ <CardPanel className="filter-card">
+    <Row className="filter-header">
+    <Col m={5}>
+    <form className="" onSubmit={this.getBySearch.bind(this)}>
 
-    <form className="text mrgTop10 mrgBtm10" onSubmit={this.getBySearch.bind(this)}>Search: 
-      <input type="text" value={this.state.search} onChange={this.handleSearchInput.bind(this)} />
-      <input className='' type="submit"/>
+      <Input m={8}  type="text" className="search-box" label="search" value={this.state.search} onChange={this.handleSearchInput.bind(this)} >
+        <Icon>search</Icon>
+        </Input>
+      <Button m={4}  className='search-button' onClick={this.getBySearch.bind(this)}>Submit</Button>
     </form>
+    </Col>
 
-    <p className="text"> Filter by tag:
-      <select onChange={this.selectTag.bind(this)} value={this.state.tag}>
+      <Input m={5} type="select" onChange={this.selectTag.bind(this)} label="Filter by Tag" value={this.state.tag} defaultValue={this.state.tag}>
         <option value=""> </option>
         {taglist.map((tag)=>{
           return <option value={tag}>{tag}</option>
         })}
-        </select>
-      </p>
-
-    <button className='tags mrgTop0' onClick={this.seeAll.bind(this)}>Clear Filters</button>
-
+        </Input>
+      <Col m={2}>
+    <Button onClick={this.seeAll.bind(this)} className="clear-filter-button">Clear Filters</Button>
+        </Col>
+        </Row>
+   </CardPanel>
     <PostList posts={this.state.posts} selectTagFromPost={this.selectTagFromPost.bind(this)} />
 
-    <button className='button-darkgreen-small inline-blk mrgRight10' onClick={this.firstPage.bind(this)}>First Page</button>
-    {this.state.page===1 ? null : <button  className='button-darkgreen-small inline-blk mrgRight10' onClick={this.previousPage.bind(this)}>Previous Page</button>}
-    <button  className='button-darkgreen-small inline-blk' onClick={this.nextPage.bind(this)}>Next Page</button>
+    {this.state.page===1 ? null : <Button className='accent-button' onClick={this.firstPage.bind(this)}>First Page</Button>}
+    {this.state.page===1 ? null : <Button  className='accent-button' onClick={this.previousPage.bind(this)}>Previous Page</Button>}
+    <Button  className='accent-button' onClick={this.nextPage.bind(this)}>Next Page</Button>
   	</div>
   	)
   }

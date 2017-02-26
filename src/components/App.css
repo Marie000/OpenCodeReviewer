@@ -1,11 +1,21 @@
+/*
+.dark-primary-color    { background: #0097A7; }
+.default-primary-color { background: #00BCD4; }
+.light-primary-color   { background: #B2EBF2; }
+.text-primary-color    { color: #FFFFFF; }
+.accent-color          { background: #FFEB3B; }
+.primary-text-color    { color: #212121; }
+.secondary-text-color  { color: #757575; }
+.divider-color         { border-color: #BDBDBD; }
+*/
+
 body{
   background-color: #eee;
   font-family: 'Work Sans', sans-serif;
 }
 .App {
-  text-align: center;
+  text-align: left;
   width: 100%;
-  margin: 0 auto;
   font-size: 14px;
 }
 
@@ -19,6 +29,27 @@ body{
   text-align: left;
   display: block;
 }
+.App .navbar {
+  height:120px;
+}
+.brand {
+  float:left;
+  padding-left:20px;
+  line-height:64px;
+  vertical-align: middle;
+  font-family: 'Orbitron', sans-serif;
+}
+.brand h2 {
+  margin:20px 0 0 0 ;
+}
+.brand h3 {
+  display:inline-block;
+  margin:0;
+}
+.brand a:hover {
+  text-decoration:none;
+  color:white;
+}
 .header-text{
   float: left;
 }
@@ -29,21 +60,25 @@ body{
 .link{
   text-decoration: none;
   color: inherit;
+  font-size:20px;
 }
-.link:hover{
+nav{
+  background-color:#0097A7;
+}
+nav ul a:hover, nav ul a:visited, nav ul a:active{
   text-decoration: none;
   color: inherit;
 }
 h2{
   margin-top: 10px;
 }
-h2 a, h2 a:visited{
+h2 a, h2 a:visited, h3 a, h3 a:visited{
   color: #eee;
   font-size: 3.7rem;
   text-decoration: none !important;
   text-transform: uppercase; 
 }
-h2 a:hover {
+h2 a:hover, h3 a:hover {
   text-decoration: none;
 }
 h4{

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import './App.css';
 import { Authenticated, NotAuthenticated } from 'react-stormpath'
+import {Navbar, NavItem} from 'react-materialize';
 
 
 class App extends Component {
@@ -27,9 +28,12 @@ class App extends Component {
         </Authenticated>
       </ul>
     )
+    let brand = <div className="brand"> <Link to="/dashboard"><h2>Ch3ck My C0de</h2>
+      <h3>Open Code Review Platform</h3></Link>
+    </div>
 
       return <div className="App">
-        <div className="App-header">
+        {/*<div className="App-header">
           <div className="header-text">
             <h2> <Link className='link' to="/dashboard">Ch3ck My C0de</Link></h2>
             <h4>Open Code Review Platform</h4> 
@@ -37,12 +41,20 @@ class App extends Component {
           <div className="buttons"> {buttons} </div>
           <div className="greeting">    {this.context.user ? this.context.user.username : null}
           </div>
-        </div>
-        <div>
+        </div> */}
+        <Navbar brand={brand} right className="navbar">
+            <NavItem><Link className='link' to="/learn">Learn</Link></NavItem>
+          <NavItem><Link className="link" to="/about">About</Link></NavItem>
+          <NotAuthenticated>
+            <NavItem><Link className='link' to="/register">Register</Link></NavItem>
+            <NavItem><Link className='link' to="/login" >Log In</Link></NavItem>
+          </NotAuthenticated>
+          <div className="greeting">{this.context.user ? this.context.user.username : null}</div>
+          </Navbar>
+
 
         <div className = 'child'>
           {this.props.children}
-        </div>
         </div>
         <br /> <br/>
       </div>
