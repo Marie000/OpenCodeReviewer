@@ -20,9 +20,49 @@
 .card .card-content {
     padding:0;
 }
+.card {
+    margin: 20px 0;
+}
 .badge-comments {
     background-color:#B2EBF2;
+    font-size:1.5rem;
 }
 .has-comments {
     background-color:#FFEB3B;
 }
+span.badge {
+    font-size:1.5rem;
+}
+.post-footer {
+    font-size:1rem;
+}
+.last-comment {
+    display:block;
+    float:right;
+}
+.posted-by {
+}
+.author-name {
+    color:black;
+    font-size:1.5rem;
+}
+.author-name:hover, .author-name:active, .author-name:focus, .author-name:visited {
+    color:#212121;
+}
+.tag-button {
+    font-size:1.2rem;
+    background-color:#B2EBF2;
+    color:black;
+    padding:0 5px;
+    transition: all .2s ease-in-out;
+}
+.button:hover, .button:active, .button:visited{
+    font-size:1.2rem;
+    background-color:#B2EBF2;
+    color:black;
+    padding:0 5px;
+}
+.tag-button:hover{
+    transform: scale(1.1);
+}
+

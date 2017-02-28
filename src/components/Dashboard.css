@@ -43,7 +43,7 @@ ul{
 }
 .filter-header{
 	background-color:#bdbdbd;
-	padding:15px 0 15px 0;
+	padding:15px 0 0 0;
 }
 .search-button, .accent-button, .clear-filter-button {
 	background-color:#FFEB3B;

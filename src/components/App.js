@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import './App.css';
-import { Authenticated, NotAuthenticated } from 'react-stormpath'
+import { Authenticated, NotAuthenticated } from 'react-stormpath';
 import {Navbar, NavItem} from 'react-materialize';
 
 
