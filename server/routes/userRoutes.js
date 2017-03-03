@@ -5,8 +5,8 @@ var stormpath = require('express-stormpath');
 var jwt = require('express-jwt');
 
 var jwtCheck = jwt({
-  secret: require('../../config').auth0secret,
-  audience: require('../../config').auth0audience
+  secret: process.env.AUTH0SECRET || require('../../config').auth0secret,
+  audience: process.env.AUTH0AUDIENCE || require('../../config').auth0audience
 });
 
 
