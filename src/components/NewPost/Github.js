@@ -6,7 +6,10 @@ import  ReactSelectize from "react-selectize";
 import axios from 'axios';
 import getGithubRepo from './Github-repo';
 
+import config from '../../../config';
+const api = config.api || '';
 var SimpleSelect =  ReactSelectize.SimpleSelect;
+import {FlatButton} from 'material-ui';
 
 export default class Github extends Component {
   constructor(props) {
@@ -115,7 +118,7 @@ export default class Github extends Component {
       multi_files:true
     }
     console.log(newDoc)
-    axios.post('/api/documents',newDoc)
+    axios.post(api+'/api/documents',newDoc, {headers:{Authorization: 'Bearer '+this.props.auth.getToken()}})
       .then((doc)=>{
         getGithubRepo('https://api.github.com/repos/'+this.state.user_name+'/'+this.state.selectedRepo+'/contents/',doc.data._id)
         this.context.router.push('/dashboard')
@@ -137,8 +140,12 @@ export default class Github extends Component {
     let branchList='';
 
     let fileList=this.state.files.map((file)=>{
-      return file.type==='file' ? <li className='github-file red pull-right' onClick={this.selectFile.bind(this,file.path)}>{file.name}</li> :
-        <li className='github-folder pull-left' onClick={this.resolvePath.bind(this,file.path)}>{file.name}</li>;
+      return file.type==='file' ? <div className='github-file' onClick={this.selectFile.bind(this,file.path)}>
+        <i className="fa fa-file-code-o" aria-hidden="true"></i>
+          {" "+file.name}</div> :
+        <div className='github-folder' onClick={this.resolvePath.bind(this,file.path)}>
+          <i className="fa fa-folder" aria-hidden="true"></i>
+          {" "+file.name}</div>;
     })
     
     return(
@@ -146,21 +153,19 @@ export default class Github extends Component {
       <div className='mrgBtm20 mrgTop20'> Import code from a GitHub Repository </div>
         <div className="row">
         <form className='github'>
-          <div className="col-md-3">
-          <div> GitHub User Name: </div>
-            </div>
           <div className="col-md-6">
             <input type="text"
                    name="user_name"
+                   placeholder="github username"
                    value={this.state.user_name}
                    onChange={this.handleChange.bind(this)} />
             </div>
-          <div className="col-md-1">
-            <button className='button-darkgreen-small'
+          <div className="col-md-3">
+            <FlatButton className='button'
                     type="submit"
                     onClick={this.submitUserName.bind(this)}>
               Ok
-            </button>
+            </FlatButton>
             </div>
         </form>
           </div>
@@ -168,17 +173,21 @@ export default class Github extends Component {
 
       {this.state.stage1 ? 
         <div className='row'>
-          <label className='col-md-2'> Repository: </label>
           <div className='col-md-6'>
+            <div>repository:</div>
             <SimpleSelect className='full-width' 
-                          ref="simpleselect" 
+                          ref="simpleselect"
+                          placeholder="repository"
                           options={repoList} value={{'label':this.state.selectedRepo, 'value':this.state.selectedRepo}}
-            onValueChange = {function(value){
+                          onValueChange = {function(value){
                        scope.setState({selectedRepo: value.value});
             }}/>
            </div> 
           <div className='col-md-1'>
-            <button className='button-darkgreen-small inline-blk' id="github1-ok" type="submit" onClick={this.getFiles.bind(this,'master', this.state.selectedRepo)}>OK</button>
+            <FlatButton className='button inline-blk'
+                        id="github1-ok" type="submit"
+                        onClick={this.getFiles.bind(this,'master', this.state.selectedRepo)}>
+              OK</FlatButton>
           </div>
         </div>
       : null}
@@ -188,29 +197,22 @@ export default class Github extends Component {
 
         {this.state.stage3 ? 
         <div>
-          <button onClick={this.getGithubRepo.bind(this)}>Import whole repo</button>
-          <div>Warning: only works with small repo. Large repos might end up missing some files and folders.</div>
+          <FlatButton className='button' id='import-whole-repo-button' onClick={this.getGithubRepo.bind(this)}>Import whole repo</FlatButton>
+          <div className="warning">Warning: only works with small repo. Large repos might end up missing some files and folders.</div>
           {this.state.getWholeRepo ? null :
-          <div>
-          <div className='row'>
-          <div className='col-md-6 col-md-offset-2 no-padding'>
-            <strong className='pull-left mrgBtm10'> Folders: </strong>
-            <strong className='pull-right mrgBtm10'> Files: </strong>
-            <ul>{fileList}</ul>
-          </div>
-        </div>
+          <div className="file-list-section">
 
-        <div className='row'> 
-          <div className='col-md-offset-2 col-md-2'>
-            <button onClick={this.getFiles.bind(this,'master',this.state.selectedRepo)}>Back to top</button>
-          </div>
-        </div>
+            <div>{fileList}</div>
+
+
+            <FlatButton onClick={this.getFiles.bind(this,'master',this.state.selectedRepo)}>Back to top</FlatButton>
+
         </div>}
 
         {this.state.stage4 ?
         <Code saveCode={this.props.saveCode} setLanguage={this.props.setLanguage} code={this.state.fileContent} /> : null}
         </div> : null}
-        {this.state.getWholeRepo ? <button onClick={this.submitRepo.bind(this)}>Submit repository</button> : null }
+        {this.state.getWholeRepo ? <FlatButton onClick={this.submitRepo.bind(this)}>Submit repository</FlatButton> : null }
         </div>
     )
   }

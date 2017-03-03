@@ -10,7 +10,7 @@ export default function PostCommentList(props){
         {props.comments.map(comment => {
             if (comment.is_general) {
               return (
-                <Comment comment={comment} reload={props.reload} />
+                <Comment comment={comment} reload={props.reload} auth={props.auth} />
               )}
           }
         )}

@@ -14,12 +14,17 @@ var findUserId = require('../middleware/findUserId');
 var checkForBadges = require('../utils/check-badges.js');
 var giveTagPoints = require('../utils/tag-points.js');
 
+var jwt = require('express-jwt');
 
+var jwtCheck = jwt({
+  secret: require('../../config').auth0secret,
+  audience: require('../../config').auth0audience
+});
 
 var commentRoutes = function(app){
 
 // CREATE A COMMENT
-  app.post('/api/comments/', stormpath.authenticationRequired, findUserId, function(req,res){
+  app.post('/api/comments/', jwtCheck, findUserId, function(req,res){
     // add comment
     var body = req.body;
     body._author = req.user._id;
@@ -92,7 +97,8 @@ var commentRoutes = function(app){
   });
 
 // THANK SOMEONE FOR A COMMENT
-  app.post('/api/comments/:id/thanks', stormpath.authenticationRequired, findUserId, function(req,res){
+  app.post('/api/comments/:id/thanks', jwtCheck, findUserId, function(req,res){
+    console.log(req.user)
     // Check that the person can send that thanks
     Comment.findById(req.params.id).then(function(comment){
       // Do not thank yourself
@@ -131,12 +137,12 @@ var commentRoutes = function(app){
 
 // DELETE A COMMENT
   // NOTE: keep :comment_id because it is needed for authenticateAuthor middleware
-  app.delete('/api/comments/:comment_id', stormpath.authenticationRequired, findUserId, authenticateAuthor, function(req,res){
+  app.delete('/api/comments/:comment_id', jwtCheck, findUserId, authenticateAuthor, function(req,res){
     res.send('trying to delete');
   });
 
 // EDIT A COMMENT
-  app.put('/api/comments/:comment_id', stormpath.authenticationRequired, findUserId, authenticateAuthor, function(req,res){
+  app.put('/api/comments/:comment_id', jwtCheck, findUserId, authenticateAuthor, function(req,res){
     res.send('trying to edit');
   });
 

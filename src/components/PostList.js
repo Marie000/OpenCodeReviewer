@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
-import {Card,Badge,Button} from 'react-materialize';
+import {Card,Chip,FlatButton} from 'material-ui'
 import './PostList.css';
 
 export default function (props) {
@@ -12,12 +12,12 @@ export default function (props) {
             <Card className='post'>
               <div className="post-header">
               <Link className='post-title' to={'/dashboard/'+post._id}> {post.title} </Link>
-                <Badge className={post.comments.length>0 ? 'badge-comments has-comments':'badge-comments'}>{post.comments.length===1 ? "1 comment" : post.comments.length+" comments" }</Badge>
+                <Chip className={post.comments.length>0 ? 'badge-comments has-comments':'badge-comments'}>{post.comments.length===1 ? "1 comment" : post.comments.length+" comments" }</Chip>
               </div>
               <div className="tag-list">
               {
                 post.tags.map(tag => {
-                  return <Button key={tag} className="tag-button" onClick={props.selectTagFromPost.bind(null,tag)}> {tag} </Button>
+                  return <FlatButton key={tag} className="tag-button" onClick={props.selectTagFromPost.bind(null,tag)}> {tag} </FlatButton>
                 })
               }
                 </div>
@@ -25,7 +25,7 @@ export default function (props) {
               <div className="post-footer">
 
                 <span className="posted-by">Posted by
-                  <Link className='author-name' to={'/profile/'+post._author._id}>{" "+post._author.user_name+" "}</Link>
+                  <Link className='author-name' to={'/profile/'+post._author.email}>{" "+post._author.email+" "}</Link>
                  on {moment(post.createdAt).format("MMMM Do YYYY, h:mm:ss a")}</span>
 
                 {post.comments.length===0 ? null : <span className="last-comment">Last comment: {moment(post.commentedAt).format("MMMM Do YYYY, h:mm:ss a")}</span>}

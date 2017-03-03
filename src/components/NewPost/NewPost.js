@@ -1,22 +1,24 @@
 import React, { Component } from 'react';
 import  ReactSelectize from "react-selectize";
 var MultiSelect = ReactSelectize.MultiSelect;
-var SimpleSelect =  ReactSelectize.SimpleSelect;
 import axios from 'axios';
-
+import {FlatButton,TextField} from 'material-ui';
 import Code from './Code';
 import Codepen from './codepen';
 import 'react-selectize/dist/index.css';
 import taglist from '../../services/tag-list';
 import Github from "./Github";
 import getGithubRepo from './Github-repo';
+import './newpost.css';
 
+import config from '../../../config';
+const api = config.api || '';
 
 export default class NewPost extends Component {
 
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = { 
     	title: '',
@@ -79,7 +81,7 @@ export default class NewPost extends Component {
       text: this.state.text,
       language: this.state.language
     };
-    axios.post('/api/documents', data)
+    axios.post(api+'/api/documents', data,{headers:{Authorization: 'Bearer '+this.props.auth.getToken()}})
       .then(()=>{
         this.context.router.push('/dashboard');
       })
@@ -104,28 +106,39 @@ export default class NewPost extends Component {
 
     return (
      
-      <div >
-      
+      <div className="new-post-section">
 
-      <div className='new-post-form form-container'>
+        <div className="new-post-header">
+
+      <div className='new-post-form '>
       <form onSubmit={this.handleSubmit.bind(this)}>
         <div className='form-item'>
-          <label> Title: </label>
-          <input type="text" name="title" value={this.state.title} 
-                             onChange={this.handleChange.bind(this, 'title')}>
-          </input>        
+
+          <TextField type="text"
+                     name="title"
+                     className="input"
+                     value={this.state.title}
+                     onChange={this.handleChange.bind(this, 'title')}
+                     placeholder="title"
+          />
+
        </div>
-       <div className='form-item clearfix'>
-          <label> Description: </label>
-          <textarea className="input" type="text" name="description" value={this.state.description} 
-                             onChange={this.handleChange.bind(this, 'description')}>
-          </textarea>
+       <div className='form-item'>
+
+          <TextField className="input"
+                     type="text"
+                     name="description"
+                     value={this.state.description}
+                     onChange={this.handleChange.bind(this, 'description')}
+                     placeholder="description"
+                     multiLine={true}
+                     rows={2}
+          />
         </div>
 
-        <div className='form-item clearfix'>
+        <div className='form-item'>
 
-          <label> Tags: </label>
-          <MultiSelect ref="select" options = {options} maxValues={5} placeholder = "Select tag"
+          <MultiSelect ref="select" options = {options} maxValues={5} className="input" placeholder = "Select tags"
             value = {this.state.tags}
            createFromSearch = {function(options, values, search){
                 var labels = values.map(function(value){ 
@@ -158,8 +171,10 @@ export default class NewPost extends Component {
                   description={this.state.description}
                   tags={this.state.tags}
           />
-          <button className="button-darkgreen-small mrgBtm10" onClick={this.cancelGithubImport.bind(this)} >Cancel Github import</button>
-        </div>  
+          <FlatButton className="button" onClick={this.cancelGithubImport.bind(this)} >Cancel Github import</FlatButton>
+          <br />
+          <br />
+        </div>
           : null}
 
             {this.state.importCodepen ?
@@ -168,15 +183,18 @@ export default class NewPost extends Component {
                        description={this.state.description}
                        tags={this.state.tags}
               />
-                <button className="button-darkgreen-small mrgBtm10" onClick={this.cancelCodepenImport.bind(this)} >Cancel Codepen import</button>
+                <FlatButton className="button" onClick={this.cancelCodepenImport.bind(this)} >Cancel Codepen import</FlatButton>
+                <br /><br />
             </div>
               : null
             }
-
+</div>
             {!this.state.importCodepen && !this.state.importGithub ?
-        <div>  
-          <button className="button-darkgreen-small mrgBtm10" onClick={this.importGithub.bind(this)} value="import" >Import code from GitHub</button>
-          <button className="button-darkgreen-small mrgBtm10" onClick={this.importCodepen.bind(this)} value="import" >Import code from Codepen</button>
+        <div>
+          <div className="import-buttons">
+          <FlatButton className="button" onClick={this.importGithub.bind(this)} value="import" >Import code from GitHub</FlatButton>
+          <FlatButton className="button" onClick={this.importCodepen.bind(this)} value="import" >Import code from Codepen</FlatButton>
+          </div>
 
           <Code saveCode={this.saveCode.bind(this)} setLanguage={this.setLanguage.bind(this)} />
         </div>
@@ -188,9 +206,11 @@ export default class NewPost extends Component {
       </div>
 
         {this.state.submitVisible ?
-        <button className="button-darkgreen-small" onClick={this.handleSubmit.bind(this)} value="Submit" >Submit</button>
+        <FlatButton className="button" onClick={this.handleSubmit.bind(this)} value="Submit" >Submit</FlatButton>
           : null }
-               
+               <br />
+          <br />
+          <br />
       </div>
      </div>
     )

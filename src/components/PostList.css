@@ -24,17 +24,19 @@
     margin: 20px 0;
 }
 .badge-comments {
-    background-color:#B2EBF2;
+    background-color:#B2EBF2 !important;
     font-size:1.5rem;
+    float:right;
 }
 .has-comments {
-    background-color:#FFEB3B;
+    background-color:#FFEB3B !important;
 }
 span.badge {
     font-size:1.5rem;
 }
 .post-footer {
     font-size:1rem;
+    padding:0 10px;
 }
 .last-comment {
     display:block;
@@ -64,5 +66,8 @@ span.badge {
 }
 .tag-button:hover{
     transform: scale(1.1);
+}
+.post-title {
+    font-size:2.5rem !important;
 }
 

@@ -2,6 +2,9 @@ import React,{Component} from 'react';
 import axios from 'axios';
 import _ from 'lodash';
 
+import config from '../../../config';
+const api = config.api || '';
+
 export default class FileList extends Component {
   constructor(props){
     super(props)
@@ -16,7 +19,7 @@ export default class FileList extends Component {
     if(file.name==="home"){
       this.setState({files:this.props.files,path:[]})
     } else {
-      axios.get('/api/files/'+file._id)
+      axios.get(api+'/api/files/'+file._id)
         .then((res)=> {
           let path = this.state.path;
           if(!_.find(path,file)) {
@@ -28,7 +31,7 @@ export default class FileList extends Component {
   }
 
   openFile(file){
-    axios.get('/api/files/'+file._id)
+    axios.get(api+'/api/files/'+file._id)
       .then((res)=>{
         console.log('res.data in openFile: '+res.data)
         this.props.getFileContent(res.data)

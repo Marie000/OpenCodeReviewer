@@ -3,6 +3,8 @@ import { Link } from 'react-router';
 import { hashHistory } from 'react-router';
 import _ from 'lodash';
 import axios from 'axios';
+import config from '../../../config';
+const api = config.api || '';
 
 export default class ProfileEdit extends Component {
   constructor() {
@@ -27,20 +29,21 @@ export default class ProfileEdit extends Component {
   getUserData(){
     var scope = this;
 
-    axios.get('/api/users/me')
+    axios.get(api+'/api/users/me',{headers:{Authorization: 'Bearer '+this.props.auth.getToken()}})
     .then(function(res){
         let data=res.data;
+      console.log(data)
         scope.setState({
           id: data._id,
-          first_name:data.first_name,
-          last_name: data.last_name,
-          location: data.location,
+          first_name:data.first_name || '',
+          last_name: data.last_name || '',
+          location: data.location || '',
           email:data.email,
-          github_username:data.github_username,
-          github_url:data.github_url,
-          facebook_url:data.facebook_url,
-          twitter_url:data.twitter_url,
-          linkedIn_url:data.linkedIn_url
+          github_username:data.github_username || '',
+          github_url:data.github_url || '',
+          facebook_url:data.facebook_url || '',
+          twitter_url:data.twitter_url || '',
+          linkedIn_url:data.linkedIn_url || ''
         });
       })
     }
@@ -65,13 +68,14 @@ export default class ProfileEdit extends Component {
       localStorage.removeItem('first_name')}
 
     var data = this.state;
-    axios.patch('/api/users/me', data)
+    axios.patch(api+'/api/users/me', data,{headers:{Authorization: 'Bearer '+this.props.auth.getToken()}})
       .then(()=>{
-        this.context.router.push('/profile/'+this.state.id);
+        this.context.router.push('/profile/'+this.state.email);
       })
   }
 
   render(){
+    console.log(this.state)
   	return(
   	<div >
       <button className='link button-darkgreen inline-blk' onClick={hashHistory.goBack}>Back</button> 

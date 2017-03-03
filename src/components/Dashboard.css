@@ -44,9 +44,10 @@ ul{
 .filter-header{
 	background-color:#bdbdbd;
 	padding:15px 0 0 0;
+	display:flex;
 }
 .search-button, .accent-button, .clear-filter-button {
-	background-color:#FFEB3B;
+	background-color:#FFEB3B !important;
 	color:black;
 	transition: all .2s ease-in-out;
 }
@@ -55,6 +56,11 @@ ul{
 }
 .search-button:hover, .clear-filter-button:hover, .accent-button:hover{
 	transform: scale(1.1);
+}
+.accent-button {
+	font-size:2rem !important;
+	padding:0 20px !important;
+	height: 45px !important;
 }
 .input-field label{
 	font-size:1.5rem ;
@@ -79,4 +85,30 @@ ul{
 }
 .dashboard .post-title:hover {
 	color:white;
+}
+.search-form {
+	width:50%;
+	float:left;
+}
+.search-form input {
+	width:70%;
+	float:left;
+	margin-right:2%;
+	font-size:1.5rem;
+}
+
+.search-button {
+	top:0;
+	right:0;
+	width:28%;
+	float:left;
+}
+.clear-filter-button {
+	float:right;
+}
+.filter-card {
+	display:inline-block;
+	width:100%;
+	padding: 15px 15px 8px 15px;
+	margin-bottom:50px;
 }

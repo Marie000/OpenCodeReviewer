@@ -5,16 +5,22 @@ var ObjectId = mongoose.Schema.Types.ObjectId;
 var UserSchema = mongoose.Schema({
   first_name: {
     type: String,
-    required: true
+    //required: true
   },
   last_name: {
     type: String
   },
-  user_name: {
+ /* user_name: {
     type: String,
     required: true,
     trim: true,
     minlength: 1,
+    unique: true
+  },*/
+  email: {
+    type: String,
+    required: true,
+    trim: true,
     unique: true
   },
   code_docs: [
@@ -124,6 +130,9 @@ var UserSchema = mongoose.Schema({
   linkedIn_url: {
     type: String,
     trim: true
+  },
+  Auth0: {
+    type:String
   }
 
 });

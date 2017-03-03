@@ -100,7 +100,6 @@ h4{
 }
 .menu-link{  
     display: inline-block;
-    border: 1px solid darkgreen;
     background-color: white;
     margin: 10px 10px;
     padding: 5px 15px;
@@ -163,10 +162,7 @@ h4{
   padding: 15px 0;
  }
 
-.profile-container input{
-  line-height: 1rem;
-  width:100%;
-}
+
 .profile-container label{
   font-size:2rem;
   display:block;
@@ -218,7 +214,6 @@ h4{
   cursor:pointer; cursor:hand;
 }
 .tags:hover {
-  background-color: darkgreen;
   color: white;
 }
 
@@ -239,11 +234,12 @@ h4{
   margin-bottom: 20px;
   padding-right: 10px;
   vertical-align: top;
-  max-width: 15%;
+  max-width: 20%;
+  font-size:2rem;
 }
 
 .form-container input, .form-container .input {
-  width: 85%;
+  width: 80%;
   float: right;
   
 }
@@ -365,7 +361,6 @@ h4{
   margin: 10px 0;
   list-style: none;
   font-size: 24px !important;
-  text-decoration: underline;
   clear:left;
   text-align: left;
   cursor:pointer; cursor:hand;
@@ -652,4 +647,26 @@ h4{
 }
 .listoffiles .fa {
   padding:0 5px;
+}
+
+/********** NAV *******************/
+.navbar .button {
+  background-color:#0097a7;
+  margin:0 !important;
+  float:right;
+  padding: 0 35px !important;
+  margin-top: 15px !important;
+}
+.App .navbar .button a:hover, .App .navbar .button a:active {
+  color:#FFEB3B !important;
+}
+.App .navbar {
+  background-color:#0097a7 !important;
+  height:140px !important;
+}
+.App .navbar a {
+  color:white;
+}
+.App .navbar a:hover, .App .navbar a:active, .App .navbar a:visited {
+  color:white;
 }

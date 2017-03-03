@@ -3,12 +3,12 @@ import { Link } from 'react-router';
 import './Dashboard.css';
 import moment from 'moment';
 import taglist from'../services/tag-list.js';
-import { Authenticated } from 'react-stormpath';
 import axios from 'axios';
 import PostList from './PostList';
-import {Row,Col,Input,Icon,Button,Card,CardPanel} from 'react-materialize';
+import {FlatButton, Card} from 'material-ui';
 
-
+import config from '../../config';
+const api = config.api || '';
 
 export default class Dashboard extends Component {
   constructor() {
@@ -34,7 +34,7 @@ export default class Dashboard extends Component {
       query+='&search='+search
     }
 
-    axios.get('/api/documents'+query)
+    axios.get(api+'/api/documents'+query)
       .then((res)=>{
         scope.setState({posts:res.data})
       })
@@ -88,39 +88,41 @@ export default class Dashboard extends Component {
   	return(
 
  	<div className="dashboard">
-    <Authenticated>
-      <Link className="link" to="/dashboard/NewPost"><Button className='accent-button'>Submit your code</Button></Link>
-    </Authenticated>
+    {this.props.auth.getToken() ?
+      <Link className="link" to="/dashboard/NewPost"><FlatButton className="accent-button">Submit your code</FlatButton></Link>
+    : null}
 	  <br/>
     <p className='main-title'> Posted Questions </p>
- <CardPanel className="filter-card">
-    <Row className="filter-header">
-    <Col m={5}>
-    <form className="" onSubmit={this.getBySearch.bind(this)}>
+ <Card className="filter-card flex-grid">
 
-      <Input m={8}  type="text" className="search-box" label="search" value={this.state.search} onChange={this.handleSearchInput.bind(this)} >
-        <Icon>search</Icon>
-        </Input>
-      <Button m={4}  className='search-button' onClick={this.getBySearch.bind(this)}>Submit</Button>
+    <form className="search-form " onSubmit={this.getBySearch.bind(this)}>
+      <i class="fa fa-search" aria-hidden="true" />
+      <input  type="text"
+              className="search-box col"
+              placeholder="search"
+              value={this.state.search}
+              onChange={this.handleSearchInput.bind(this)} />
+      <FlatButton  className='search-button col' onClick={this.getBySearch.bind(this)}>search</FlatButton>
     </form>
-    </Col>
 
-      <select m={5} type="select" onChange={this.selectTag.bind(this)} label="Filter by Tag" value={this.state.tag} defaultValue={this.state.tag}>
+   <form>
+      <select onChange={this.selectTag.bind(this)} label="Filter by Tag" value={this.state.tag} defaultValue={this.state.tag}>
         <option value=""> </option>
         {taglist.map((tag)=>{
           return <option value={tag}>{tag}</option>
         })}
         </select>
-      <Col m={2}>
-    <Button onClick={this.seeAll.bind(this)} className="clear-filter-button">Clear Filters</Button>
-        </Col>
-        </Row>
-   </CardPanel>
+     </form>
+
+    <FlatButton onClick={this.seeAll.bind(this)} className="clear-filter-button">Clear Filters</FlatButton>
+
+   </Card>
+    <br />
     <PostList posts={this.state.posts} selectTagFromPost={this.selectTagFromPost.bind(this)} />
 
-    {this.state.page===1 ? null : <Button className='accent-button' onClick={this.firstPage.bind(this)}>First Page</Button>}
-    {this.state.page===1 ? null : <Button  className='accent-button' onClick={this.previousPage.bind(this)}>Previous Page</Button>}
-    <Button  className='accent-button' onClick={this.nextPage.bind(this)}>Next Page</Button>
+    {this.state.page===1 ? null : <FlatButton className='accent-button' onClick={this.firstPage.bind(this)}>First Page</FlatButton>}
+    {this.state.page===1 ? null : <FlatButton  className='accent-button' onClick={this.previousPage.bind(this)}>Previous Page</FlatButton>}
+    <FlatButton  className='btn' onClick={this.nextPage.bind(this)}>Next Page</FlatButton>
   	</div>
   	)
   }

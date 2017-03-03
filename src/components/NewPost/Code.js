@@ -16,6 +16,9 @@ import 'codemirror/mode/swift/swift';
 import 'codemirror/addon/edit/matchbrackets';
 import 'codemirror/addon/edit/closebrackets';
 import languageList from '../../services/codemirror-languages';
+import ReactSelectize from 'react-selectize';
+var SimpleSelect =  ReactSelectize.SimpleSelect;
+
 
 
 export default class Code extends Component {
@@ -23,7 +26,7 @@ export default class Code extends Component {
     super(props);
     this.state = { 
       code:this.props.code || "// Code \n\n\n\n\n\n\n\n\n\n\n\n\n",
-      mode:['text','text']
+      mode:'text'
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -54,17 +57,27 @@ render() {
       closebrackets: true
     }
 
+    var newLanguageList = []
+    languageList.map((language)=>{
+      newLanguageList.push({label:language[0],value:language[0]})
+    })
+
     return (
       <div>
         Choose the language mode for the text editor:
-        <select value={this.state.mode} onChange={this.changeMode.bind(this)}>
-          <option value="plain text">Plain text</option>
-          {languageList.map((language)=>{
-            return <option value={language[0]}>{language[0]}</option>
-          })}
-        </select>
-    		<div className='form-item'>
-           <CodeMirror className="codemirror-wrapper" value={this.state.code} onChange={this.handleChange} options={options} />
+        <div>
+        <SimpleSelect className='full-width'
+                      ref="simpleselect"
+                      options={newLanguageList} value={{'label':this.state.mode, 'value':this.state.mode}}
+                      onValueChange = {(value)=>{
+                      this.setState({mode:value.value})
+                      this.props.setLanguage(value.value)
+                      }}
+        />
+          </div>
+        <br />
+        <div className="form-item">
+          <CodeMirror className="codemirror-wrapper" value={this.state.code} onChange={this.handleChange} options={options} />
         </div>
         </div>
     	)

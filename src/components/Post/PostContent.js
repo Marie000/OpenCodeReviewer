@@ -4,7 +4,9 @@ import { Link } from 'react-router';
 import { hashHistory } from 'react-router';
 import $ from 'jquery';
 import axios from 'axios';
-import {Authenticated} from 'react-stormpath';
+
+import config from '../../../config';
+const api = config.api || '';
 
 import CommentForm from './CommentForm';
 import PostCommentList from './PostCommentList';
@@ -139,7 +141,7 @@ export default class PostContent extends Component {
 
     this.state.currentComment.widget.clear();
 
-    axios.post('/api/comments/', dataToSend)
+    axios.post(api+'/api/comments/', dataToSend, {headers:{Authorization: 'Bearer '+this.props.auth.getToken()}})
       .then(()=>{
         dataToSend._author = {}
         dataToSend._author.user_name = localStorage.user_name;
@@ -197,7 +199,7 @@ export default class PostContent extends Component {
         {this.props.title ? <h2>{this.props.title}</h2> : null}
         <div className="fileContentAfterTitle">
 
-        <Authenticated>
+          {this.props.auth.getToken() ?
             <div className="clearfix mrgBtm20 font18rem">
               {this.state.currentComment.widget ?
                 <div>
@@ -211,7 +213,7 @@ export default class PostContent extends Component {
                 </div>
               }
             </div>
-          </Authenticated>
+            : null }
         <div className="codemirror-wrapper"><CodeMirror value={this.props.text} ref="codemirror" options={options} /></div>
 
 
@@ -233,11 +235,16 @@ export default class PostContent extends Component {
             <h3>Comments on {this.props.title}</h3>
             <PostCommentList comments={this.props.comments} reload={this.props.reload}  />
 
-            <Authenticated>
+            {this.props.auth.getToken() ?
               <form >
-                <CommentForm id={this.props.id} reload={this.props.reload} fileSpecific={true} />
+                <CommentForm
+                  id={this.props.id}
+                  reload={this.props.reload}
+                  fileSpecific={true}
+                  auth={this.props.auth}
+                />
               </form>
-            </Authenticated>
+            : null }
           </div>
          : null}
         </div>
