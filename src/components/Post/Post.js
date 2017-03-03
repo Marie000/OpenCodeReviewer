@@ -4,12 +4,16 @@ import { Link } from 'react-router';
 import { hashHistory } from 'react-router';
 import $ from 'jquery';
 import axios from 'axios';
-import {Authenticated} from 'react-stormpath';
+
+import config from '../../../config';
+const api = config.api || '';
 
 import CommentForm from './CommentForm';
 import PostCommentList from './PostCommentList';
 import PostContent from './PostContent';
 import FileList from './FileList';
+import {FlatButton} from 'material-ui';
+import './post.css';
 
 import CodeMirror from 'react-codemirror';
 import 'codemirror/lib/codemirror.css';
@@ -54,7 +58,7 @@ export default class Post extends Component {
        
   reloadPage(){
     this.getPostData();
-    axios.get('/api/files/'+this.state.file._id)
+    axios.get(api+'/api/files/'+this.state.file._id)
       .then((res)=>{
         this.setState({file:res.data});
       })
@@ -63,7 +67,7 @@ export default class Post extends Component {
 
   getPostData(){
   	var scope = this;
-    axios.get('/api/documents/'+this.props.params.postId)
+    axios.get(api+'/api/documents/'+this.props.params.postId)
       .then(function(res){
         scope.setState({
           id: res.data._id,
@@ -135,8 +139,8 @@ export default class Post extends Component {
 
     $(".selection").parents('.CodeMirror-line').addClass('selection-background');
     return (
-      <div className="form-container">
-      <button className='link button-darkgreen-small inline-blk' onClick={hashHistory.goBack}>Back</button>
+      <div className="form-container post-section">
+      <FlatButton className='link button' onClick={hashHistory.goBack}>Back</FlatButton>
       <div className="post-wrapper">
         <h2>{this.state.title}</h2>
           <div className='col-md-10 postdescription'> {this.state.description} </div>
@@ -160,16 +164,26 @@ export default class Post extends Component {
                     reload={this.reloadPage.bind(this)}
                     id={this.state.file ? this.state.file._id : this.state.id}
                     comments={this.state.file ? this.state.file.comments : this.state.comments}
+                    auth={this.props.auth}
        /> : null }
 
         <strong className="post-title mrgTop10 mrgBtm20"> Comments:  </strong>
-        <PostCommentList comments={this.state.comments} reload={this.reloadPage.bind(this)} />
+        <PostCommentList
+          comments={this.state.comments}
+          reload={this.reloadPage.bind(this)}
+          auth={this.props.auth}
+        />
         
-        <Authenticated>
+        {this.props.auth.getToken() ?
           <form >
-            <CommentForm id={this.props.params.postId} reload={this.reloadPage.bind(this)} fileSpecific={false} />
+            <CommentForm
+              id={this.props.params.postId}
+              reload={this.reloadPage.bind(this)}
+              fileSpecific={false}
+              auth={this.props.auth}
+            />
           </form>
-         </Authenticated>
+         : null }
       
       </div>
         </div>

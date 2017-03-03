@@ -9,6 +9,13 @@ var File = require('../models/file');
 var checkForBadges = require('../utils/check-badges.js');
 var giveTagPoints = require('../utils/tag-points.js');
 
+var jwt = require('express-jwt');
+
+var jwtCheck = jwt({
+  secret: require('../../config').auth0secret,
+  audience: require('../../config').auth0audience
+});
+
 var documentRoutes = function(app){
 
 // GET ALL DOCUMENTS
@@ -33,7 +40,7 @@ var documentRoutes = function(app){
       sort:     { commentedAt: -1 },
       limit:    10,
       page: req.query.page || 1,
-      populate: {path:'_author',select:'user_name'}
+      populate: {path:'_author',select:'email'} // change back to user_name eventually
     };
     //get documents
     CodeDocument.paginate(query, options).then(function(result) {
@@ -48,8 +55,8 @@ var documentRoutes = function(app){
     CodeDocument.findOne({_id:req.params.id})
       .populate('_author')
       .populate('comments')
-      .populate({path:'comments', populate: {path:'_author',select:'user_name'}})
-      .populate({path:'comments', populate: {path:'thanks.from',select:'user_name'}})
+      .populate({path:'comments', populate: {path:'_author',select:'email'}}) // change back to username
+      .populate({path:'comments', populate: {path:'thanks.from',select:'email'}}) // change back to username
      // .populate('files')
      // .populate({path:'files', populate: {path:'comments'}})
      // .populate({path:'files',populate:{path:'comments._author',select:'user_name'}})
@@ -67,19 +74,17 @@ var documentRoutes = function(app){
   });
 
 // CREATE A DOCUMENT
-  app.post('/api/documents', stormpath.authenticationRequired, findUserId, function(req,res){
+  app.post('/api/documents', jwtCheck, findUserId, function(req,res){
     //create a document
-
+    console.log(req.user)
     var newDoc = new CodeDocument(req.body);
     newDoc._author = req.user._id;
     newDoc.commentedAt = Date.now();
-    console.log(newDoc);
     newDoc.save().then(function(doc){
       if(!doc){
         console.log('document not saved')
         return res.status(400).send('document not saved')
       }
-      console.log(doc)
       // add document id to the author's document list
       User.findByIdAndUpdate(
         doc._author,
@@ -92,7 +97,6 @@ var documentRoutes = function(app){
         checkForBadges(author);
         if(!author){return res.status(404).send('author not found')}
       });
-
       res.send(doc);
     }).catch(function(err){
       res.status(400);

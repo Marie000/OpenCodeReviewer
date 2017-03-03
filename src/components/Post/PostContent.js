@@ -4,7 +4,10 @@ import { Link } from 'react-router';
 import { hashHistory } from 'react-router';
 import $ from 'jquery';
 import axios from 'axios';
-import {Authenticated} from 'react-stormpath';
+
+import config from '../../../config';
+const api = config.api || '';
+import {FlatButton} from 'material-ui';
 
 import CommentForm from './CommentForm';
 import PostCommentList from './PostCommentList';
@@ -139,7 +142,7 @@ export default class PostContent extends Component {
 
     this.state.currentComment.widget.clear();
 
-    axios.post('/api/comments/', dataToSend)
+    axios.post(api+'/api/comments/', dataToSend, {headers:{Authorization: 'Bearer '+this.props.auth.getToken()}})
       .then(()=>{
         dataToSend._author = {}
         dataToSend._author.user_name = localStorage.user_name;
@@ -197,29 +200,29 @@ export default class PostContent extends Component {
         {this.props.title ? <h2>{this.props.title}</h2> : null}
         <div className="fileContentAfterTitle">
 
-        <Authenticated>
-            <div className="clearfix mrgBtm20 font18rem">
+          {this.props.auth.getToken() ?
+            <div className="inline-instructions">
               {this.state.currentComment.widget ?
                 <div>
-                  <button className='button-darkgreen-small link mrgRight10' onClick={this.saveComment.bind(this)} > Save comment </button>
-                  <button className='button-darkgreen-small link mrgRight10' onClick={this.cancelWidget.bind(this)} > Cancel </button>
+                  <FlatButton className='button link' onClick={this.saveComment.bind(this)} > Save comment </FlatButton>
+                  <FlatButton className='button link' onClick={this.cancelWidget.bind(this)} > Cancel </FlatButton>
                 </div>
                 :
                 <div>
                   To post an inline comment, select the part of code that you wish to comment and press
-                  <button className='button-darkgreen-small link  mrgLeft10 mrgRight10' onClick={this.addWidget.bind(this)} > Add inline comment </button>
+                  <FlatButton className='button link' onClick={this.addWidget.bind(this)} > Add inline comment </FlatButton>
                 </div>
               }
             </div>
-          </Authenticated>
+            : null }
         <div className="codemirror-wrapper"><CodeMirror value={this.props.text} ref="codemirror" options={options} /></div>
 
 
         {this.state.inlineComments ?
           <div> {this.state.commentsHidden ?
-            <button className='button-darkgreen-small link inline-blk pull-right mrgTop10 mrgLeft10 mrgRight10' onClick={this.showComments.bind(this)} > Show inline comments </button>
+            <FlatButton className='button link inline-blk pull-right mrgTop10 mrgLeft10 mrgRight10' onClick={this.showComments.bind(this)} > Show inline comments </FlatButton>
             :
-            <button className='button-darkgreen-small link inline-blk pull-right mrgTop10 mrgLeft10 mrgRight10' onClick={this.hideComments.bind(this)} > Hide inline comments </button>
+            <FlatButton className='button link inline-blk pull-right mrgTop10 mrgLeft10 mrgRight10' onClick={this.hideComments.bind(this)} > Hide inline comments </FlatButton>
           }  </div> : null
         }
 
@@ -233,11 +236,16 @@ export default class PostContent extends Component {
             <h3>Comments on {this.props.title}</h3>
             <PostCommentList comments={this.props.comments} reload={this.props.reload}  />
 
-            <Authenticated>
+            {this.props.auth.getToken() ?
               <form >
-                <CommentForm id={this.props.id} reload={this.props.reload} fileSpecific={true} />
+                <CommentForm
+                  id={this.props.id}
+                  reload={this.props.reload}
+                  fileSpecific={true}
+                  auth={this.props.auth}
+                />
               </form>
-            </Authenticated>
+            : null }
           </div>
          : null}
         </div>

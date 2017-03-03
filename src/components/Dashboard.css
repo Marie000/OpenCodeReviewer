@@ -38,3 +38,86 @@ ul{
   clear: both;
   margin-left: 10px;
 }
+.search-box{
+	width:100%;
+}
+.filter-header{
+	background-color:#bdbdbd;
+	padding:15px 0 0 0;
+	display:flex;
+}
+.search-button, .accent-button, .clear-filter-button {
+	background-color:#FFEB3B !important;
+	color:black;
+	transition: all .2s ease-in-out;
+}
+.search-button:hover, .btn:hover, .search-button:visited, .clear-filter-button:hover, .clear-filter-button:visited .accent-button:hover, .accent-button:visited {
+	background-color: #FFEB3B !important;
+}
+.search-button:hover, .clear-filter-button:hover, .accent-button:hover{
+	transform: scale(1.1);
+}
+.accent-button {
+	font-size:2rem !important;
+	padding:0 20px !important;
+	height: 45px !important;
+}
+.input-field label{
+	font-size:1.5rem ;
+}
+.input-field .prefix{
+	font-size:3rem;
+}
+
+.card-panel{
+	padding:0;
+
+}
+.row {
+	margin:0;
+}
+
+.dashboard .post {
+	padding:0;
+}
+.dashboard .post-title {
+	color:#212121;
+}
+.dashboard .post-title:hover {
+	color:white;
+}
+.search-form {
+	width:45%;
+	float:left;
+}
+.search-form input {
+	width:70%;
+	float:left;
+	margin-right:2%;
+	font-size:1.5rem;
+}
+
+.search-button {
+	top:0;
+	right:0;
+	width:28%;
+	float:left;
+}
+.clear-filter-button {
+	width:15%;
+	float:right;
+	margin-left:20px !important;
+}
+.filter-card {
+	display:inline-block;
+	width:100%;
+	padding: 15px 15px 8px 15px;
+	margin-bottom:50px;
+}
+.select-tags{
+	width:25%;
+	min-width:300px;
+}
+.react-selectize.root-node {
+	width:25% !important;
+}

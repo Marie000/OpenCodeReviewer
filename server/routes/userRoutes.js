@@ -2,6 +2,13 @@ var _ = require('lodash');
 var User = require ('../models/user.js');
 var getUserId = require('../middleware/findUserId');
 var stormpath = require('express-stormpath');
+var jwt = require('express-jwt');
+
+var jwtCheck = jwt({
+  secret: require('../../config').auth0secret,
+  audience: require('../../config').auth0audience
+});
+
 
 var userRoutes = function(app) {
 
@@ -20,19 +27,24 @@ var userRoutes = function(app) {
 // CREATE A NEW USER
   
   app.post('/api/users',function(req,res){
-    var newUser = new User(req.body);
-    newUser.save().then(function(doc){
-      res.json('new user created: '+doc.user_name);
-    }).catch(function(err){
-      res.status(400).send(err);
-    });
+    User.findOne({Auth0:req.body.Auth0})
+      .then((user)=> {
+        if (user) {
+          res.json(user)
+        }
+      });
+    console.log(req.body);
+    let user = new User(req.body)
+    user.save()
+      .then(res.json(user))
   });
 
 // GET A USER
 
   // when user is logged in, get all information for that user (private and public)
-  app.get('/api/users/me',stormpath.authenticationRequired, function(req,res){
-    User.findOne({user_name: req.user.username}).then(function(user){
+  app.get('/api/users/me',jwtCheck, getUserId, function(req,res){
+    console.log(req.user)
+    User.findOne({_id: req.user._id}).then(function(user){
       if(!user){return res.status(404).send('user not found')}
       res.send(user);
     }).catch(function(err){
@@ -42,8 +54,9 @@ var userRoutes = function(app) {
   });
 
   // get only public information for a user
-  app.get('/api/users/:id', function(req,res){
-    User.findOne({_id: req.params.id}).then(function(user){
+  app.get('/api/users/:email', function(req,res){
+    console.log(req.params.email)
+    User.findOne({email: req.params.email}).then(function(user){
       if(!user){ return res.status(404).send('user not found')}
       // pick public parts of the user object
       filteredUser = _.pick(user,
@@ -55,10 +68,10 @@ var userRoutes = function(app) {
   });
 
 // UPDATE USER PROFILE
-  app.patch('/api/users/me', stormpath.authenticationRequired, getUserId, function(req,res){
+  app.patch('/api/users/me', jwtCheck, getUserId, function(req,res){
     // filter body to update only fields that exist
     var body = _.pick(req.body,['first_name','last_name','location','skills','facebook_url','twitter_url','linkedIn_url','github_url','github_username']);
-    User.findByIdAndUpdate(req.user._id, {$set: body}, {new:true}).then(function(user){
+    User.findOneAndUpdate({_id:req.user._id}, {$set: body}, {new:true}).then(function(user){
       res.send(user);
     }).catch(function(err){
       res.status(400).send(err)

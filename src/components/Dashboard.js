@@ -3,11 +3,15 @@ import { Link } from 'react-router';
 import './Dashboard.css';
 import moment from 'moment';
 import taglist from'../services/tag-list.js';
-import { Authenticated } from 'react-stormpath';
 import axios from 'axios';
 import PostList from './PostList';
+import {FlatButton, Card} from 'material-ui';
+import  ReactSelectize from "react-selectize";
+var SimpleSelect =  ReactSelectize.SimpleSelect;
 
 
+import config from '../../config';
+const api = config.api || '';
 
 export default class Dashboard extends Component {
   constructor() {
@@ -33,7 +37,7 @@ export default class Dashboard extends Component {
       query+='&search='+search
     }
 
-    axios.get('/api/documents'+query)
+    axios.get(api+'/api/documents'+query)
       .then((res)=>{
         scope.setState({posts:res.data})
       })
@@ -83,37 +87,48 @@ export default class Dashboard extends Component {
   }
 
   render(){
-
+    let tagList = taglist.map((tag)=>{
+      return {label:tag,value:tag}
+    })
   	return(
 
  	<div className="dashboard">
-    <Authenticated>
-      <Link className="link" to="/dashboard/NewPost"><button className='button-darkgreen'>Submit your code</button></Link>
-    </Authenticated>
+      <Link className="link" to="/dashboard/NewPost"><FlatButton className="accent-button">Submit your code</FlatButton></Link>
 	  <br/>
     <p className='main-title'> Posted Questions </p>
+ <Card className="filter-card flex-grid">
 
-    <form className="text mrgTop10 mrgBtm10" onSubmit={this.getBySearch.bind(this)}>Search: 
-      <input type="text" value={this.state.search} onChange={this.handleSearchInput.bind(this)} />
-      <input className='' type="submit"/>
+    <form className="search-form " onSubmit={this.getBySearch.bind(this)}>
+      <i class="fa fa-search" aria-hidden="true" />
+      <input  type="text"
+              className="search-box col"
+              placeholder="search"
+              value={this.state.search}
+              onChange={this.handleSearchInput.bind(this)} />
+      <FlatButton  className='search-button col' onClick={this.getBySearch.bind(this)}>search</FlatButton>
     </form>
+   <FlatButton onClick={this.seeAll.bind(this)} className="clear-filter-button">Clear Filters</FlatButton>
 
-    <p className="text"> Filter by tag:
-      <select onChange={this.selectTag.bind(this)} value={this.state.tag}>
-        <option value=""> </option>
-        {taglist.map((tag)=>{
-          return <option value={tag}>{tag}</option>
-        })}
-        </select>
-      </p>
+     <SimpleSelect ref="simpleselect"
+                   className="select-tags"
+                   theme="material"
+                   placeholder="tags"
+                   options={tagList}
+                   value={{label:this.state.tag, value:this.state.tag}}
+                   onValueChange={(value)=>{
+                        this.getData(1,value.value,null);
+                        this.setState({page:1,tag:value.value})
+                   }} />
 
-    <button className='tags mrgTop0' onClick={this.seeAll.bind(this)}>Clear Filters</button>
 
+
+   </Card>
+    <br />
     <PostList posts={this.state.posts} selectTagFromPost={this.selectTagFromPost.bind(this)} />
 
-    <button className='button-darkgreen-small inline-blk mrgRight10' onClick={this.firstPage.bind(this)}>First Page</button>
-    {this.state.page===1 ? null : <button  className='button-darkgreen-small inline-blk mrgRight10' onClick={this.previousPage.bind(this)}>Previous Page</button>}
-    <button  className='button-darkgreen-small inline-blk' onClick={this.nextPage.bind(this)}>Next Page</button>
+    {this.state.page===1 ? null : <FlatButton className='accent-button' onClick={this.firstPage.bind(this)}>First Page</FlatButton>}
+    {this.state.page===1 ? null : <FlatButton  className='accent-button' onClick={this.previousPage.bind(this)}>Previous Page</FlatButton>}
+    <FlatButton  className='btn' onClick={this.nextPage.bind(this)}>Next Page</FlatButton>
   	</div>
   	)
   }

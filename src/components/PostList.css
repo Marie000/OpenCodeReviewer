@@ -1,0 +1,73 @@
+/*
+.dark-primary-color    { background: #0097A7; }
+.default-primary-color { background: #00BCD4; }
+.light-primary-color   { background: #B2EBF2; }
+.text-primary-color    { color: #FFFFFF; }
+.accent-color          { background: #FFEB3B; }
+.primary-text-color    { color: #212121; }
+.secondary-text-color  { color: #757575; }
+.divider-color         { border-color: #BDBDBD; }
+*/
+
+.post-header {
+    background-color:#00BCD4;
+    padding:5px;
+    color:#757575;
+}
+.post-header a {
+    color:#757575;
+}
+.card .card-content {
+    padding:0;
+}
+.card {
+    margin: 20px 0;
+}
+.badge-comments {
+    background-color:#B2EBF2 !important;
+    font-size:1.5rem;
+    float:right;
+}
+.has-comments {
+    background-color:#FFEB3B !important;
+}
+span.badge {
+    font-size:1.5rem;
+}
+.post-footer {
+    font-size:1rem;
+    padding:0 10px;
+}
+.last-comment {
+    display:block;
+    float:right;
+}
+.posted-by {
+}
+.author-name {
+    color:black;
+    font-size:1.5rem;
+}
+.author-name:hover, .author-name:active, .author-name:focus, .author-name:visited {
+    color:#212121;
+}
+.tag-button {
+    font-size:1.2rem;
+    background-color:#B2EBF2;
+    color:black;
+    padding:0 5px;
+    transition: all .2s ease-in-out;
+}
+.button:hover, .button:active, .button:visited{
+    font-size:1.2rem;
+    background-color:#B2EBF2;
+    color:black;
+    padding:0 5px;
+}
+.tag-button:hover{
+    transform: scale(1.1);
+}
+.post-title {
+    font-size:2.5rem !important;
+}
+

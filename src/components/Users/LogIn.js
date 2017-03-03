@@ -1,10 +1,22 @@
-import React from 'react';
-import { LoginForm } from 'react-stormpath';
-import { Link } from 'react-router';
+import React, { PropTypes as T } from 'react'
+import AuthService from '../../utils/AuthService';
+import {FlatButton} from 'material-ui';
+//import styles from './styles.module.css'
 
-export default function LogIn () {
-  return <div>
-      <LoginForm />
-    <p className="registerLink">New User? <Link to="/register">Register Here</Link></p>
-    </div>
+export class Login extends React.Component {
+  static propTypes = {
+    location: T.object,
+    auth: T.instanceOf(AuthService)
+  }
+
+  render() {
+    const { auth } = this.props
+    return (
+      <div className="root profile-section">
+          <FlatButton className="button" onClick={auth.login.bind(this)}>Login</FlatButton>
+      </div>
+    )
+  }
 }
+
+export default Login;

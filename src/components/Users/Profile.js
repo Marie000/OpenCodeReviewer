@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { hashHistory } from 'react-router';
+import {FlatButton} from 'material-ui';
 import _ from 'lodash';
 import axios from 'axios';
+import './users.css';
 
+import config from '../../../config';
+const api = config.api || '';
 
 export default class Profile extends Component {
   constructor(props) {
     super(props);
     this.state={
-        id: this.props.params.userId,
+        email: this.props.params.userId,
         first_name:'',
         last_name: '',
         user_name: '',
@@ -27,8 +31,8 @@ export default class Profile extends Component {
   getUserData(){
     var scope = this;
 
-    if (this.state.id === localStorage.user_id){
-      axios.get('/api/users/me')
+    if (this.state.email === this.props.auth.getProfile().email){
+      axios.get(api+'/api/users/me',{headers:{Authorization: 'Bearer '+this.props.auth.getToken()}})
       .then(function(res){
         let data=res.data;
         scope.setState({
@@ -46,7 +50,7 @@ export default class Profile extends Component {
         });
       })
     } else {
-      axios.get('/api/users/'+this.state.id)
+      axios.get(api+'/api/users/'+this.state.email)
       .then(function(res){
         let data = res.data;
         scope.setState({
@@ -72,7 +76,7 @@ export default class Profile extends Component {
   render(){
     var button;
     if (this.state.me) {
-      button = <Link className='link' to="/editprofile" ><button className='button-darkgreen'>Edit your profile</button></Link>
+      button = <Link className='link' to="/editprofile" ><FlatButton className='button'>Edit your profile</FlatButton></Link>
     }
 
 
@@ -80,7 +84,7 @@ export default class Profile extends Component {
     if (this.state.me){
       profileTitle = "Your profile"
     } else {
-      profileTitle = <span>{this.state.user_name }'s profile</span>
+      profileTitle = <span>{this.state.email }'s profile</span>
     }
 
     var badges;
@@ -90,8 +94,8 @@ export default class Profile extends Component {
 
 
   	return(
-  	<div>
-      <button className='link button-darkgreen inline-blk' onClick={hashHistory.goBack}>Back</button>
+  	<div className="profile-section">
+      <FlatButton className='link button inline-blk' onClick={hashHistory.goBack}>Back</FlatButton>
       <br/>
       <div className='profile-container'>
         <h1>{profileTitle} </h1> 

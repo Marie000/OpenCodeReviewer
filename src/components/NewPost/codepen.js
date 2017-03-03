@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import ReactSelectize from "react-selectize";
+import {FlatButton, TextField} from 'material-ui';
 var SimpleSelect =  ReactSelectize.SimpleSelect;
 import axios from 'axios';
+
+import config from '../../../config';
+const api = config.api || '';
 
 export default class Github extends Component {
   constructor(props) {
@@ -49,7 +53,7 @@ export default class Github extends Component {
       language:language,
       _parent:parent
     }
-    axios.post('/api/files',newFile)
+    axios.post(api+'/api/files',newFile)
       .then(()=>{console.log("file created")})
   }
   
@@ -64,7 +68,7 @@ export default class Github extends Component {
       language:'text',
       multi_files:true
     }
-    axios.post('/api/documents',newDoc)
+    axios.post('/api/documents',newDoc, {headers:{Authorization: 'Bearer '+this.props.auth.getToken()}})
       .then((doc)=>{
         
         axios.get(this.state.base_url+"."+this.state.html_ext)
@@ -109,7 +113,7 @@ export default class Github extends Component {
     let scope = this;
     return(
       <div className='github-container'>
-        <div className='mrgBtm20 mrgTop20'> Import code from Codepen </div>
+        <div> Import code from Codepen </div>
         <div className="row">
           <form className='github'>
             <div>Preprocessors: </div>
@@ -136,25 +140,29 @@ export default class Github extends Component {
                           onValueChange = {function(value){
                        scope.setState({js_ext: value.value});
             }}/>
-            <br/><br/>
-            <div className="col-md-4">
-              <div> Url of your codepen: </div>
-            </div>
-            <div className="col-md-6">
-              <input type="text"
-                     name="base_url"
-                     value={this.state.base_url}
-                     onChange={this.handleUrl.bind(this)} />
+        </form>
+        </div>
+            <br/>
+    <form className="codepen-form">
+      <div className="row">
+
+            <div className="col-md-8">
+              <TextField type="text"
+                         name="base_url"
+                         className="url-input"
+                         placeholder="url from codepen"
+                         value={this.state.base_url}
+                         onChange={this.handleUrl.bind(this)} />
             </div>
             <div className="col-md-1">
-              <button className='button-darkgreen-small'
+              <FlatButton className='button'
                       type="submit"
                       onClick={this.submitUrl.bind(this)}>
                 Submit
-              </button>
-            </div>
-          </form>
+              </FlatButton>
         </div>
+        </div>
+      </form>
       </div>
     )
   }

@@ -1,0 +1,79 @@
+/*
+.dark-primary-color    { background: #0097A7; }
+.default-primary-color { background: #00BCD4; }
+.light-primary-color   { background: #B2EBF2; }
+.text-primary-color    { color: #FFFFFF; }
+.accent-color          { background: #FFEB3B; }
+.primary-text-color    { color: #212121; }
+.secondary-text-color  { color: #757575; }
+.divider-color         { border-color: #BDBDBD; }
+*/
+
+.new-post-section .button {
+    background-color: #ffeb3b !important;
+    font-size:2rem !important;
+    padding:0 20px !important;
+    height: 45px !important;
+    margin-right: 15px !important;
+    transition: all .2s ease-in-out;
+}
+.new-post-section .button:hover {
+    transform: scale(1.1);
+}
+
+.new-post-section .form-item {
+    width: 100% !important;
+}
+
+.input {
+    width:100% !important;
+}
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: #0097A7;
+}
+::-moz-placeholder { /* Firefox 19+ */
+    color: #0097A7;
+}
+:-ms-input-placeholder { /* IE 10+ */
+    color: #0097A7;
+}
+:-moz-placeholder { /* Firefox 18- */
+    color: #0097A7;
+}
+
+.react-selectize.root-node.multi-select {
+    width:100% !important;
+    margin-bottom: 30px;
+}
+
+.import-buttons {
+    margin-bottom: 50px;
+}
+.codemirror-wrapper {
+    display:inline-block;
+    width:100%;
+    margin-top: 30px;
+}
+#github1-ok {
+    margin-top:20px !important;
+}
+#import-whole-repo-button {
+    margin:15px 0 0 10px !important;
+}
+.warning {
+    font-size:1.5rem;
+    color:red;
+    margin: 5px 0 0 10px;
+}
+.file-list-section {
+    margin: 30px 0 0 30px;
+}
+input[type=text] {
+    font-size:2rem;
+}
+.codepen-form {
+    padding-top:20px !important;
+}
+.url-input {
+    width:100% !important;
+}

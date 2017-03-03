@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+import config from '../../../config';
+const api = config.api || '';
+
 export default class PostComment extends Component {
 
   constructor(props) {
@@ -15,6 +18,7 @@ export default class PostComment extends Component {
   }
 
   handleChange (e) {
+    console.log(this.state.text)
     this.setState({text:e.target.value});
   }
 
@@ -30,7 +34,7 @@ export default class PostComment extends Component {
     var data = this.state;
     console.log('this is data: ')
     console.log(data)
-    axios.post('/api/comments/',data)
+    axios.post(api+'/api/comments/',data, {headers:{Authorization: 'Bearer '+this.props.auth.getToken()}})
       .then(()=>{
         this.props.reload();
         this.setState({text:""})
@@ -40,14 +44,13 @@ export default class PostComment extends Component {
   render(){
   	return(
       <div>
-  		<div className="row">
-        <div className='col-md-2 post-title'> {this.props.fileSpecific ? "Comment on this file:" : "Comment on the whole project:"} </div>
-        <div className='col-md-10'>  
-          <textarea className="input full-width" name="comment" value={this.state.text} onChange={this.handleChange.bind(this)} />     
-         </div>
-      </div>   
-       <button className='button-darkgreen-small link mrgBtm10 pull-right ' onClick={this.handleSubmit.bind(this)} >Submit your comment</button>    
-  	 </div>
+
+        <div className='post-title'> {this.props.fileSpecific ? "Comment on this file:" : "Comment on the whole project:"} </div>
+        <form>
+          <textarea className="input full-width" name="comment" value={this.state.text} onChange={this.handleChange.bind(this)} />
+       <button className='button-darkgreen-small link mrgBtm10 pull-right ' onClick={this.handleSubmit.bind(this)} >Submit your comment</button>
+  	  </form>
+      </div>
     )
   }
  }

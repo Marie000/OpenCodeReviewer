@@ -1,5 +1,8 @@
 let axios= require('axios');
 
+import config from '../../../config';
+const api = config.api;
+
 const toIgnore=['node_modules','.gitignore'];
 
 function getLanguage(filename){
@@ -37,7 +40,7 @@ export default function getGithubRepo(path,parent_id){
                   text: atob(res.data.content),
                   language: getLanguage(res.data.name)
                 };
-                axios.post('/api/files/', newFile)
+                axios.post(api+'/api/files/', newFile)
                   .then((file)=> {
                     console.log('file saved: ' + file)
                   })
@@ -51,7 +54,7 @@ export default function getGithubRepo(path,parent_id){
               is_folder: true,
               name: fileFromList.name
             }
-            axios.post('/api/files/', newFolder)
+            axios.post(api+'/api/files/', newFolder)
               .then((res)=> {
                 console.log('folder saved: ' + res.data.name)
                 getGithubRepo(path + res.data.name + '/', res.data._id)

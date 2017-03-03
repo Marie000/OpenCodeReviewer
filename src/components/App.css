@@ -1,11 +1,21 @@
+/*
+.dark-primary-color    { background: #0097A7; }
+.default-primary-color { background: #00BCD4; }
+.light-primary-color   { background: #B2EBF2; }
+.text-primary-color    { color: #FFFFFF; }
+.accent-color          { background: #FFEB3B; }
+.primary-text-color    { color: #212121; }
+.secondary-text-color  { color: #757575; }
+.divider-color         { border-color: #BDBDBD; }
+*/
+
 body{
   background-color: #eee;
   font-family: 'Work Sans', sans-serif;
 }
 .App {
-  text-align: center;
+  text-align: left;
   width: 100%;
-  margin: 0 auto;
   font-size: 14px;
 }
 
@@ -19,6 +29,27 @@ body{
   text-align: left;
   display: block;
 }
+.App .navbar {
+  height:120px;
+}
+.brand {
+  float:left;
+  padding-left:20px;
+  line-height:64px;
+  vertical-align: middle;
+  font-family: 'Orbitron', sans-serif;
+}
+.brand h2 {
+  margin:20px 0 0 0 ;
+}
+.brand h3 {
+  display:inline-block;
+  margin:0;
+}
+.brand a:hover {
+  text-decoration:none;
+  color:white;
+}
 .header-text{
   float: left;
 }
@@ -29,23 +60,33 @@ body{
 .link{
   text-decoration: none;
   color: inherit;
+  font-size:20px;
 }
-.link:hover{
+nav{
+  background-color:#0097A7;
+}
+nav ul a:hover, nav ul a:visited, nav ul a:active{
   text-decoration: none;
   color: inherit;
 }
 h2{
   margin-top: 10px;
 }
-h2 a, h2 a:visited{
+h2 a, h2 a:visited, h2 a:focus, h3 a, h3 a:visited, h3 a:active, h3 a:focus h2 a:active{
   color: #eee;
   font-size: 3.7rem;
   text-decoration: none !important;
   text-transform: uppercase; 
 }
-h2 a:hover {
+h2 a:hover, h3 a:hover {
   text-decoration: none;
+  color: #eee;
 }
+a:hover, a:focus, a:visited {
+  text-decoration: none;
+  color: #eee;
+}
+
 h4{
   letter-spacing: 2px;
 }
@@ -59,7 +100,6 @@ h4{
 }
 .menu-link{  
     display: inline-block;
-    border: 1px solid darkgreen;
     background-color: white;
     margin: 10px 10px;
     padding: 5px 15px;
@@ -122,10 +162,7 @@ h4{
   padding: 15px 0;
  }
 
-.profile-container input{
-  line-height: 1rem;
-  width:100%;
-}
+
 .profile-container label{
   font-size:2rem;
   display:block;
@@ -177,7 +214,6 @@ h4{
   cursor:pointer; cursor:hand;
 }
 .tags:hover {
-  background-color: darkgreen;
   color: white;
 }
 
@@ -198,11 +234,12 @@ h4{
   margin-bottom: 20px;
   padding-right: 10px;
   vertical-align: top;
-  max-width: 15%;
+  max-width: 20%;
+  font-size:2rem;
 }
 
 .form-container input, .form-container .input {
-  width: 85%;
+  width: 80%;
   float: right;
   
 }
@@ -213,37 +250,6 @@ h4{
 }
 
 
-.comment {
-   border: 1px solid #E0D7D7;
-  border-radius: .3em;
-  background-color: #f7f7f7;
-  border-radius: 5px;
-  list-style: none;
-  margin: 15px 0;
-  font-size: 18px;
-  padding: 0 0 10px 0;
-}
-
-.comment-header {
-  margin-bottom: 10px;
-  border-bottom: 1px solid #E0D7D7;
-  background: #fff;
-  padding: 10px;
-  border-top-right-radius: 5px;
-  border-top-left-radius: 5px;
-  padding-left: 15px;
-}
-.comment .link {
-  padding-right: 0;
-
-}
-.comment-date {
-  float:right;
-}
-.comment-text {
-  padding: 15px;
-  overflow-wrap: all;
-}
 .react-selectize {
   display: inline-block;
   float:right;
@@ -324,7 +330,6 @@ h4{
   margin: 10px 0;
   list-style: none;
   font-size: 24px !important;
-  text-decoration: underline;
   clear:left;
   text-align: left;
   cursor:pointer; cursor:hand;
@@ -611,4 +616,26 @@ h4{
 }
 .listoffiles .fa {
   padding:0 5px;
+}
+
+/********** NAV *******************/
+.navbar .button {
+  background-color:#0097a7;
+  margin:0 !important;
+  float:right;
+  padding: 0 35px !important;
+  margin-top: 15px !important;
+}
+.App .navbar .button a:hover, .App .navbar .button a:active {
+  color:#FFEB3B !important;
+}
+.App .navbar {
+  background-color:#0097a7 !important;
+  height:140px !important;
+}
+.App .navbar a {
+  color:white;
+}
+.App .navbar a:hover, .App .navbar a:active, .App .navbar a:visited {
+  color:white;
 }

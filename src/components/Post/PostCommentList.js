@@ -6,15 +6,13 @@ import Comment from './Comment';
 export default function PostCommentList(props){
   return (
     <div>
-      <ul >
         {props.comments.map(comment => {
             if (comment.is_general) {
               return (
-                <Comment comment={comment} reload={props.reload} />
+                <Comment comment={comment} reload={props.reload} auth={props.auth} />
               )}
           }
         )}
-      </ul>
     </div>
   )
 }
