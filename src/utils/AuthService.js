@@ -21,11 +21,9 @@ export default class AuthService {
   }
 
   _doAuthentication(authResult) {
-    console.log('Authenticated!!!')
     // Saves the user token
     this.setToken(authResult.idToken)
     // navigate to the home route
-    browserHistory.replace('/dashboard')
 
     this.lock.getProfile(authResult.idToken, (error, profile) => {
       console.log('get profile function')
@@ -61,6 +59,8 @@ export default class AuthService {
   setProfile(profile) {
     // Saves profile data to local storage
     localStorage.setItem('profile', JSON.stringify(profile))
+    browserHistory.replace('/dashboard')
+
     // Triggers profile_updated event to update the UI
     //this.emit('profile_updated', profile)
   }

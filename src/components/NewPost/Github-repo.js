@@ -40,7 +40,7 @@ export default function getGithubRepo(path,parent_id){
                   text: atob(res.data.content),
                   language: getLanguage(res.data.name)
                 };
-                axios.post('/api/files/', newFile)
+                axios.post(api+'/api/files/', newFile)
                   .then((file)=> {
                     console.log('file saved: ' + file)
                   })

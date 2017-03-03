@@ -12,9 +12,8 @@ export class Login extends React.Component {
   render() {
     const { auth } = this.props
     return (
-      <div className="root">
-        <h2>Login</h2>
-          <FlatButton  onClick={auth.login.bind(this)}>Login</FlatButton>
+      <div className="root profile-section">
+          <FlatButton className="button" onClick={auth.login.bind(this)}>Login</FlatButton>
       </div>
     )
   }

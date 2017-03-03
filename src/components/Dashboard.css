@@ -87,7 +87,7 @@ ul{
 	color:white;
 }
 .search-form {
-	width:50%;
+	width:45%;
 	float:left;
 }
 .search-form input {
@@ -104,11 +104,20 @@ ul{
 	float:left;
 }
 .clear-filter-button {
+	width:15%;
 	float:right;
+	margin-left:20px !important;
 }
 .filter-card {
 	display:inline-block;
 	width:100%;
 	padding: 15px 15px 8px 15px;
 	margin-bottom:50px;
+}
+.select-tags{
+	width:25%;
+	min-width:300px;
+}
+.react-selectize.root-node {
+	width:25% !important;
 }

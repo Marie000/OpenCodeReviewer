@@ -5,6 +5,7 @@ import _ from 'lodash';
 import axios from 'axios';
 import config from '../../../config';
 const api = config.api || '';
+import {FlatButton} from 'material-ui';
 
 export default class ProfileEdit extends Component {
   constructor() {
@@ -77,8 +78,8 @@ export default class ProfileEdit extends Component {
   render(){
     console.log(this.state)
   	return(
-  	<div >
-      <button className='link button-darkgreen inline-blk' onClick={hashHistory.goBack}>Back</button> 
+  	<div className="profile-section">
+      <FlatButton className='link button inline-blk' onClick={hashHistory.goBack}>Back</FlatButton>
   		<div className='profile-container'>
       <form>
           <label> First Name: </label>
@@ -120,7 +121,12 @@ export default class ProfileEdit extends Component {
         <br/>
 
 
-          <input className='link button-darkgreen' type="submit" value="Submit changes" onClick={this.handleSubmit.bind(this)}/>
+          <FlatButton id="submit-button"
+                      className='button'
+                      type="submit"
+                      value="Submit changes"
+                      onClick={this.handleSubmit.bind(this)}>
+            Submit </FlatButton>
       </form>
 
       </div>

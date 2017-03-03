@@ -1,0 +1,11 @@
+.profile-section .button {
+    background-color: #ffeb3b !important;
+    font-size:2rem !important;
+    padding:0 20px !important;
+    height: 45px !important;
+    margin-right: 15px !important;
+    transition: all .2s ease-in-out;
+}
+.profile-section .button:hover {
+    transform: scale(1.1);
+}

@@ -6,6 +6,9 @@ import taglist from'../services/tag-list.js';
 import axios from 'axios';
 import PostList from './PostList';
 import {FlatButton, Card} from 'material-ui';
+import  ReactSelectize from "react-selectize";
+var SimpleSelect =  ReactSelectize.SimpleSelect;
+
 
 import config from '../../config';
 const api = config.api || '';
@@ -84,13 +87,13 @@ export default class Dashboard extends Component {
   }
 
   render(){
-
+    let tagList = taglist.map((tag)=>{
+      return {label:tag,value:tag}
+    })
   	return(
 
  	<div className="dashboard">
-    {this.props.auth.getToken() ?
       <Link className="link" to="/dashboard/NewPost"><FlatButton className="accent-button">Submit your code</FlatButton></Link>
-    : null}
 	  <br/>
     <p className='main-title'> Posted Questions </p>
  <Card className="filter-card flex-grid">
@@ -104,17 +107,20 @@ export default class Dashboard extends Component {
               onChange={this.handleSearchInput.bind(this)} />
       <FlatButton  className='search-button col' onClick={this.getBySearch.bind(this)}>search</FlatButton>
     </form>
+   <FlatButton onClick={this.seeAll.bind(this)} className="clear-filter-button">Clear Filters</FlatButton>
 
-   <form>
-      <select onChange={this.selectTag.bind(this)} label="Filter by Tag" value={this.state.tag} defaultValue={this.state.tag}>
-        <option value=""> </option>
-        {taglist.map((tag)=>{
-          return <option value={tag}>{tag}</option>
-        })}
-        </select>
-     </form>
+     <SimpleSelect ref="simpleselect"
+                   className="select-tags"
+                   theme="material"
+                   placeholder="tags"
+                   options={tagList}
+                   value={{label:this.state.tag, value:this.state.tag}}
+                   onValueChange={(value)=>{
+                        this.getData(1,value.value,null);
+                        this.setState({page:1,tag:value.value})
+                   }} />
 
-    <FlatButton onClick={this.seeAll.bind(this)} className="clear-filter-button">Clear Filters</FlatButton>
+
 
    </Card>
     <br />

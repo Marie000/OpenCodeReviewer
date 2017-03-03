@@ -6,7 +6,6 @@ import Comment from './Comment';
 export default function PostCommentList(props){
   return (
     <div>
-      <ul >
         {props.comments.map(comment => {
             if (comment.is_general) {
               return (
@@ -14,7 +13,6 @@ export default function PostCommentList(props){
               )}
           }
         )}
-      </ul>
     </div>
   )
 }

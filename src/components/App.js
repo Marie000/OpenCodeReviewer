@@ -31,16 +31,23 @@ class App extends Component {
       })
     }
 
+    let email = this.props.route.auth.getProfile().email;
 
       return <MuiThemeProvider><div className="App">
 
         <Paper className="navbar">
           {brand}
+          {this.props.route.auth.loggedIn() ?
+          <FlatButton className="button link" onClick={this.props.route.auth.logout.bind(this)}>
+            <Link className='link' to="/logout" >Log Out</Link></FlatButton> : null }
+          {this.props.route.auth.loggedIn() ? null :
+          <FlatButton className="button" ><Link className='link' to="/login" >Log In</Link></FlatButton> }
+          {this.props.route.auth.loggedIn() ?
+          <FlatButton className="button">
+            <Link className='link' to={'/profile/'+email}>Profile</Link>
+          </FlatButton> : null}
           <FlatButton className="button"><Link className='link' to="/learn">Learn</Link></FlatButton>
           <FlatButton className="button"><Link className="link" to="/about">About</Link></FlatButton>
-          <FlatButton className="button"><Link className='link' to="/login" >Log In</Link></FlatButton>
-          <FlatButton className="button"><Link className='link' to={'/profile/'+this.props.route.auth.getProfile().email}>Profile</Link></FlatButton>
-          <FlatButton className="button"><Link className='link' to="/logout" >Log Out</Link></FlatButton>
           {/* <div className="greeting">{this.context.user ? this.context.user.username : null}</div> */}
         </Paper>
 

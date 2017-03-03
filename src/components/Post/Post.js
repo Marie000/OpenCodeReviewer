@@ -12,6 +12,8 @@ import CommentForm from './CommentForm';
 import PostCommentList from './PostCommentList';
 import PostContent from './PostContent';
 import FileList from './FileList';
+import {FlatButton} from 'material-ui';
+import './post.css';
 
 import CodeMirror from 'react-codemirror';
 import 'codemirror/lib/codemirror.css';
@@ -137,8 +139,8 @@ export default class Post extends Component {
 
     $(".selection").parents('.CodeMirror-line').addClass('selection-background');
     return (
-      <div className="form-container">
-      <button className='link button-darkgreen-small inline-blk' onClick={hashHistory.goBack}>Back</button>
+      <div className="form-container post-section">
+      <FlatButton className='link button' onClick={hashHistory.goBack}>Back</FlatButton>
       <div className="post-wrapper">
         <h2>{this.state.title}</h2>
           <div className='col-md-10 postdescription'> {this.state.description} </div>

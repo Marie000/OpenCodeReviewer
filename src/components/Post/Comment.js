@@ -3,6 +3,7 @@ import moment from 'moment';
 import {Link} from 'react-router';
 import _ from 'lodash';
 import axios from 'axios';
+import {FlatButton, Card} from 'material-ui';
 
 import config from '../../../config';
 const api = config.api || '';
@@ -52,16 +53,16 @@ export default class Comment extends Component{
     </span>
     let fullHeart = <i className="fa fa-heart" aria-hidden="true"/>
     return(
-      <li className='comment' key={comment._id}>
+      <Card className='comment' key={comment._id}>
         <div className="comment-header">
-          <Link className='link red' to={'/profile/'+comment._author.email}>{comment._author.email}</Link>
-          {comment.thanks.length>0 ? <span>{fullHeart}X{comment.thanks.length}</span> : null}
+          <Link className='link' to={'/profile/'+comment._author.email}>{comment._author.email}</Link>
+          {comment.thanks.length>0 ? <span className="hearts">{fullHeart}X{comment.thanks.length}</span> : null}
           <span className = "comment-date"> Posted on {moment(comment.createdAt).format("MMMM Do YYYY, h:mm:ss a")} </span>
         </div>
         <div className = "comment-text"> {comment.text} </div>
-         {this.state.thankButton ? this.state.alreadyThanked ? fullHeart: emptyHeart : null}
+         <span className="hearts">{this.state.thankButton ? this.state.alreadyThanked ? fullHeart: emptyHeart : null}</span>
 
-      </li>
+      </Card>
     )
   }
 }

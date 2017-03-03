@@ -169,6 +169,7 @@ export default class NewPost extends Component {
                   displaySubmitButton={this.displaySubmitButton.bind(this)}
                   name={this.state.title}
                   description={this.state.description}
+                  auth={this.props.auth}
                   tags={this.state.tags}
           />
           <FlatButton className="button" onClick={this.cancelGithubImport.bind(this)} >Cancel Github import</FlatButton>

@@ -212,7 +212,7 @@ export default class Github extends Component {
         {this.state.stage4 ?
         <Code saveCode={this.props.saveCode} setLanguage={this.props.setLanguage} code={this.state.fileContent} /> : null}
         </div> : null}
-        {this.state.getWholeRepo ? <FlatButton onClick={this.submitRepo.bind(this)}>Submit repository</FlatButton> : null }
+        {this.state.getWholeRepo ? <FlatButton className='button' onClick={this.submitRepo.bind(this)}>Submit repository</FlatButton> : null }
         </div>
     )
   }

@@ -7,6 +7,7 @@ import axios from 'axios';
 
 import config from '../../../config';
 const api = config.api || '';
+import {FlatButton} from 'material-ui';
 
 import CommentForm from './CommentForm';
 import PostCommentList from './PostCommentList';
@@ -200,16 +201,16 @@ export default class PostContent extends Component {
         <div className="fileContentAfterTitle">
 
           {this.props.auth.getToken() ?
-            <div className="clearfix mrgBtm20 font18rem">
+            <div className="inline-instructions">
               {this.state.currentComment.widget ?
                 <div>
-                  <button className='button-darkgreen-small link mrgRight10' onClick={this.saveComment.bind(this)} > Save comment </button>
-                  <button className='button-darkgreen-small link mrgRight10' onClick={this.cancelWidget.bind(this)} > Cancel </button>
+                  <FlatButton className='button link' onClick={this.saveComment.bind(this)} > Save comment </FlatButton>
+                  <FlatButton className='button link' onClick={this.cancelWidget.bind(this)} > Cancel </FlatButton>
                 </div>
                 :
                 <div>
                   To post an inline comment, select the part of code that you wish to comment and press
-                  <button className='button-darkgreen-small link  mrgLeft10 mrgRight10' onClick={this.addWidget.bind(this)} > Add inline comment </button>
+                  <FlatButton className='button link' onClick={this.addWidget.bind(this)} > Add inline comment </FlatButton>
                 </div>
               }
             </div>
@@ -219,9 +220,9 @@ export default class PostContent extends Component {
 
         {this.state.inlineComments ?
           <div> {this.state.commentsHidden ?
-            <button className='button-darkgreen-small link inline-blk pull-right mrgTop10 mrgLeft10 mrgRight10' onClick={this.showComments.bind(this)} > Show inline comments </button>
+            <FlatButton className='button link inline-blk pull-right mrgTop10 mrgLeft10 mrgRight10' onClick={this.showComments.bind(this)} > Show inline comments </FlatButton>
             :
-            <button className='button-darkgreen-small link inline-blk pull-right mrgTop10 mrgLeft10 mrgRight10' onClick={this.hideComments.bind(this)} > Hide inline comments </button>
+            <FlatButton className='button link inline-blk pull-right mrgTop10 mrgLeft10 mrgRight10' onClick={this.hideComments.bind(this)} > Hide inline comments </FlatButton>
           }  </div> : null
         }
 
