@@ -10,7 +10,7 @@ export default class AuthService {
     // Configure Auth0
     this.lock = new Auth0Lock(clientId, domain, {
       auth: {
-        redirectUrl: '/dashboard',
+        redirectUrl: 'http://checkmycode.ca/dashboard',
         responseType: 'token'
       }
     })
