@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Router, Route, hashHistory, browserHistory, Redirect } from 'react-router';
 //import ReactStormpath, { Router, AuthenticatedRoute, LoginLink, LogoutRoute } from 'react-stormpath';
 import AuthService from './utils/AuthService';
-
+import config from '../config';
 //ReactStormpath.init();
 
 import App from './components/App';
@@ -23,7 +23,7 @@ import ChangePassword from './components/Users/ChangePassword';
 
 import './index.css';
 
-const auth = new AuthService('EiUX0oFrMw9AvH9vkisEo0ANXWM9qFIh', 'checkmycode.auth0.com')
+const auth = new AuthService(config.auth0audience, config.auth0url)
 
 const requireAuth = (nextState, replace) => {
   if (!auth.loggedIn()) {

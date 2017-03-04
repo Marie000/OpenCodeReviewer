@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "node server/server.js",
+    "start": "nodemon server/server.js",
     "start-react": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",

@@ -2,8 +2,8 @@ import Auth0Lock from 'auth0-lock'
 import { browserHistory } from 'react-router'
 import axios from 'axios';
 
-const host = 'http://checkmycode.ca'
-const api = 'http://checkmycode.ca'
+const host = process.env.NODE_ENV==='prod' ? 'http://checkmycode.ca' : 'http://localhost:3000';
+const api = process.env.NODE_ENV==='prod' ? 'http://checkmycode.ca' : 'http://localhost:9000';
 
 export default class AuthService {
   constructor(clientId, domain) {
