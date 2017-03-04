@@ -32,7 +32,7 @@ const requireAuth = (nextState, replace) => {
 }
 
 ReactDOM.render((
-  <Router history={browserHistory}>
+  <Router history={hashHistory}>
   <Redirect from="/" to="/dashboard" />
     <Route path="/" component={App} auth={auth}>
     	<Route path="/profile/:userId" component={Profile}/>
