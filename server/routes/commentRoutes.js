@@ -1,5 +1,4 @@
 var _ = require('lodash');
-var stormpath = require('express-stormpath');
 
 // models
 var User = require ('../models/user.js');

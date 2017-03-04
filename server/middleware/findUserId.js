@@ -1,4 +1,4 @@
-var User = require ('./../models/user');
+var User = require ('../models/user');
 
 var findUserId = function(req,res,next) {
   console.log(req.user.sub)

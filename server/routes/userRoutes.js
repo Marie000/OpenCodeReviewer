@@ -1,7 +1,6 @@
 var _ = require('lodash');
 var User = require ('../models/user.js');
 var getUserId = require('../middleware/findUserId');
-var stormpath = require('express-stormpath');
 var jwt = require('express-jwt');
 
 var jwtCheck = jwt({
