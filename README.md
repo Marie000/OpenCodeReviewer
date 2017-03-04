@@ -37,6 +37,7 @@ Save settings. Keep your client's setting page open for the next step.
 5- create a config.js file in the root folder of the project
 
 with the following code, replacint the { } sections with the info from your auth0 client.
+
 ```module.exports = {
   auth0secret:process.env.AUTH0SECRET || {SECRET FOR YOUR AUTH0 CLIENT},
   auth0audience:process.env.AUTH0AUDIENCE ||  {ID FOR YOUR AUTH0 CLIENT},
