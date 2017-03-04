@@ -11,7 +11,7 @@ var SimpleSelect =  ReactSelectize.SimpleSelect;
 
 
 import config from '../../config';
-const api = config.api || '';
+const api = config.api || 'http://checkmycode.ca';
 
 export default class Dashboard extends Component {
   constructor() {
