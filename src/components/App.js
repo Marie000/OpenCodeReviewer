@@ -32,7 +32,7 @@ class App extends Component {
     }
 
     let email = this.props.route.auth.getProfile().email;
-
+    console.log(process.env.NODE_ENV)
       return <MuiThemeProvider><div className="App">
 
         <Paper className="navbar">
