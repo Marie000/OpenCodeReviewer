@@ -234,7 +234,7 @@ export default class PostContent extends Component {
         {this.props.title ?
           <div>
             <h3>Comments on {this.props.title}</h3>
-            <PostCommentList comments={this.props.comments} reload={this.props.reload}  />
+            <PostCommentList comments={this.props.comments} reload={this.props.reload} auth={this.props.auth}  />
 
             {this.props.auth.getToken() ?
               <form >
