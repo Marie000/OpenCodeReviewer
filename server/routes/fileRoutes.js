@@ -11,13 +11,13 @@ var fileRoutes = function(app){
     File.findById(req.params.id)
       .populate('children')
       .populate('comments')
-      .populate({path:'comments',populate:{path:'_author', select:'user_name'}})
+      .populate({path:'comments',populate:{path:'_author', select:'email'}})
      // .populate({path:'children', populate: {path:'comments'}})
       .then(function(file){
         if(!file){res.status(404).send('file not found')}
         File.find({_parent:file._id})
           .populate('comments')
-          .populate({path:'comments',populate:{path:'_author', select:'user_name'}})
+          .populate({path:'comments',populate:{path:'_author', select:'email'}})
           .then((children)=>{
             let newfile = file.toObject()
             newfile.children=children
