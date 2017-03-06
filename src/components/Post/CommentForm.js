@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import {Card,FlatButton,TextField} from 'material-ui';
 
 import config from '../../../config';
 const api = config.api || '';
@@ -32,8 +33,6 @@ export default class PostComment extends Component {
   handleSubmit(e) {
     e.preventDefault();
     var data = this.state;
-    console.log('this is data: ')
-    console.log(data)
     axios.post(api+'/api/comments/',data, {headers:{Authorization: 'Bearer '+this.props.auth.getToken()}})
       .then(()=>{
         this.props.reload();
@@ -43,14 +42,20 @@ export default class PostComment extends Component {
 
   render(){
   	return(
-      <div>
-
-        <div className='post-title'> {this.props.fileSpecific ? "Comment on this file:" : "Comment on the whole project:"} </div>
-        <form>
-          <textarea className="input full-width" name="comment" value={this.state.text} onChange={this.handleChange.bind(this)} />
-       <button className='button-darkgreen-small link mrgBtm10 pull-right ' onClick={this.handleSubmit.bind(this)} >Submit your comment</button>
-  	  </form>
-      </div>
+      <Card className="comment-form">
+        <div className='post-title'> {this.props.fileSpecific ? "Submit a comment on this file:" : "Submit a comment on the whole project:"} </div>
+        <div>
+          <TextField className="input "
+                     rows={3}
+                     multiLine={true}
+                     name="comment"
+                     value={this.state.text}
+                     onChange={this.handleChange.bind(this)} />
+       <FlatButton className='button '
+                   onClick={this.handleSubmit.bind(this)} >
+         Submit your comment</FlatButton>
+  	  </div>
+      </Card>
     )
   }
  }

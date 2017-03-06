@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
 import {Card,Chip,FlatButton} from 'material-ui'
@@ -9,7 +9,7 @@ export default function (props) {
       <div>
         {props.posts.map(post => {
           return (
-            <Card className='post'>
+            <Card className='post' key={post._id}>
               <div className="post-header">
               <Link className='post-title' to={'/dashboard/'+post._id}> {post.title} </Link>
                 <Chip className={post.comments.length>0 ? 'badge-comments has-comments':'badge-comments'}>{post.comments.length===1 ? "1 comment" : post.comments.length+" comments" }</Chip>

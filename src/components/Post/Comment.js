@@ -3,10 +3,10 @@ import moment from 'moment';
 import {Link} from 'react-router';
 import _ from 'lodash';
 import axios from 'axios';
-import {FlatButton, Card} from 'material-ui';
+import {Card} from 'material-ui';
 
 import config from '../../../config';
-const api = config.api || '';
+const api=config.api || '';
 
 export default class Comment extends Component{
   constructor(props){
@@ -22,9 +22,8 @@ export default class Comment extends Component{
   };
 
   componentWillMount(){
-    console.log(this.props.comment)
     if(this.props.auth.getProfile()) {
-      if (this.props.auth.getProfile().email === this.props.comment._author.email) {
+      if (this.props.auth.getProfile().email===this.props.comment._author.email) {
         this.setState({thankButton: false});
       }
       if (_.findIndex(this.props.comment.thanks, {from: {email: this.props.auth.getProfile().email}}) > -1) {
@@ -40,7 +39,7 @@ export default class Comment extends Component{
   }
 
   handleThanks(){
-      let reload = this.props.reload
+      let reload=this.props.reload
       axios.post(api+'/api/comments/'+this.props.comment._id+'/thanks',{},{headers:{Authorization: 'Bearer '+this.props.auth.getToken()}})
         .then(function(res){
           reload();
@@ -48,18 +47,18 @@ export default class Comment extends Component{
   }
   
   render(){
-    let comment = this.props.comment;
-    let emptyHeart = <span onClick={this.handleThanks.bind(this)}>Like this comment: <i className="fa fa-heart-o" aria-hidden="true"></i>
+    let comment=this.props.comment;
+    let emptyHeart=<span onClick={this.handleThanks.bind(this)}>Like this comment: <i className="fa fa-heart-o" aria-hidden="true"></i>
     </span>
-    let fullHeart = <i className="fa fa-heart" aria-hidden="true"/>
+    let fullHeart=<i className="fa fa-heart" aria-hidden="true"/>
     return(
       <Card className='comment' key={comment._id}>
         <div className="comment-header">
           <Link className='link' to={'/profile/'+comment._author.email}>{comment._author.email}</Link>
           {comment.thanks.length>0 ? <span className="hearts">{fullHeart}X{comment.thanks.length}</span> : null}
-          <span className = "comment-date"> Posted on {moment(comment.createdAt).format("MMMM Do YYYY, h:mm:ss a")} </span>
+          <span className="comment-date"> Posted on {moment(comment.createdAt).format("MMMM Do YYYY, h:mm:ss a")} </span>
         </div>
-        <div className = "comment-text"> {comment.text} </div>
+        <div className="comment-text"> {comment.text} </div>
          <span className="hearts">{this.state.thankButton ? this.state.alreadyThanked ? fullHeart: emptyHeart : null}</span>
 
       </Card>

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import './App.css';
-//import { Authenticated, NotAuthenticated } from 'react-stormpath';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {Popover,Menu,MenuItem,FlatButton,Paper} from 'material-ui';
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -20,13 +19,13 @@ class App extends Component {
     }
   }
 
-   static contextTypes= {
+   static contextTypes={
     router: React.PropTypes.object.isRequired,
      //user: React.PropTypes.object
   }
 
   openProfile(e){
-    e.preventDefault
+    e.preventDefault()
     this.setState({profileOpen:true, anchorEl:e.currentTarget});
   }
 
@@ -36,18 +35,18 @@ class App extends Component {
 
   render() {
 
-    let brand = <div className="brand"> <Link to="/dashboard"><h2>Ch3ck My C0de</h2>
+    let brand=<div className="brand"> <Link to="/dashboard"><h2>Ch3ck My C0de</h2>
       <h3>Open Code Review Platform</h3></Link>
     </div>
 
-    let children = null;
+    let children=null;
     if (this.props.children) {
       children = React.cloneElement(this.props.children, {
         auth: this.props.route.auth //sends auth instance to children
       })
     }
 
-    let email = this.props.route.auth.getProfile().email;
+    let email=this.props.route.auth.getProfile().email;
       return <MuiThemeProvider><div className="App">
 
         <Paper className="navbar">
@@ -83,7 +82,7 @@ class App extends Component {
         </Paper>
 
 
-        <div className = 'child'>
+        <div className='child'>
           {children}
         </div>
 

@@ -5,7 +5,7 @@ var SimpleSelect =  ReactSelectize.SimpleSelect;
 import axios from 'axios';
 
 import config from '../../../config';
-const api = config.api || '';
+const api=config.api || '';
 
 export default class Github extends Component {
   constructor(props) {
@@ -34,19 +34,22 @@ export default class Github extends Component {
     let language;
     switch(type){
       case 'html':
-        name="index.html"
-        language='html'
+        name="index.html";
+        language='html';
         break;
       case 'css':
         name="style.css";
-        language='css'
+        language='css';
         break;
       case 'js':
         name="script.js";
-        language='javascript'
+        language='javascript';
         break;
+      default:
+        name="file.js";
+        language='javascript';
     }
-    let newFile = {
+    let newFile={
       name:name,
       is_folder:false,
       text:text,
@@ -59,7 +62,6 @@ export default class Github extends Component {
   
   submitUrl(e){
     e.preventDefault();
-    console.log(this.state.base_url);
     let newDoc = {
       title:this.props.name,
       description:this.props.description,
@@ -97,20 +99,20 @@ export default class Github extends Component {
 
 
   render(){
-    const htmlPreprocessors = [{label:'none',value:'html'},
+    const htmlPreprocessors=[{label:'none',value:'html'},
       {label:'markdown',value:'markdown'},
       {label:'slim',value:'slim'},
       {label:'haml',value:'haml'}];
-    const cssPreprocessors = [{label:'none',value:'css'},
+    const cssPreprocessors=[{label:'none',value:'css'},
       {label:'scss',value:'scss'},
       {label:'sass',value:'sass'},
       {label:'less',value:'less'}];
-    const jsPreprocessors = [{label:'none',value:'js'},
+    const jsPreprocessors=[{label:'none',value:'js'},
       {label:'coffeescript',value:'coffeescript'},
       {label:'livescript', value:'livescript'},
       {label:'typescript',value:'typescript'},
       {label:'babel',value:'babel'}];
-    let scope = this;
+    let scope=this;
     return(
       <div className='github-container'>
         <div> Import code from Codepen </div>
@@ -121,15 +123,15 @@ export default class Github extends Component {
                           ref="htmlselect"
                           options={htmlPreprocessors}
                           value={{'label':scope.state.html_ext, 'value':scope.state.html_ext}}
-                          onValueChange = {function(value){
+                          onValueChange={function(value){
                        scope.setState({html_ext: value.value});
             }}/>
             <SimpleSelect className='full-width'
                           ref="cssselect"
                           options={cssPreprocessors}
                           value={{'label':scope.state.css_ext,'value':scope.state.css_ext}}
-                          onValueChange = {function(value){
-                       scope.setState({css_ext: value.value});
+                          onValueChange={function(value){
+                            scope.setState({css_ext: value.value});
             }}/>
 
 
@@ -137,8 +139,8 @@ export default class Github extends Component {
                           ref="jsselect"
                           options={jsPreprocessors}
                           value={{'label':scope.state.js_ext,'value':scope.state.js_ext}}
-                          onValueChange = {function(value){
-                       scope.setState({js_ext: value.value});
+                          onValueChange={function(value){
+                            scope.setState({js_ext: value.value});
             }}/>
         </form>
         </div>

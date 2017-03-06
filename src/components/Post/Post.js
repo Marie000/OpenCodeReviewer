@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import { Link } from 'react-router';
 import { hashHistory } from 'react-router';
 import $ from 'jquery';
 import axios from 'axios';
@@ -15,14 +14,11 @@ import FileList from './FileList';
 import {FlatButton} from 'material-ui';
 import './post.css';
 
-import CodeMirror from 'react-codemirror';
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/mode/javascript/javascript';
 import 'codemirror/mode/htmlmixed/htmlmixed';
 import 'codemirror/addon/edit/matchbrackets';
 import 'codemirror/addon/edit/closebrackets';
-
-import languageList from '../../services/codemirror-languages';
 
 
 export default class Post extends Component {
@@ -129,13 +125,6 @@ export default class Post extends Component {
   }
 
   render() {
-    var codemirrorMode="text";
-    languageList.forEach((language)=>{
-      if(language[0]===this.state.language){
-        codemirrorMode = language[1]
-      }
-    });
-
 
     $(".selection").parents('.CodeMirror-line').addClass('selection-background');
     return (
@@ -146,7 +135,7 @@ export default class Post extends Component {
           <div className='col-md-10 postdescription'> {this.state.description} </div>
 
         <div className='row'> 
-          <div className ='col-md-10'>
+          <div className='col-md-10'>
             {this.state.tags.map(tag => { return <div key={tag} className="tags"> {tag}</div>}
               )}
            </div> 
@@ -166,8 +155,8 @@ export default class Post extends Component {
                     comments={this.state.file ? this.state.file.comments : this.state.comments}
                     auth={this.props.auth}
        /> : null }
-
-        <strong className="post-title mrgTop10 mrgBtm20"> Comments:  </strong>
+        <br/><br/>
+        <h2 className="post-title mrgTop10 mrgBtm20"> {this.state.file ? "Comments on the whole project: ":"Comments"}  </h2>
         <PostCommentList
           comments={this.state.comments}
           reload={this.reloadPage.bind(this)}

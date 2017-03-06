@@ -8,11 +8,10 @@ import Codepen from './codepen';
 import 'react-selectize/dist/index.css';
 import taglist from '../../services/tag-list';
 import Github from "./Github";
-import getGithubRepo from './Github-repo';
 import './newpost.css';
 
 import config from '../../../config';
-const api = config.api || '';
+const api=config.api || '';
 
 export default class NewPost extends Component {
 
@@ -20,7 +19,7 @@ export default class NewPost extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { 
+    this.state={
     	title: '',
       tags: [],
       description:"",
@@ -39,7 +38,7 @@ export default class NewPost extends Component {
     return data;
   }
 
- static contextTypes= {
+ static contextTypes={
     router: React.PropTypes.object.isRequired
   }
 
@@ -59,8 +58,8 @@ export default class NewPost extends Component {
   }
 
   handleChange (input, e) {
-    var change = {};
-    change[input] = e.target.value;
+    var change={};
+    change[input]=e.target.value;
     this.setState(change);
   }
 
@@ -74,7 +73,7 @@ export default class NewPost extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    var data = {
+    var data={
       title: this.state.title,
       tags: this.state.tags,
       description:this.state.description,
@@ -98,8 +97,8 @@ export default class NewPost extends Component {
 
   render() {
 
-    var self = this;
-    var options = taglist.map(function(tag){
+    var self=this;
+    var options=taglist.map(function(tag){
         return {label: tag, value: tag}
     });
 
@@ -138,27 +137,31 @@ export default class NewPost extends Component {
 
         <div className='form-item'>
 
-          <MultiSelect ref="select" options = {options} maxValues={5} className="input" placeholder = "Select tags"
-            value = {this.state.tags}
-           createFromSearch = {function(options, values, search){
-                var labels = values.map(function(value){ 
-                    return value.label; 
-                })
-                if (search.trim().length == 0 || labels.indexOf(search.trim()) != -1) 
-                    return null;
-                return {label: search.trim(), value: search.trim()};
-            }} 
-            onValuesChange={function(value){
-              var tags = [];
-              value.map(function(item){
-                tags.push(item.value);
-              });
-              self.setState({tags:tags});             
-            }}
+          <MultiSelect ref="select"
+                       options={options}
+                       maxValues={5}
+                       className="input"
+                       placeholder="Select tags"
+                       value={this.state.tags}
+                       createFromSearch={function(options, values, search){
+                        var labels=values.map(function(value){
+                        return value.label;
+                        })
+                        if (search.trim().length===0 || labels.indexOf(search.trim())!==-1)
+                            return null;
+                            return {label: search.trim(), value: search.trim()};
+                        }}
+                       onValuesChange={function(value){
+                          var tags=[];
+                          value.map(function(item){
+                            tags.push(item.value);
+                          });
+                          self.setState({tags:tags});
+                        }}
           />
           </div>
-      </form>
-          <div>
+          </form>
+        <div>
 
            
       {this.state.importGithub ? 
@@ -172,7 +175,9 @@ export default class NewPost extends Component {
                   auth={this.props.auth}
                   tags={this.state.tags}
           />
-          <FlatButton className="button" onClick={this.cancelGithubImport.bind(this)} >Cancel Github import</FlatButton>
+          <FlatButton className="button"
+                      onClick={this.cancelGithubImport.bind(this)}>
+            Cancel Github import</FlatButton>
           <br />
           <br />
         </div>
@@ -193,11 +198,18 @@ export default class NewPost extends Component {
             {!this.state.importCodepen && !this.state.importGithub ?
         <div>
           <div className="import-buttons">
-          <FlatButton className="button" onClick={this.importGithub.bind(this)} value="import" >Import code from GitHub</FlatButton>
-          <FlatButton className="button" onClick={this.importCodepen.bind(this)} value="import" >Import code from Codepen</FlatButton>
+          <FlatButton className="button"
+                      onClick={this.importGithub.bind(this)}
+                      value="import" >
+            Import code from GitHub</FlatButton>
+          <FlatButton className="button"
+                      onClick={this.importCodepen.bind(this)}
+                      value="import">
+            Import code from Codepen</FlatButton>
           </div>
 
-          <Code saveCode={this.saveCode.bind(this)} setLanguage={this.setLanguage.bind(this)} />
+          <Code saveCode={this.saveCode.bind(this)}
+                setLanguage={this.setLanguage.bind(this)} />
         </div>
               : null }
 
@@ -207,7 +219,10 @@ export default class NewPost extends Component {
       </div>
 
         {this.state.submitVisible ?
-        <FlatButton className="button" onClick={this.handleSubmit.bind(this)} value="Submit" >Submit</FlatButton>
+        <FlatButton className="button"
+                    onClick={this.handleSubmit.bind(this)}
+                    value="Submit" >
+          Submit</FlatButton>
           : null }
                <br />
           <br />

@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import axios from 'axios';
 import _ from 'lodash';
+import {Card,List,ListItem} from 'material-ui';
 
 import config from '../../../config';
 const api = config.api || '';
@@ -41,29 +42,29 @@ export default class FileList extends Component {
 
   render(){
     return (
-      <div className="filesystem">
+      <Card className="filesystem">
         <div className="filepath">
           <span onClick={this.openFolder.bind(this,{name:'home'})}>Home </span>
           {this.state.path.map((path)=>{
             return <span onClick={this.openFolder.bind(this,path)}>/ {path.name}</span>
           })}
         </div>
-        <div className="listoffiles">
+        <List className="listoffiles">
           {this.state.files.map((file)=>{
             if(file.is_folder){
-              return <div onClick={this.openFolder.bind(this,file)} className="file-item folder">
-                <i className="fa fa-folder" aria-hidden="true"></i>
+              return <ListItem onClick={this.openFolder.bind(this,file)} className="file-item folder">
+                <i className="fa fa-folder" aria-hidden="true"/>
                 {file.name}
-              </div>
+              </ListItem>
             } else {
-              return <div onClick={this.openFile.bind(this,file)} className="file-item file">
-                <i className="fa fa-file-code-o" aria-hidden="true"></i>
+              return <ListItem onClick={this.openFile.bind(this,file)} className="file-item file">
+                <i className="fa fa-file-code-o" aria-hidden="true"/>
                 <span className={file._id === this.state.highlightedFile ? 'highlightedFile' : null}>{file.name}</span>
-              </div>
+              </ListItem>
             }
           })}
-        </div>
-      </div>
+        </List>
+      </Card>
     )
   }
 }

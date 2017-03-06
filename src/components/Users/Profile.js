@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import UserPosts from './UserPosts';
-import {FlatButton,Card,List,ListItem,Table,TableRow,TableRowColumn} from 'material-ui';
-import _ from 'lodash';
+import {FlatButton,Card} from 'material-ui';
 import axios from 'axios';
 import './users.css';
 
@@ -89,7 +88,7 @@ export default class Profile extends Component {
 
     var badges;
     if(this.state.badges.length>0){
-      badges = this.state.badges.map((badge)=><img key={badge.name+badge.count} src={"/badges/"+badge.name.toLowerCase()+'-'+badge.count+'.png'} width="250"/>)
+      badges = this.state.badges.map((badge)=><img alt={badge.name+badge.count} key={badge.name+badge.count} src={"/badges/"+badge.name.toLowerCase()+'-'+badge.count+'.png'} width="250"/>)
     }
 
 

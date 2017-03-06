@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import { hashHistory } from 'react-router';
 import learningCodeData from '../../services/learningCodeData';
 
 
@@ -25,8 +24,8 @@ export default class LearnCodeContent extends Component {
   }
 
   render(){
-    let goodImage = <img src={this.state.content.imgGood}/>
-    let badImage = <img src={this.state.content.imgBad}/>
+    let goodImage = <img alt="good example" src={this.state.content.imgGood}/>
+    let badImage = <img alt="bad example" src={this.state.content.imgBad}/>
     return(
       <div>
         <h1>{this.state.content.title}</h1>

@@ -68,8 +68,9 @@ render() {
         <div>
         <SimpleSelect className='full-width'
                       ref="simpleselect"
-                      options={newLanguageList} value={{'label':this.state.mode, 'value':this.state.mode}}
-                      onValueChange = {(value)=>{
+                      options={newLanguageList}
+                      value={{'label':this.state.mode, 'value':this.state.mode}}
+                      onValueChange={(value)=>{
                       this.setState({mode:value.value})
                       this.props.setLanguage(value.value)
                       }}

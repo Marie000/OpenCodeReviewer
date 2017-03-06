@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
-import $ from 'jquery';
-import CodeMirror from 'react-codemirror';
 import Code from './Code';
 import  ReactSelectize from "react-selectize";
 import axios from 'axios';
 import getGithubRepo from './Github-repo';
 
 import config from '../../../config';
-const api = config.api || '';
-var SimpleSelect =  ReactSelectize.SimpleSelect;
+const api=config.api || '';
+var SimpleSelect=ReactSelectize.SimpleSelect;
 import {FlatButton} from 'material-ui';
 
 export default class Github extends Component {
@@ -117,7 +115,6 @@ export default class Github extends Component {
       language:'text',
       multi_files:true
     }
-    console.log(newDoc)
     axios.post(api+'/api/documents',newDoc, {headers:{Authorization: 'Bearer '+this.props.auth.getToken()}})
       .then((doc)=>{
         getGithubRepo('https://api.github.com/repos/'+this.state.user_name+'/'+this.state.selectedRepo+'/contents/',doc.data._id)
@@ -127,7 +124,7 @@ export default class Github extends Component {
 
 
   render(){
-    var scope = this
+    var scope=this
     //commented out because right now I am only able to get files from the master branch
     // let reposList=this.state.repos.map((repo)=><li key={repo.id}><button onClick={this.getBranches.bind(this,repo.name)}>{repo.name}</button></li>)
     //let branchList=this.state.branches.map((branch)=><li key={branch.name}><button onClick={this.getFiles.bind(this,branch.name)}>{branch.name}</button></li>)
@@ -141,10 +138,10 @@ export default class Github extends Component {
 
     let fileList=this.state.files.map((file)=>{
       return file.type==='file' ? <div className='github-file' onClick={this.selectFile.bind(this,file.path)}>
-        <i className="fa fa-file-code-o" aria-hidden="true"></i>
+        <i className="fa fa-file-code-o" aria-hidden="true"/>
           {" "+file.name}</div> :
         <div className='github-folder' onClick={this.resolvePath.bind(this,file.path)}>
-          <i className="fa fa-folder" aria-hidden="true"></i>
+          <i className="fa fa-folder" aria-hidden="true"/>
           {" "+file.name}</div>;
     })
     
@@ -178,14 +175,16 @@ export default class Github extends Component {
             <SimpleSelect className='full-width' 
                           ref="simpleselect"
                           placeholder="repository"
-                          options={repoList} value={{'label':this.state.selectedRepo, 'value':this.state.selectedRepo}}
-                          onValueChange = {function(value){
-                       scope.setState({selectedRepo: value.value});
+                          options={repoList}
+                          value={{'label':this.state.selectedRepo, 'value':this.state.selectedRepo}}
+                          onValueChange={function(value){
+                            scope.setState({selectedRepo: value.value});
             }}/>
            </div> 
           <div className='col-md-1'>
             <FlatButton className='button inline-blk'
-                        id="github1-ok" type="submit"
+                        id="github1-ok"
+                        type="submit"
                         onClick={this.getFiles.bind(this,'master', this.state.selectedRepo)}>
               OK</FlatButton>
           </div>
@@ -197,7 +196,10 @@ export default class Github extends Component {
 
         {this.state.stage3 ? 
         <div>
-          <FlatButton className='button' id='import-whole-repo-button' onClick={this.getGithubRepo.bind(this)}>Import whole repo</FlatButton>
+          <FlatButton className='button'
+                      id='import-whole-repo-button'
+                      onClick={this.getGithubRepo.bind(this)}>
+            Import whole repo</FlatButton>
           <div className="warning">Warning: only works with small repo. Large repos might end up missing some files and folders.</div>
           {this.state.getWholeRepo ? null :
           <div className="file-list-section">
@@ -210,9 +212,13 @@ export default class Github extends Component {
         </div>}
 
         {this.state.stage4 ?
-        <Code saveCode={this.props.saveCode} setLanguage={this.props.setLanguage} code={this.state.fileContent} /> : null}
+        <Code saveCode={this.props.saveCode}
+              setLanguage={this.props.setLanguage}
+              code={this.state.fileContent} /> : null}
         </div> : null}
-        {this.state.getWholeRepo ? <FlatButton className='button' onClick={this.submitRepo.bind(this)}>Submit repository</FlatButton> : null }
+        {this.state.getWholeRepo ? <FlatButton className='button'
+                                               onClick={this.submitRepo.bind(this)}>Submit repository</FlatButton>
+          : null }
         </div>
     )
   }
