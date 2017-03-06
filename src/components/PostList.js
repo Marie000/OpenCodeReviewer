@@ -17,7 +17,10 @@ export default function (props) {
               <div className="tag-list">
               {
                 post.tags.map(tag => {
-                  return <FlatButton key={tag} className="tag-button" onClick={props.selectTagFromPost.bind(null,tag)}> {tag} </FlatButton>
+                  return <FlatButton key={tag}
+                                     className="tag-button"
+                                     onClick={props.tagClickable ? props.selectTagFromPost.bind(null,tag) : null}>
+                    {tag} </FlatButton>
                 })
               }
                 </div>

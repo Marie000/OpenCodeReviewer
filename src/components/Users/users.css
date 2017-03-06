@@ -9,3 +9,32 @@
 .profile-section .button:hover {
     transform: scale(1.1);
 }
+.profile-section {
+    font-size:1rem;
+    width:75%;
+    margin:0 auto;
+}
+.profile-container {
+    padding:20px;
+}
+.profile-container label {
+    font-size:1.5rem;
+}
+
+.profile-container .button-darkgreen {
+    line-height: 2rem;
+
+}
+.profile-section h1, .dashboard h1{
+    padding: 15px 0;
+    font-size:3rem;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.profile-container i {
+    padding: 0 10px;
+}
+
+.profile-list {
+    font-size:2rem;
+}

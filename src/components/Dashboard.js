@@ -95,11 +95,10 @@ export default class Dashboard extends Component {
  	<div className="dashboard">
       <Link className="link" to="/dashboard/NewPost"><FlatButton className="accent-button">Submit your code</FlatButton></Link>
 	  <br/>
-    <p className='main-title'> Posted Questions </p>
+    <h1 className='main-title'> Dashboard </h1>
  <Card className="filter-card flex-grid">
 
     <form className="search-form " onSubmit={this.getBySearch.bind(this)}>
-      <i class="fa fa-search" aria-hidden="true" />
       <input  type="text"
               className="search-box col"
               placeholder="search"
@@ -124,7 +123,7 @@ export default class Dashboard extends Component {
 
    </Card>
     <br />
-    <PostList posts={this.state.posts} selectTagFromPost={this.selectTagFromPost.bind(this)} />
+    <PostList posts={this.state.posts} selectTagFromPost={this.selectTagFromPost.bind(this)} tagClickable={true} />
 
     {this.state.page===1 ? null : <FlatButton className='accent-button' onClick={this.firstPage.bind(this)}>First Page</FlatButton>}
     {this.state.page===1 ? null : <FlatButton  className='accent-button' onClick={this.previousPage.bind(this)}>Previous Page</FlatButton>}
