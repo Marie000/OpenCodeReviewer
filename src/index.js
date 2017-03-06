@@ -1,10 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, hashHistory, browserHistory, Redirect } from 'react-router';
-//import ReactStormpath, { Router, AuthenticatedRoute, LoginLink, LogoutRoute } from 'react-stormpath';
+import { Router, Route, hashHistory, Redirect } from 'react-router';
 import AuthService from './utils/AuthService';
 import config from '../config';
-//ReactStormpath.init();
 
 import App from './components/App';
 import Dashboard from './components/Dashboard';
@@ -17,9 +15,6 @@ import About from './components/About';
 import Learn from './components/Learn/Learn';
 import LearnCode from './components/Learn/Learn-Code';
 import LearnCodeContent from './components/Learn/Learn-Code-Content';
-import RegistrationPage from './components/Users/RegistrationPage';
-import ResetPassword from './components/Users/ResetPassword';
-import ChangePassword from './components/Users/ChangePassword';
 import UserPosts from './components/Users/UserPosts';
 
 import './index.css';
@@ -38,7 +33,6 @@ ReactDOM.render((
     <Route path="/" component={App} auth={auth}>
     	<Route path="/profile/:userId" component={Profile}/>
       <Route path="/editprofile" component={ProfileEdit} onEnter={requireAuth} />
-      <Route path="/register" component={RegistrationPage} />
       <Route path="/login" component={Login}/>
     	<Route path="/dashboard" component={Dashboard}/>
       <Route path="/dashboard/NewPost" component={NewPost} onEnter={requireAuth} />
@@ -47,8 +41,6 @@ ReactDOM.render((
       <Route path="/learn" component={Learn}/>
       <Route path="/learn/code" component={LearnCode}/>
       <Route path="/learn/code/:page" component={LearnCodeContent}/>
-      <Route path="/forgot" component={ResetPassword} />
-      <Route path="/change" component={ChangePassword} />
       <Route path="/userPosts/:userId" component={UserPosts}/>
       <Route path='/logout'  /> {/*????? */}
     </Route>  	

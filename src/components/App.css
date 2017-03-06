@@ -310,19 +310,7 @@ h4{
   cursor:pointer; cursor:hand;
 }
 
-.fileContent {
-  border:2px grey solid;
-  background:#eeeeee;
-  margin:30px 0 0 0;
-}
-.fileContent h2 {
-  background:grey;
-  padding:15px;
-  margin:0;
-}
-.fileContent .fileContentAfterTitle {
-  padding: 15px;
-}
+
 
 
 /******** OOCSS **********/
@@ -568,29 +556,6 @@ h4{
   .buttons {
     float: left;
   }
-}
-/********** MULTIFILE FILE SYSTEM ***********/
-.highlightedFile {
-  color:dodgerblue;
-}
-.filesystem {
-  border-radius:3px;
-  border: solid black 1px;
-  font-size:20px;
-}
-.filepath {
-  background-color:grey;
-  padding:10px;
-}
-.listoffiles {
-  background-color:lightgrey;
-  padding:10px;
-}
-.file-item {
-  padding:5px 0;
-}
-.listoffiles .fa {
-  padding:0 5px;
 }
 
 /********** NAV *******************/

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import './Dashboard.css';
-import moment from 'moment';
 import taglist from'../services/tag-list.js';
 import axios from 'axios';
 import PostList from './PostList';

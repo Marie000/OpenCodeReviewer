@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
-import { hashHistory } from 'react-router';
-import _ from 'lodash';
 import axios from 'axios';
 import config from '../../../config';
 const api = config.api || '';

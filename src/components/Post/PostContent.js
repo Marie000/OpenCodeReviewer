@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { Link } from 'react-router';
-import { hashHistory } from 'react-router';
 import $ from 'jquery';
 import axios from 'axios';
 
 import config from '../../../config';
 const api = config.api || '';
-import {FlatButton} from 'material-ui';
+import {FlatButton,Card} from 'material-ui';
 
 import CommentForm from './CommentForm';
 import PostCommentList from './PostCommentList';
@@ -196,7 +195,7 @@ export default class PostContent extends Component {
     $(".selection").parents('.CodeMirror-line').addClass('selection-background');
 
     return (
-      <div className={this.props.title ? "fileContent" : "documentContent" }>
+      <Card className={this.props.title ? "fileContent" : "documentContent" }>
         {this.props.title ? <h2>{this.props.title}</h2> : null}
         <div className="fileContentAfterTitle">
 
@@ -231,26 +230,27 @@ export default class PostContent extends Component {
           on {moment(this.state.postCreationDate).format("MMMM Do YYYY, h:mm:ss a")}
         </div>
 
+
         {this.props.title ?
           <div>
             <h3>Comments on {this.props.title}</h3>
             <PostCommentList comments={this.props.comments} reload={this.props.reload} auth={this.props.auth}  />
 
             {this.props.auth.getToken() ?
-              <form >
+              <div>
                 <CommentForm
                   id={this.props.id}
                   reload={this.props.reload}
                   fileSpecific={true}
                   auth={this.props.auth}
                 />
-              </form>
+              </div>
             : null }
           </div>
          : null}
         </div>
 
-      </div>
+      </Card>
     )
   }
 

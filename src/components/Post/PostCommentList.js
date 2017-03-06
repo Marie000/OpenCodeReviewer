@@ -1,6 +1,4 @@
 import React from 'react';
-import moment from 'moment';
-import {Link} from 'react-router';
 import Comment from './Comment';
 
 export default function PostCommentList(props){

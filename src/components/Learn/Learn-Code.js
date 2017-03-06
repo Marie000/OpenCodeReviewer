@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import { hashHistory } from 'react-router';
-import LearnCodeContent from './Learn-Code-Content';
 
 
 export default class LearnCode extends Component {

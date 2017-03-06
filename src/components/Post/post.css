@@ -62,3 +62,25 @@
 .hearts {
     padding: 0 5px;
 }
+
+.filepath {
+    padding:10px;
+    background-color:#00bcd4;
+}
+.listoffiles i {
+    margin-right: 5px;
+}
+.file-item div div{
+    padding:5px !important;
+}
+
+.fileContent h2 {
+    background:#00bcd4;
+    padding:10px;
+}
+.fileContent .fileContentAfterTitle {
+    padding:10px;
+}
+.comment-form {
+    padding:10px;
+}

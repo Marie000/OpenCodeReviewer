@@ -9,16 +9,14 @@ function getLanguage(filename){
   var ext = filename.substr(filename.lastIndexOf('.') + 1);
   switch(ext){
     case 'js'||'ts'||'jsx':
-      return 'javascript'
-      break;
+      return 'javascript';
     case 'htm' || 'html':
-      return 'html'
-      break;
+      return 'html';
     case 'css' || 'scss' || 'sass':
-      return 'css'
-      break;
+      return 'css';
+    default:
+      return 'text'
   }
-  return 'text'
 }
 
 let auth = '?client_id=baf7e465df12c2735d3a&client_secret=8f8f1b5d08cfc975c6bd595bcd97dc4d139e22f9'
@@ -32,7 +30,6 @@ export default function getGithubRepo(path,parent_id){
             console.log(fileFromList)
             axios.get(path + fileFromList.name)
               .then((res)=> {
-                let file = res.data;
                 let newFile = {
                   _parent: parent_id,
                   is_folder: false,

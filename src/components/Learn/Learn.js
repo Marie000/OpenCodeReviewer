@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import { hashHistory } from 'react-router';
 
 
 export default class Learn extends Component {
