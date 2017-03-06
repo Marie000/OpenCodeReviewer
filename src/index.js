@@ -20,6 +20,7 @@ import LearnCodeContent from './components/Learn/Learn-Code-Content';
 import RegistrationPage from './components/Users/RegistrationPage';
 import ResetPassword from './components/Users/ResetPassword';
 import ChangePassword from './components/Users/ChangePassword';
+import UserPosts from './components/Users/UserPosts';
 
 import './index.css';
 
@@ -48,6 +49,7 @@ ReactDOM.render((
       <Route path="/learn/code/:page" component={LearnCodeContent}/>
       <Route path="/forgot" component={ResetPassword} />
       <Route path="/change" component={ChangePassword} />
+      <Route path="/userPosts/:userId" component={UserPosts}/>
       <Route path='/logout'  /> {/*????? */}
     </Route>  	
   </Router>

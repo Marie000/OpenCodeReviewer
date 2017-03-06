@@ -5,7 +5,7 @@ import _ from 'lodash';
 import axios from 'axios';
 import config from '../../../config';
 const api = config.api || '';
-import {FlatButton} from 'material-ui';
+import {FlatButton,Card} from 'material-ui';
 
 export default class ProfileEdit extends Component {
   constructor() {
@@ -76,11 +76,10 @@ export default class ProfileEdit extends Component {
   }
 
   render(){
-    console.log(this.state)
   	return(
   	<div className="profile-section">
-      <FlatButton className='link button inline-blk' onClick={hashHistory.goBack}>Back</FlatButton>
-  		<div className='profile-container'>
+  		<Card className='profile-container'>
+        <h1>Edit your profile</h1>
       <form>
           <label> First Name: </label>
           <input type="text" name="first_name"  value={this.state.first_name} 
@@ -129,7 +128,8 @@ export default class ProfileEdit extends Component {
             Submit </FlatButton>
       </form>
 
-      </div>
+      </Card>
+      <br/><br/>
   	</div>
   	)
   }

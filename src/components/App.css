@@ -148,31 +148,6 @@ h4{
 
 /********** Profile ********/
 
-.profile-container{
-  width: 50%;
-  margin: 0 auto;
-  font-size: 2.5rem;
-  line-height: 5rem;
-}
- .profile-container .button-darkgreen {
-  line-height: 2rem;
-
- }
- .profile-container h1{
-  padding: 15px 0;
- }
-
-
-.profile-container label{
-  font-size:2rem;
-  display:block;
-  line-height:2rem;
-  margin-top:25px;
-}
-
-.profile-container i {
-  padding: 0 10px;
-}
 
 /***********POST*********/
 
@@ -625,6 +600,7 @@ h4{
   float:right;
   padding: 0 35px !important;
   margin-top: 15px !important;
+  color:white !important;
 }
 .App .navbar .button a:hover, .App .navbar .button a:active {
   color:#FFEB3B !important;
@@ -636,6 +612,11 @@ h4{
 .App .navbar a {
   color:white;
 }
+
 .App .navbar a:hover, .App .navbar a:active, .App .navbar a:visited {
   color:white;
+}
+
+.profile-menu a:visited {
+  color:#212121;
 }

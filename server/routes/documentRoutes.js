@@ -19,20 +19,7 @@ var documentRoutes = function(app){
 // GET ALL DOCUMENTS
 // add pagination - display most recent only
   app.get('/api/documents', function(req,res){
-    var query   = {};
-    // by tag
-    if(req.query.tag){
-      query = {tags:req.query.tag}
-    }
-    // by search
-    if(req.query.search){
-      var queryParam= {"$regex":req.query.search, "$options": "i" }
-      query = {$or:[{title:queryParam}, {description: queryParam},{tags: queryParam}]}
-    }
-    // by author
-    if(req.query.author){
-      query = {_author:req.query.author}
-    }
+
     //pagination options
     var options = {
       sort:     { commentedAt: -1 },
@@ -40,13 +27,36 @@ var documentRoutes = function(app){
       page: req.query.page || 1,
       populate: {path:'_author',select:'email'} // change back to user_name eventually
     };
-    //get documents
-    CodeDocument.paginate(query, options).then(function(result) {
-      if(!result){return res.status(404).send('list of documents not found')}
-      res.json(result.docs);
-    });
-  });
 
+    //get documents function
+    var getResponse = function(query){
+      CodeDocument.paginate(query, options).then(function(result) {
+        if(!result){return res.status(404).send('list of documents not found')}
+        res.json(result.docs);
+      });
+    }
+
+    // by tag
+    if(req.query.tag){
+      getResponse({tags:req.query.tag})
+    }
+    // by search
+    else if(req.query.search){
+      var queryParam= {"$regex":req.query.search, "$options": "i" }
+      getResponse({$or:[{title:queryParam}, {description: queryParam},{tags: queryParam}]})
+    }
+    // by author
+    else if(req.query.author){
+      User.findOne({email:req.query.author})
+        .then((user)=>{
+          getResponse({_author:user._id})
+        })
+    }
+    else {
+      getResponse({})
+    }
+
+  });
 
 // GET A DOCUMENT
   app.get('/api/documents/:id', function(req,res){
