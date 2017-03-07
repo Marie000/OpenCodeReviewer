@@ -54,7 +54,8 @@ export default class Github extends Component {
       is_folder:false,
       text:text,
       language:language,
-      _parent:parent
+      _parent:parent,
+      _document:parent
     }
     axios.post(api+'/api/files',newFile)
       .then(()=>{console.log("file created")})
@@ -70,7 +71,7 @@ export default class Github extends Component {
       language:'text',
       multi_files:true
     }
-    axios.post('/api/documents',newDoc, {headers:{Authorization: 'Bearer '+this.props.auth.getToken()}})
+    axios.post(api+'/api/documents',newDoc, {headers:{Authorization: 'Bearer '+this.props.auth.getToken()}})
       .then((doc)=>{
         
         axios.get(this.state.base_url+"."+this.state.html_ext)

@@ -10,8 +10,8 @@ export default class PostComment extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      _document_id: this.props.fileSpecific ? null : this.props.id,
-      _file_id: this.props.fileSpecific ? this.props.id : null,
+      _document_id: this.props.doc_id,
+      _file_id: this.props.file_id,
       is_general:true,
       position:null,
       text:""
@@ -25,8 +25,8 @@ export default class PostComment extends Component {
 
   componentWillReceiveProps(nextProps){
     this.setState({
-      _document_id: nextProps.fileSpecific ? null : nextProps.id,
-      _file_id: nextProps.fileSpecific ? nextProps.id : null
+      _document_id: nextProps.doc_id,
+      _file_id: nextProps.file_id
     })
   }
 

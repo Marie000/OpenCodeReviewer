@@ -26,7 +26,7 @@ export default class Post extends Component {
     super(props);
     this.state = { 
       loggedIn: localStorage.user_id? true: false,
-    	id: this.props.params.postId,
+    	doc_id: this.props.params.postId,
       tags: [],
       description:"",
       author: "",
@@ -66,7 +66,7 @@ export default class Post extends Component {
     axios.get(api+'/api/documents/'+this.props.params.postId)
       .then(function(res){
         scope.setState({
-          id: res.data._id,
+          doc_id: res.data._id,
           title:res.data.title,
           author:res.data._author.user_name,
           author_id: res.data._author._id,
@@ -151,7 +151,8 @@ export default class Post extends Component {
        <PostContent text={this.state.file? this.state.file.text : this.state.text}
                     title={this.state.file? this.state.file.name : ''}
                     reload={this.reloadPage.bind(this)}
-                    id={this.state.file ? this.state.file._id : this.state.id}
+                    doc_id={this.state.doc_id}
+                    file_id={this.state.file ? this.state.file._id : null}
                     comments={this.state.file ? this.state.file.comments : this.state.comments}
                     auth={this.props.auth}
        /> : null }
@@ -166,7 +167,7 @@ export default class Post extends Component {
         {this.props.auth.getToken() ?
           <form >
             <CommentForm
-              id={this.props.params.postId}
+              doc_id={this.props.params.postId}
               reload={this.reloadPage.bind(this)}
               fileSpecific={false}
               auth={this.props.auth}

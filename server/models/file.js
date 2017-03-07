@@ -27,6 +27,9 @@ var FileSchema = mongoose.Schema({
   _parent: {
     type: IdObject,
     required:true
+  },
+  _document: {
+    type: IdObject
   }
 });
 FileSchema.set('timestamps',true);

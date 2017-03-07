@@ -38,7 +38,6 @@ var commentRoutes = function(app){
         if(!author){return res.status(404).send('author not found')}
       });
 
-      /* Disabled while I work on the file-specific comments
       // add document id to the author's point.comments array
       // (list of documents commented on)
       User.findOne({_id:comment._author}).then(function(user){
@@ -51,7 +50,6 @@ var commentRoutes = function(app){
               var updatedUser = user;
               updatedUser.points.reviews.push(comment._document_id);
               User.update({_id:user._id},{ $set: { points: updatedUser.points }}, function(){
-                
               })
               giveTagPoints(doc, user, false);
               checkForBadges(updatedUser);
@@ -60,7 +58,8 @@ var commentRoutes = function(app){
 
         }
       })
-      */
+
+
       // add comment's id to the code document's comment list
       if(comment._document_id) {
         CodeDocument.findByIdAndUpdate(
