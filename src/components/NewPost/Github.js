@@ -15,8 +15,8 @@ export default class Github extends Component {
     this.state={
       stage1:false,
       stage2:false,
-      stage3: false,
-      stage4: false,
+      stage3:false,
+      stage4:false,
       getWholeRepo:false,
       user_name:'',
       selectedRepo:'',
@@ -34,8 +34,6 @@ export default class Github extends Component {
 
   // for the username input only
   handleChange (e) {
-    //var change = {};
-    //change[input] = e.target.value;
     this.setState({user_name:e.target.value});
   }
 
@@ -117,14 +115,15 @@ export default class Github extends Component {
     }
     axios.post(api+'/api/documents',newDoc, {headers:{Authorization: 'Bearer '+this.props.auth.getToken()}})
       .then((doc)=>{
-        getGithubRepo('https://api.github.com/repos/'+this.state.user_name+'/'+this.state.selectedRepo+'/contents/',doc.data._id)
+        //document id passed in twice: once as _parent, once as doc_id. see github-repo.js
+        getGithubRepo('https://api.github.com/repos/'+this.state.user_name+'/'+this.state.selectedRepo+'/contents/',doc.data._id,doc.data._id)
         this.context.router.push('/dashboard')
       })
   }
 
 
   render(){
-    var scope=this
+    var scope=this;
     //commented out because right now I am only able to get files from the master branch
     // let reposList=this.state.repos.map((repo)=><li key={repo.id}><button onClick={this.getBranches.bind(this,repo.name)}>{repo.name}</button></li>)
     //let branchList=this.state.branches.map((branch)=><li key={branch.name}><button onClick={this.getFiles.bind(this,branch.name)}>{branch.name}</button></li>)

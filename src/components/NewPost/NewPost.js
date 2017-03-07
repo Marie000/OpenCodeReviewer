@@ -106,111 +106,101 @@ export default class NewPost extends Component {
     return (
      
       <div className="new-post-section">
-
         <div className="new-post-header">
-
-      <div className='new-post-form '>
-      <form onSubmit={this.handleSubmit.bind(this)}>
-        <div className='form-item'>
-
-          <TextField type="text"
+            <form onSubmit={this.handleSubmit.bind(this)}>
+              <TextField type="text"
                      name="title"
                      className="input"
                      value={this.state.title}
                      onChange={this.handleChange.bind(this, 'title')}
                      placeholder="title"
-          />
-
-       </div>
-       <div className='form-item'>
-
-          <TextField className="input"
-                     type="text"
-                     name="description"
-                     value={this.state.description}
-                     onChange={this.handleChange.bind(this, 'description')}
-                     placeholder="description"
-                     multiLine={true}
-                     rows={2}
-          />
-        </div>
-
-        <div className='form-item'>
-
-          <MultiSelect ref="select"
-                       options={options}
-                       maxValues={5}
-                       className="input"
-                       placeholder="Select tags"
-                       value={this.state.tags}
-                       createFromSearch={function(options, values, search){
-                        var labels=values.map(function(value){
-                        return value.label;
-                        })
-                        if (search.trim().length===0 || labels.indexOf(search.trim())!==-1)
-                            return null;
-                            return {label: search.trim(), value: search.trim()};
-                        }}
-                       onValuesChange={function(value){
-                          var tags=[];
-                          value.map(function(item){
-                            tags.push(item.value);
-                          });
-                          self.setState({tags:tags});
-                        }}
-          />
-          </div>
+              />
+              <TextField className="input"
+                         type="text"
+                         name="description"
+                         value={this.state.description}
+                         onChange={this.handleChange.bind(this, 'description')}
+                         placeholder="description"
+                         multiLine={true}
+                         rows={2}
+              />
+              <MultiSelect ref="select"
+                           options={options}
+                           maxValues={5}
+                           className="input"
+                           placeholder="Select tags"
+                           value={this.state.tags}
+                           createFromSearch={function(options, values, search){
+                              var labels=values.map(function(value){
+                                return value.label;
+                              })
+                              if (search.trim().length===0 || labels.indexOf(search.trim())!==-1)
+                                return null;
+                                return {label: search.trim(), value: search.trim()};
+                              }}
+                           onValuesChange={function(value){
+                              var tags=[];
+                              value.map(function(item){
+                                tags.push(item.value);
+                              });
+                              self.setState({tags:tags});
+                                }
+                              }
+              />
           </form>
-        <div>
-
-           
-      {this.state.importGithub ? 
-        <div>
-          <Github saveCode={this.saveCode.bind(this)}
-                  setLanguage={this.setLanguage.bind(this)}
-                  removeSubmitButton={this.removeSubmitButton.bind(this)}
-                  displaySubmitButton={this.displaySubmitButton.bind(this)}
-                  name={this.state.title}
-                  description={this.state.description}
-                  auth={this.props.auth}
-                  tags={this.state.tags}
-          />
-          <FlatButton className="button"
-                      onClick={this.cancelGithubImport.bind(this)}>
-            Cancel Github import</FlatButton>
+          {/*GITHUB IMPORT*/}
+          {this.state.importGithub ?
+          <div>
+            <Github saveCode={this.saveCode.bind(this)}
+                    setLanguage={this.setLanguage.bind(this)}
+                    removeSubmitButton={this.removeSubmitButton.bind(this)}
+                    displaySubmitButton={this.displaySubmitButton.bind(this)}
+                    name={this.state.title}
+                    description={this.state.description}
+                    auth={this.props.auth}
+                    tags={this.state.tags}
+            />
+            <FlatButton className="button"
+                        onClick={this.cancelGithubImport.bind(this)}>
+              Cancel Github import</FlatButton>
           <br />
           <br />
-        </div>
-          : null}
+        </div>  : null}
 
+          {/*CODEPEN IMPORT*/}
             {this.state.importCodepen ?
               <div>
-              <Codepen name={this.state.title}
-                       description={this.state.description}
-                       tags={this.state.tags}
-              />
-                <FlatButton className="button" onClick={this.cancelCodepenImport.bind(this)} >Cancel Codepen import</FlatButton>
-                <br /><br />
-            </div>
-              : null
-            }
-</div>
-            {!this.state.importCodepen && !this.state.importGithub ?
-        <div>
-          <div className="import-buttons">
-          <FlatButton className="button"
-                      onClick={this.importGithub.bind(this)}
-                      value="import" >
-            Import code from GitHub</FlatButton>
-          <FlatButton className="button"
-                      onClick={this.importCodepen.bind(this)}
-                      value="import">
-            Import code from Codepen</FlatButton>
-          </div>
+                <Codepen name={this.state.title}
+                         description={this.state.description}
+                         tags={this.state.tags}
+                         auth={this.props.auth}
+                />
+                <FlatButton className="button"
+                            onClick={this.cancelCodepenImport.bind(this)} >
+                  Cancel Codepen import
+                </FlatButton>
 
-          <Code saveCode={this.saveCode.bind(this)}
-                setLanguage={this.setLanguage.bind(this)} />
-        </div>
+                <br /><br />
+              </div>
+              : null }
+
+          {/*NO IMPORT*/}
+            {!this.state.importCodepen && !this.state.importGithub ?
+              <div>
+                <div className="import-buttons">
+                  <FlatButton className="button"
+                              onClick={this.importGithub.bind(this)}
+                              value="import" >
+                  Import code from GitHub</FlatButton>
+                  <FlatButton className="button"
+                              onClick={this.importCodepen.bind(this)}
+                              value="import">
+                  Import code from Codepen</FlatButton>
+                </div>
+
+                <Code saveCode={this.saveCode.bind(this)}
+                      setLanguage={this.setLanguage.bind(this)} />
+              </div>
               : null }
 
 
@@ -224,11 +214,9 @@ export default class NewPost extends Component {
                     value="Submit" >
           Submit</FlatButton>
           : null }
-               <br />
-          <br />
-          <br />
+
+        <br /><br /><br />
       </div>
-     </div>
     )
   }
 

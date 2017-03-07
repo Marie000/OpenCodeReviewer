@@ -239,7 +239,8 @@ export default class PostContent extends Component {
             {this.props.auth.getToken() ?
               <div>
                 <CommentForm
-                  id={this.props.id}
+                  file_id={this.props.file_id}
+                  doc_id={this.props.doc_id}
                   reload={this.props.reload}
                   fileSpecific={true}
                   auth={this.props.auth}
