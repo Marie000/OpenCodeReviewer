@@ -14,6 +14,7 @@ export default class UserPosts extends Component {
     super(props);
     this.state = {
       posts: [],
+      reviews:[],
       page:1,
       user: this.props.user || this.props.params.userId
     }
@@ -30,6 +31,11 @@ export default class UserPosts extends Component {
     axios.get(api+'/api/documents'+query)
       .then((res)=>{
         scope.setState({posts:res.data})
+      })
+
+    axios.get(api+'/api/users/'+this.state.user+'/reviews')
+      .then((res)=>{
+        scope.setState({reviews:res.data})
       })
   }
 
@@ -69,8 +75,12 @@ export default class UserPosts extends Component {
             <FlatButton  className='btn' onClick={this.nextPage.bind(this)}>Next Page</FlatButton>
           </Tab>
           <Tab label="Posts commented on">
-            <div>This will contain a list of posts you commented on</div>
-            <div>Under construction</div>
+            <br/>
+            <PostList posts={this.state.reviews} tagClickable={false} />
+
+            {this.state.page===1 ? null : <FlatButton className='accent-button' onClick={this.firstPage.bind(this)}>First Page</FlatButton>}
+            {this.state.page===1 ? null : <FlatButton  className='accent-button' onClick={this.previousPage.bind(this)}>Previous Page</FlatButton>}
+            <FlatButton  className='btn' onClick={this.nextPage.bind(this)}>Next Page</FlatButton>
           </Tab>
         </Tabs>
       </div>

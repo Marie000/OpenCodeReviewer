@@ -32,7 +32,6 @@ var userRoutes = function(app) {
           res.json(user)
         }
       });
-    console.log(req.body);
     let user = new User(req.body)
     user.save()
       .then(res.json(user))
@@ -42,7 +41,6 @@ var userRoutes = function(app) {
 
   // when user is logged in, get all information for that user (private and public)
   app.get('/api/users/me',jwtCheck, getUserId, function(req,res){
-    console.log(req.user)
     User.findOne({_id: req.user._id}).then(function(user){
       if(!user){return res.status(404).send('user not found')}
       res.send(user);
@@ -51,10 +49,11 @@ var userRoutes = function(app) {
     })
 
   });
+  
+
 
   // get only public information for a user
   app.get('/api/users/:email', function(req,res){
-    console.log(req.params.email)
     User.findOne({email: req.params.email}).then(function(user){
       if(!user){ return res.status(404).send('user not found')}
       // pick public parts of the user object
@@ -65,6 +64,18 @@ var userRoutes = function(app) {
       res.status(400).send(err)
     })
   });
+
+  // get all documents a user commented on
+  app.get('/api/users/:email/reviews',function(req,res){
+
+    User.findOne({email:req.params.email})
+      .populate('points.reviews')
+      .populate({path:'points.reviews', populate: {path:'_author',select:'email'}})
+      .then(function(user){
+        if(!user){ return res.status(404).send('user not found')}
+        res.json(user.points.reviews)
+    })
+  })
 
 // UPDATE USER PROFILE
   app.patch('/api/users/me', jwtCheck, getUserId, function(req,res){
