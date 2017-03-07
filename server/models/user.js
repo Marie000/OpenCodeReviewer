@@ -26,7 +26,7 @@ var UserSchema = mongoose.Schema({
   code_docs: [
     {
       type: ObjectId,
-      ref: 'Code_Document'
+      ref: 'CodeDocument'
     }
   ],
   comments: [
@@ -39,7 +39,7 @@ var UserSchema = mongoose.Schema({
     reviews:[
       {
         type: ObjectId,
-        ref: 'Code_Document'
+        ref: 'CodeDocument'
       }
     ],
     thanks: [
