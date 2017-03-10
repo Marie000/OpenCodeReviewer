@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, hashHistory, Redirect } from 'react-router';
+import { Router, Route, browserHistory, Redirect } from 'react-router';
 import AuthService from './utils/AuthService';
 import config from '../config';
 
@@ -28,7 +28,7 @@ const requireAuth = (nextState, replace) => {
 }
 
 ReactDOM.render((
-  <Router history={hashHistory}>
+  <Router history={browserHistory}>
   <Redirect from="/" to="/dashboard" />
     <Route path="/" component={App} auth={auth}>
     	<Route path="/profile/:userId" component={Profile}/>
