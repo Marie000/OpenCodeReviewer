@@ -17,7 +17,7 @@ var UserSchema = mongoose.Schema({
     minlength: 1,
     unique: true
   },*/
-  email: {
+  username: {
     type: String,
     required: true,
     trim: true,

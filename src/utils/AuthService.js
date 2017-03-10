@@ -31,7 +31,7 @@ export default class AuthService {
         console.log('Error loading the Profile', error)
       } else {
         this.setProfile(profile)
-        axios.post(api+'/api/users',{email:profile.email, Auth0:profile.user_id})
+        axios.post(api+'/api/users',{username:profile.username, Auth0:profile.user_id})
       }
     })
   }

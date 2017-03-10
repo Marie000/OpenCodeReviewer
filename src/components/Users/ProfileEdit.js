@@ -36,7 +36,7 @@ export default class ProfileEdit extends Component {
           first_name:data.first_name || '',
           last_name: data.last_name || '',
           location: data.location || '',
-          email:data.email,
+          username:data.username,
           github_username:data.github_username || '',
           github_url:data.github_url || '',
           facebook_url:data.facebook_url || '',
@@ -68,7 +68,7 @@ export default class ProfileEdit extends Component {
     var data = this.state;
     axios.patch(api+'/api/users/me', data,{headers:{Authorization: 'Bearer '+this.props.auth.getToken()}})
       .then(()=>{
-        this.context.router.push('/profile/'+this.state.email);
+        this.context.router.push('/profile/'+this.state.username);
       })
   }
 

@@ -23,17 +23,17 @@ export default class Comment extends Component{
 
   componentWillMount(){
     if(this.props.auth.getProfile()) {
-      if (this.props.auth.getProfile().email===this.props.comment._author.email) {
+      if (this.props.auth.getProfile().username===this.props.comment._author.username) {
         this.setState({thankButton: false});
       }
-      if (_.findIndex(this.props.comment.thanks, {from: {email: this.props.auth.getProfile().email}}) > -1) {
+      if (_.findIndex(this.props.comment.thanks, {from: {username: this.props.auth.getProfile().username}}) > -1) {
         this.setState({alreadyThanked: true});
       }
     }
   }
 
   componentWillReceiveProps(nextProps){
-    if(_.findIndex(nextProps.comment.thanks,{from:{email:this.props.auth.getProfile().email}})>-1){
+    if(_.findIndex(nextProps.comment.thanks,{from:{username:this.props.auth.getProfile().username}})>-1){
       this.setState({alreadyThanked:true});
     }
   }
@@ -54,7 +54,7 @@ export default class Comment extends Component{
     return(
       <Card className='comment' key={comment._id}>
         <div className="comment-header">
-          <Link className='link' to={'/profile/'+comment._author.email}>{comment._author.email}</Link>
+          <Link className='link' to={'/profile/'+comment._author.username}>{comment._author.username}</Link>
           {comment.thanks.length>0 ? <span className="hearts">{fullHeart}X{comment.thanks.length}</span> : null}
           <span className="comment-date"> Posted on {moment(comment.createdAt).format("MMMM Do YYYY, h:mm:ss a")} </span>
         </div>

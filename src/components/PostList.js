@@ -28,7 +28,7 @@ export default function (props) {
               <div className="post-footer">
 
                 <span className="posted-by">Posted by
-                  <Link className='author-name' to={'/profile/'+post._author.email}>{" "+post._author.email+" "}</Link>
+                  <Link className='author-name' to={'/profile/'+post._author.username}>{" "+post._author.username+" "}</Link>
                  on {moment(post.createdAt).format("MMMM Do YYYY, h:mm:ss a")}</span>
 
                 {post.comments.length===0 ? null : <span className="last-comment">Last comment: {moment(post.commentedAt).format("MMMM Do YYYY, h:mm:ss a")}</span>}

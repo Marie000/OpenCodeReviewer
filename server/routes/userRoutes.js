@@ -53,8 +53,8 @@ var userRoutes = function(app) {
 
 
   // get only public information for a user
-  app.get('/api/users/:email', function(req,res){
-    User.findOne({email: req.params.email}).then(function(user){
+  app.get('/api/users/:username', function(req,res){
+    User.findOne({username: req.params.username}).then(function(user){
       if(!user){ return res.status(404).send('user not found')}
       // pick public parts of the user object
       filteredUser = _.pick(user,
@@ -66,11 +66,11 @@ var userRoutes = function(app) {
   });
 
   // get all documents a user commented on
-  app.get('/api/users/:email/reviews',function(req,res){
+  app.get('/api/users/:username/reviews',function(req,res){
 
-    User.findOne({email:req.params.email})
+    User.findOne({username:req.params.username})
       .populate('points.reviews')
-      .populate({path:'points.reviews', populate: {path:'_author',select:'email'}})
+      .populate({path:'points.reviews', populate: {path:'_author',select:'username'}})
       .then(function(user){
         if(!user){ return res.status(404).send('user not found')}
         res.json(user.points.reviews)

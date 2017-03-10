@@ -25,7 +25,7 @@ var documentRoutes = function(app){
       sort:     { commentedAt: -1 },
       limit:    10,
       page: req.query.page || 1,
-      populate: {path:'_author',select:'email'} // change back to user_name eventually
+      populate: {path:'_author',select:'username'} // change back to user_name eventually
     };
 
     //get documents function
@@ -47,7 +47,7 @@ var documentRoutes = function(app){
     }
     // by author
     else if(req.query.author){
-      User.findOne({email:req.query.author})
+      User.findOne({username:req.query.author})
         .then((user)=>{
           getResponse({_author:user._id})
         })
@@ -63,8 +63,8 @@ var documentRoutes = function(app){
     CodeDocument.findOne({_id:req.params.id})
       .populate('_author')
       .populate('comments')
-      .populate({path:'comments', populate: {path:'_author',select:'email'}}) // change back to username
-      .populate({path:'comments', populate: {path:'thanks.from',select:'email'}}) // change back to username
+      .populate({path:'comments', populate: {path:'_author',select:'username'}}) // change back to username
+      .populate({path:'comments', populate: {path:'thanks.from',select:'username'}}) // change back to username
      // .populate('files')
      // .populate({path:'files', populate: {path:'comments'}})
      // .populate({path:'files',populate:{path:'comments._author',select:'user_name'}})

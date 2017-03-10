@@ -12,7 +12,7 @@ export default class Profile extends Component {
   constructor(props) {
     super(props);
     this.state={
-        email: this.props.params.userId,
+        username: this.props.params.userId,
         first_name:'',
         last_name: '',
         user_name: '',
@@ -30,7 +30,7 @@ export default class Profile extends Component {
   getUserData(){
     var scope = this;
 
-    if (this.state.email === this.props.auth.getProfile().email){
+    if (this.state.username === this.props.auth.getProfile().username){
       axios.get(api+'/api/users/me',{headers:{Authorization: 'Bearer '+this.props.auth.getToken()}})
       .then(function(res){
         let data=res.data;
@@ -49,7 +49,7 @@ export default class Profile extends Component {
         });
       })
     } else {
-      axios.get(api+'/api/users/'+this.state.email)
+      axios.get(api+'/api/users/'+this.state.username)
       .then(function(res){
         let data = res.data;
         scope.setState({
@@ -83,7 +83,7 @@ export default class Profile extends Component {
     if (this.state.me){
       profileTitle = "Your profile"
     } else {
-      profileTitle = <span>{this.state.email }'s profile</span>
+      profileTitle = <span>{this.state.username }'s profile</span>
     }
 
     var badges;

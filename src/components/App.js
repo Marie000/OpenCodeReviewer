@@ -46,7 +46,7 @@ class App extends Component {
       })
     }
 
-    let email=this.props.route.auth.getProfile().email;
+    let username=this.props.route.auth.getProfile().username;
       return <MuiThemeProvider><div className="App">
 
         <Paper className="navbar">
@@ -68,7 +68,7 @@ class App extends Component {
           >
             <Menu className="profile-menu">
               <MenuItem ><Link className='link' to='/editprofile/'>Profile</Link></MenuItem>
-              <MenuItem ><Link className='link' to={"/userPosts/"+email}>Activities</Link></MenuItem>
+              <MenuItem ><Link className='link' to={"/userPosts/"+username}>Activities</Link></MenuItem>
             </Menu>
           </Popover>
 
