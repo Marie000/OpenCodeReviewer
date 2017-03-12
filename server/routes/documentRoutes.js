@@ -4,6 +4,7 @@ var CodeDocument = require ('../models/document.js');
 var User = require ('../models/user.js');
 var findUserId = require('../middleware/findUserId');
 var File = require('../models/file');
+var Comment = require('../models/comment');
 
 var checkForBadges = require('../utils/check-badges.js');
 var giveTagPoints = require('../utils/tag-points.js');
@@ -116,6 +117,24 @@ var documentRoutes = function(app){
 // note: to edit or delete a document, pass in :doc_id instead of :id (to correctly identify it
 // with the authenticate-author middleware)
 // note: be sure to add editedAt: Date.now()
+
+  // DELETE A CODE DOCUMENT
+  app.delete('/api/documents/:doc_id',function(req,res){
+    CodeDocument.findByIdAndRemove(req.params.doc_id,{safe:true})
+      .then((document)=>{
+        // remove from author's document list
+        User.findByIdAndUpdate(document._author,{$pull:{code_docs:req.params.doc_id}},{safe:true, new:true})
+          .then((user)=>{console.log(user)})
+        // delete comments
+        document.comments.forEach((comment)=>{
+          Comment.findByIdAndRemove(comment.toString(),{safe:true})
+            .then((comment)=>{console.log(comment)})
+        })
+      })
+    res.send('document deleted')
+  })
+
+
 
 };
 

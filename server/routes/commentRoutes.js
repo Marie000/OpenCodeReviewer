@@ -136,14 +136,28 @@ var commentRoutes = function(app){
 // DELETE A COMMENT
   // NOTE: keep :comment_id because it is needed for authenticateAuthor middleware
   app.delete('/api/comments/:comment_id', jwtCheck, findUserId, authenticateAuthor, function(req,res){
-    res.send('trying to delete');
+    Comment.findByIdAndRemove(req.params.comment_id,{safe:true})
+      .then((comment)=>{
+        if(!comment){res.status(404).send('comment not found')}
+
+        //remove from document or file
+        if(comment._file_id){
+          File.findByIdAndUpdate(comment._file_id,{$pull:{comments:comment._id}})
+        } else {
+          CodeDocument.findByIdAndUpdate(comment._document_id,{$pull:{comments:comment._id.toString()}},{new: true})
+            .then((doc)=>{res.json(doc)})
+        }
+      })
   });
 
 // EDIT A COMMENT
   app.put('/api/comments/:comment_id', jwtCheck, findUserId, authenticateAuthor, function(req,res){
-    res.send('trying to edit');
+    Comment.findByIdAndUpdate(req.params.comment_id,{$set:{text:req.body.text}},{safe:true, new:true})
+      .then((comment)=>{
+        if(!comment){res.status(404).send('comment not found')}
+        res.json(comment);
+      })
   });
 
 };
-
 module.exports = commentRoutes;

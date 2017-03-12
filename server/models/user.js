@@ -10,13 +10,6 @@ var UserSchema = mongoose.Schema({
   last_name: {
     type: String
   },
- /* user_name: {
-    type: String,
-    required: true,
-    trim: true,
-    minlength: 1,
-    unique: true
-  },*/
   username: {
     type: String,
     required: true,

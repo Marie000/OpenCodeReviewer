@@ -26,15 +26,17 @@ var userRoutes = function(app) {
 // CREATE A NEW USER
   
   app.post('/api/users',function(req,res){
+    console.log(req.body)
     User.findOne({Auth0:req.body.Auth0})
       .then((user)=> {
         if (user) {
           res.json(user)
+        } else {
+          let newUser = new User(req.body);
+          newUser.save()
+            .then(res.json(newUser))
         }
       });
-    let user = new User(req.body)
-    user.save()
-      .then(res.json(user))
   });
 
 // GET A USER
