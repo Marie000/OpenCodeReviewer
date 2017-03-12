@@ -54,10 +54,12 @@ export default class Post extends Component {
        
   reloadPage(){
     this.getPostData();
-    axios.get(api+'/api/files/'+this.state.file._id)
-      .then((res)=>{
-        this.setState({file:res.data});
-      })
+    if(this.state.file) {
+      axios.get(api + '/api/files/' + this.state.file._id)
+        .then((res)=> {
+          this.setState({file: res.data});
+        })
+    }
     this.getInlineComments();
   }
 

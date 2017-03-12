@@ -48,6 +48,9 @@ export default class Comment extends Component{
 
   deleteComment(comment){
     axios.delete(api+'/api/comments/'+comment._id,{headers:{Authorization: 'Bearer '+this.props.auth.getToken()}})
+      .then((res)=>{
+        this.props.reload()
+      })
   }
   
   render(){

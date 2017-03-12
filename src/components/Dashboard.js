@@ -87,7 +87,9 @@ export default class Dashboard extends Component {
 
   deleteDocument(doc){
     axios.delete(api+'/api/documents/'+doc._id,{headers:{Authorization: 'Bearer '+this.props.auth.getToken()}})
-    this.getData(this.state.page,this.state.tag,this.state.search)
+      .then(()=>{
+        this.getData(this.state.page,this.state.tag,this.state.search)
+      })
   }
 
   render(){

@@ -60,7 +60,9 @@ export default class UserPosts extends Component {
 
   deleteDocument(doc){
     axios.delete(api+'/api/documents/'+doc._id,{headers:{Authorization: 'Bearer '+this.props.auth.getToken()}})
-    this.getData(this.state.page)
+      .then(()=>{
+        this.getData(this.state.page)
+      })
   }
 
   render(){
