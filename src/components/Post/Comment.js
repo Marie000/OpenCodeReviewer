@@ -45,18 +45,30 @@ export default class Comment extends Component{
           reload();
         })
   }
+
+  deleteComment(comment){
+    axios.delete(api+'/api/comments/'+comment._id,{headers:{Authorization: 'Bearer '+this.props.auth.getToken()}})
+  }
   
   render(){
     let comment=this.props.comment;
-    let emptyHeart=<span onClick={this.handleThanks.bind(this)}>Like this comment: <i className="fa fa-heart-o" aria-hidden="true"></i>
+    let emptyHeart=<span onClick={this.handleThanks.bind(this)}>Like this comment: <i className="fa fa-heart-o" aria-hidden="true"/>
     </span>
     let fullHeart=<i className="fa fa-heart" aria-hidden="true"/>
+    let myComment = false;
+    if(comment._author.username === this.props.auth.getProfile().username){
+      myComment = true;
+    }
     return(
       <Card className='comment' key={comment._id}>
         <div className="comment-header">
           <Link className='link' to={'/profile/'+comment._author.username}>{comment._author.username}</Link>
           {comment.thanks.length>0 ? <span className="hearts">{fullHeart}X{comment.thanks.length}</span> : null}
           <span className="comment-date"> Posted on {moment(comment.createdAt).format("MMMM Do YYYY, h:mm:ss a")} </span>
+          {myComment ? <i className="fa fa-trash-o"
+                           aria-hidden="true"
+                           onClick={this.deleteComment.bind(this,comment)}
+          /> : null }
         </div>
         <div className="comment-text"> {comment.text} </div>
          <span className="hearts">{this.state.thankButton ? this.state.alreadyThanked ? fullHeart: emptyHeart : null}</span>

@@ -8,11 +8,20 @@ export default function (props) {
     return (
       <div>
         {props.posts.map(post => {
+          let myDocument = false;
+          if(props.auth.getProfile().username===post._author.username){
+            myDocument = true;
+          }
           return (
             <Card className='post' key={post._id}>
               <div className="post-header">
               <Link className='post-title' to={'/dashboard/'+post._id}> {post.title} </Link>
                 <Chip className={post.comments.length>0 ? 'badge-comments has-comments':'badge-comments'}>{post.comments.length===1 ? "1 comment" : post.comments.length+" comments" }</Chip>
+                {myDocument ? <i className="fa fa-trash-o"
+                                 aria-hidden="true"
+                                 onClick={props.deleteDocument.bind(null,post)}
+                /> : null }
+
               </div>
               <div className="tag-list">
               {

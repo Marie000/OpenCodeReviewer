@@ -85,6 +85,11 @@ export default class Dashboard extends Component {
     this.setState({page:1, search:'',tag:''})
   }
 
+  deleteDocument(doc){
+    axios.delete(api+'/api/documents/'+doc._id,{headers:{Authorization: 'Bearer '+this.props.auth.getToken()}})
+    this.getData(this.state.page,this.state.tag,this.state.search)
+  }
+
   render(){
     let tagList = taglist.map((tag)=>{
       return {label:tag,value:tag}
@@ -118,11 +123,14 @@ export default class Dashboard extends Component {
                         this.setState({page:1,tag:value.value})
                    }} />
 
-
-
    </Card>
     <br />
-    <PostList posts={this.state.posts} selectTagFromPost={this.selectTagFromPost.bind(this)} tagClickable={true} />
+    <PostList posts={this.state.posts}
+              selectTagFromPost={this.selectTagFromPost.bind(this)}
+              tagClickable={true}
+              auth={this.props.auth}
+              deleteDocument={this.deleteDocument.bind(this)}
+    />
 
     {this.state.page===1 ? null : <FlatButton className='accent-button' onClick={this.firstPage.bind(this)}>First Page</FlatButton>}
     {this.state.page===1 ? null : <FlatButton  className='accent-button' onClick={this.previousPage.bind(this)}>Previous Page</FlatButton>}

@@ -30,6 +30,8 @@ export default class UserPosts extends Component {
 
     axios.get(api+'/api/documents'+query)
       .then((res)=>{
+        console.log(res)
+        res.data.filter((item)=>{return item.title!==undefined || null})
         scope.setState({posts:res.data})
       })
 
@@ -56,7 +58,10 @@ export default class UserPosts extends Component {
     }
   }
 
-
+  deleteDocument(doc){
+    axios.delete(api+'/api/documents/'+doc._id,{headers:{Authorization: 'Bearer '+this.props.auth.getToken()}})
+    this.getData(this.state.page)
+  }
 
   render(){
 
@@ -68,7 +73,10 @@ export default class UserPosts extends Component {
         <Tabs>
           <Tab label="Posts">
             <br/>
-            <PostList posts={this.state.posts} tagClickable={false} />
+            <PostList posts={this.state.posts}
+                      tagClickable={false}
+                      deleteDocument={this.deleteDocument.bind(this)}
+                      auth={this.props.auth}/>
 
             {this.state.page===1 ? null : <FlatButton className='accent-button' onClick={this.firstPage.bind(this)}>First Page</FlatButton>}
             {this.state.page===1 ? null : <FlatButton  className='accent-button' onClick={this.previousPage.bind(this)}>Previous Page</FlatButton>}
@@ -76,7 +84,10 @@ export default class UserPosts extends Component {
           </Tab>
           <Tab label="Posts commented on">
             <br/>
-            <PostList posts={this.state.reviews} tagClickable={false} />
+            <PostList posts={this.state.reviews}
+                      tagClickable={false}
+                      deleteDocument={this.deleteDocument.bind(this)}
+                      auth={this.props.auth} />
 
             {this.state.page===1 ? null : <FlatButton className='accent-button' onClick={this.firstPage.bind(this)}>First Page</FlatButton>}
             {this.state.page===1 ? null : <FlatButton  className='accent-button' onClick={this.previousPage.bind(this)}>Previous Page</FlatButton>}
