@@ -29,7 +29,7 @@ const requireAuth = (nextState, replace) => {
 
 ReactDOM.render((
   <Router history={hashHistory}>
-  <Redirect from="/" to="/dashboard" />
+  <Redirect from="/" to="/dashboard" auth={auth} />
     <Route path="/" component={App} auth={auth}>
     	<Route path="/profile/:userId" component={Profile}/>
       <Route path="/editprofile" component={ProfileEdit} onEnter={requireAuth} />
@@ -43,7 +43,7 @@ ReactDOM.render((
       <Route path="/learn/code/:page" component={LearnCodeContent}/>
       <Route path="/userPosts/:userId" component={UserPosts}/>
       <Route path='/logout'  /> {/*????? */}
-    </Route>  	
+    </Route>
   </Router>
 ), document.getElementById('root'))
 

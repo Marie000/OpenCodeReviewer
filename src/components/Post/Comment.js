@@ -3,7 +3,7 @@ import moment from 'moment';
 import {Link} from 'react-router';
 import _ from 'lodash';
 import axios from 'axios';
-import {Card} from 'material-ui';
+import {Card, Dialog, FlatButton} from 'material-ui';
 
 import config from '../../../config';
 const api=config.api || '';
@@ -13,7 +13,8 @@ export default class Comment extends Component{
     super(props)
     this.state={
       thankButton:true,
-      alreadyThanked:false
+      alreadyThanked:false,
+      dialogOpen:false
     }
   }
 
@@ -46,11 +47,20 @@ export default class Comment extends Component{
         })
   }
 
-  deleteComment(comment){
-    axios.delete(api+'/api/comments/'+comment._id,{headers:{Authorization: 'Bearer '+this.props.auth.getToken()}})
+  deleteComment(){
+    this.setState({dialogOpen:true})
+  }
+
+  confirmDelete(){
+    axios.delete(api+'/api/comments/'+this.props.comment._id,{headers:{Authorization: 'Bearer '+this.props.auth.getToken()}})
       .then((res)=>{
         this.props.reload()
       })
+    this.setState({dialogOpen:false})
+  }
+
+  cancelDelete(){
+    this.setState({dialogOpen:false})
   }
   
   render(){
@@ -64,6 +74,27 @@ export default class Comment extends Component{
     }
     return(
       <Card className='comment' key={comment._id}>
+        <Dialog
+          title="Are you sure you want to delete this?"
+          modal={false}
+          open={this.state.dialogOpen}
+          onRequestClose={this.cancelDelete.bind(this)}
+        >
+          <FlatButton
+            label="Cancel"
+            primary={true}
+            keyboardFocused={true}
+            onTouchTap={this.cancelDelete.bind(this)}
+          />
+          <FlatButton
+            label="Yes, delete!"
+            primary={true}
+            onTouchTap={this.confirmDelete.bind(this)} // for some reason, this binds to the previous post.
+            // That's why I use this.state.postToDelete in the dashboard
+            // another solution would be to make a separate Post Component and handle the delete there
+            // (like in the comments)
+          />
+        </Dialog>
         <div className="comment-header">
           <Link className='link' to={'/profile/'+comment._author.username}>{comment._author.username}</Link>
           {comment.thanks.length>0 ? <span className="hearts">{fullHeart}X{comment.thanks.length}</span> : null}

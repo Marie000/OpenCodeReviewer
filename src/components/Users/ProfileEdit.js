@@ -30,7 +30,6 @@ export default class ProfileEdit extends Component {
     axios.get(api+'/api/users/me',{headers:{Authorization: 'Bearer '+this.props.auth.getToken()}})
     .then(function(res){
         let data=res.data;
-      console.log(data)
         scope.setState({
           id: data._id,
           first_name:data.first_name || '',

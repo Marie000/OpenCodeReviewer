@@ -21,6 +21,7 @@ export default class AuthService {
   }
 
   _doAuthentication(authResult) {
+    console.log('_doAuthentication')
     // Saves the user token
     this.setToken(authResult.idToken)
     // navigate to the home route
