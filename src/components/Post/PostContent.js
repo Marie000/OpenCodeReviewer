@@ -8,8 +8,8 @@ import config from '../../../config';
 const api = config.api || '';
 import {FlatButton,Card} from 'material-ui';
 
-import CommentForm from './CommentForm';
-import PostCommentList from './PostCommentList';
+import CommentForm from './Comments/CommentForm';
+import PostCommentList from './Comments/CommentList';
 
 import CodeMirror from 'react-codemirror';
 import 'codemirror/lib/codemirror.css';
@@ -92,30 +92,35 @@ export default class PostContent extends Component {
   }
 
   addWidget(){
-    var container = document.createElement("div");
-    container.id = "currentCommentDiv"
-    container.innerHTML = "<textarea class='inline-comment inline-comment-text' placeholder='Type your comment here' id = 'currentComment'></textarea>" ;
+    if(!document.getElementById('currentCommentDiv')) {
 
-    var codemir = this.refs.codemirror.getCodeMirror();
+      var container = document.createElement("div");
+      container.id = "currentCommentDiv"
+      container.innerHTML = (
+       " <textarea class='inline-comment inline-comment-text' placeholder='Type your comment here' id = 'currentComment'></textarea>"
+      );
+  console.log(container)
+      var codemir = this.refs.codemirror.getCodeMirror();
 
-    // var line = codemir.getCursor("to").line;
-    var lastLine = codemir.getCursor("end").line;
-    var lastch = codemir.getCursor("end").ch;
-    var firstch = codemir.getCursor("first").ch;
-    var firstLine = codemir.getCursor('start').line;
+      // var line = codemir.getCursor("to").line;
+      var lastLine = codemir.getCursor("end").line;
+      var lastch = codemir.getCursor("end").ch;
+      var firstch = codemir.getCursor("first").ch;
+      var firstLine = codemir.getCursor('start').line;
 
-    var currentWidget = codemir.addLineWidget(lastLine, container, {
-      coverGutter: false
-    });
+      var currentWidget = codemir.addLineWidget(lastLine, container, {
+        coverGutter: false
+      });
 
-    this.setState({
-      currentComment:{
-        widget: currentWidget,
-        firstLine: firstLine,
-        lastLine:lastLine
+      this.setState({
+        currentComment: {
+          widget: currentWidget,
+          firstLine: firstLine,
+          lastLine: lastLine
 //        text: document.getElementById('comment').value
-      }
-    })
+        }
+      })
+    }
   }
 
   cancelWidget(){
@@ -135,16 +140,16 @@ export default class PostContent extends Component {
         lastLine:this.state.currentComment.lastLine},
       text: currentCommentText,
       is_general: false,
-      _document_id: this.props.title.length>0 ? null : this.props.id,
-      _file_id: this.props.title.length>0 ? this.props.id : null
+      _document_id: this.props.doc_id,
+      _file_id: this.props.file_id
     }
-
+    console.log(dataToSend)
     this.state.currentComment.widget.clear();
 
     axios.post(api+'/api/comments/', dataToSend, {headers:{Authorization: 'Bearer '+this.props.auth.getToken()}})
       .then(()=>{
         dataToSend._author = {}
-        dataToSend._author.user_name = localStorage.user_name;
+        dataToSend._author.user_name = this.props.auth.getProfile().username;
         dataToSend.createdAt = new Date();
         this.setState({
           currentComment: {
@@ -172,8 +177,6 @@ export default class PostContent extends Component {
       $(".selection").parents('.CodeMirror-line').addClass('selection-background');
     }.bind(this), 50);
   }
-
-
 
 
   render() {
@@ -208,13 +211,14 @@ export default class PostContent extends Component {
                 </div>
                 :
                 <div>
-                  To post an inline comment, select the part of code that you wish to comment and press
-                  <FlatButton className='button link' onClick={this.addWidget.bind(this)} > Add inline comment </FlatButton>
+                  To post an inline comment, select the part of code that you wish to comment:
                 </div>
               }
             </div>
             : null }
-        <div className="codemirror-wrapper"><CodeMirror value={this.props.text} ref="codemirror" options={options} /></div>
+        <div className="codemirror-wrapper" onClick={this.addWidget.bind(this)} >
+          <CodeMirror value={this.props.text} ref="codemirror" options={options} />
+        </div>
 
 
         {this.state.inlineComments ?

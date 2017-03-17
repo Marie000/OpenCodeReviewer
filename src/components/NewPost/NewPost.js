@@ -24,7 +24,7 @@ export default class NewPost extends Component {
       tags: [],
       description:"",
       submit: false,
-      text: 'initial',
+      text: "// Code \n\n\n\n\n\n\n\n\n\n\n\n\n",
       importGithub: false,
       importCodepen:false,
       language:'text',
