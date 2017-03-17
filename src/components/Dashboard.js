@@ -19,7 +19,9 @@ export default class Dashboard extends Component {
       posts: [],
       page:1,
       search:'',
-      tag:''
+      tag:'',
+      dialogOpen:false,
+      docToDelete:{}
     }
   }
 
@@ -86,10 +88,20 @@ export default class Dashboard extends Component {
   }
 
   deleteDocument(doc){
-    axios.delete(api+'/api/documents/'+doc._id,{headers:{Authorization: 'Bearer '+this.props.auth.getToken()}})
+    this.setState({dialogOpen:true,docToDelete:doc})
+  }
+
+  confirmDelete(doc){
+    console.log(doc.title) // don't use doc unless you fix the bug. Or it will delete the wrong post!
+    axios.delete(api+'/api/documents/'+this.state.docToDelete._id,{headers:{Authorization: 'Bearer '+this.props.auth.getToken()}})
       .then(()=>{
         this.getData(this.state.page,this.state.tag,this.state.search)
-      })
+      });
+    this.setState({dialogOpen:false,docToDelete:{}})
+  }
+
+  cancelDelete(){
+    this.setState({dialogOpen:false,docToDelete:{}})
   }
 
   render(){
@@ -132,6 +144,9 @@ export default class Dashboard extends Component {
               tagClickable={true}
               auth={this.props.auth}
               deleteDocument={this.deleteDocument.bind(this)}
+              cancelDelete={this.cancelDelete.bind(this)}
+              confirmDelete={this.confirmDelete.bind(this)}
+              dialogOpen={this.state.dialogOpen}
     />
 
     {this.state.page===1 ? null : <FlatButton className='accent-button' onClick={this.firstPage.bind(this)}>First Page</FlatButton>}

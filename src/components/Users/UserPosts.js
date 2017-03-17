@@ -16,7 +16,9 @@ export default class UserPosts extends Component {
       posts: [],
       reviews:[],
       page:1,
-      user: this.props.user || this.props.params.userId
+      user: this.props.user || this.props.params.userId,
+      docToDelete:{},
+      dialogOpen:false
     }
   }
 
@@ -59,10 +61,20 @@ export default class UserPosts extends Component {
   }
 
   deleteDocument(doc){
-    axios.delete(api+'/api/documents/'+doc._id,{headers:{Authorization: 'Bearer '+this.props.auth.getToken()}})
+    this.setState({dialogOpen:true,docToDelete:doc})
+  }
+
+  confirmDelete(doc){
+    console.log(doc.title) // don't use doc unless you fix the bug. Or it will delete the wrong post!
+    axios.delete(api+'/api/documents/'+this.state.docToDelete._id,{headers:{Authorization: 'Bearer '+this.props.auth.getToken()}})
       .then(()=>{
-        this.getData(this.state.page)
-      })
+        this.getData(this.state.page,this.state.tag,this.state.search)
+      });
+    this.setState({dialogOpen:false,docToDelete:{}})
+  }
+
+  cancelDelete(){
+    this.setState({dialogOpen:false,docToDelete:{}})
   }
 
   render(){
@@ -78,7 +90,11 @@ export default class UserPosts extends Component {
             <PostList posts={this.state.posts}
                       tagClickable={false}
                       deleteDocument={this.deleteDocument.bind(this)}
-                      auth={this.props.auth}/>
+                      auth={this.props.auth}
+                      confirmDelete={this.confirmDelete.bind(this)}
+                      docToDelete={this.state.docToDelete}
+                      dialogOpen={this.state.dialogOpen}
+            />
 
             {this.state.page===1 ? null : <FlatButton className='accent-button' onClick={this.firstPage.bind(this)}>First Page</FlatButton>}
             {this.state.page===1 ? null : <FlatButton  className='accent-button' onClick={this.previousPage.bind(this)}>Previous Page</FlatButton>}
@@ -89,7 +105,11 @@ export default class UserPosts extends Component {
             <PostList posts={this.state.reviews}
                       tagClickable={false}
                       deleteDocument={this.deleteDocument.bind(this)}
-                      auth={this.props.auth} />
+                      auth={this.props.auth}
+                      confirmDelete={this.confirmDelete.bind(this)}
+                      docToDelete={this.state.docToDelete}
+                      dialogOpen={this.state.dialogOpen}
+            />
 
             {this.state.page===1 ? null : <FlatButton className='accent-button' onClick={this.firstPage.bind(this)}>First Page</FlatButton>}
             {this.state.page===1 ? null : <FlatButton  className='accent-button' onClick={this.previousPage.bind(this)}>Previous Page</FlatButton>}

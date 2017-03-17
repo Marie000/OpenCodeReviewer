@@ -25,6 +25,9 @@ var documentRoutes = require('./routes/documentRoutes')(app);
 var commentRoutes = require('./routes/commentRoutes')(app);
 var fileRoutes = require('./routes/fileRoutes')(app);
 
+app.get('*', function (request, response){
+  response.sendFile(path.resolve(__dirname, '/../build/','index.html'));
+})
 
   app.listen(PORT,function(){
     console.log('server listening on port '+PORT);
