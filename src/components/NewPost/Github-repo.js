@@ -4,6 +4,23 @@ import config from '../../../config';
 const api = config.api;
 
 const toIgnore=['node_modules','.gitignore'];
+const extensionsToIgnore=['png', 'jpg','jpeg' ,'aif','midi','wav','mp3','mpa','wma','rar','zip','gz','bin','iso','csv',
+  'dat','sql','tar','xml','fnt','fon','ai','bmp','gif','ico','ps','psd','svg','tif','tiff','avi','flv','m4v','mkv','mov',
+  'mp4','mpg','mpeg','rm','swf','vob','wmv','pdf']
+
+function filterFiles(file){
+  console.log(file)
+  if (toIgnore.indexOf(file)>-1){
+    console.log('in banned file list')
+    return false;
+  }
+  let extension = file.substr(file.lastIndexOf('.')+1);
+  if (extensionsToIgnore.indexOf(extension)>-1) {
+    console.log('wrong extension')
+    return false;
+  }
+  return true;
+}
 
 function getLanguage(filename){
   var ext = filename.substr(filename.lastIndexOf('.') + 1);
@@ -25,9 +42,9 @@ export default function getGithubRepo(path,parent_id,doc_id){
   axios.get(path+auth)
     .then((res)=>{
       res.data.map((fileFromList)=>{
-        if(toIgnore.indexOf(fileFromList.name)===-1) {
+        if(filterFiles(fileFromList.name)) {
+          console.log('passed filterfiles')
           if (fileFromList.type === 'file') {
-            console.log(fileFromList)
             axios.get(path + fileFromList.name)
               .then((res)=> {
                 let newFile = {
@@ -55,7 +72,6 @@ export default function getGithubRepo(path,parent_id,doc_id){
             }
             axios.post(api+'/api/files/', newFolder)
               .then((res)=> {
-                console.log('folder saved: ' + res.data.name)
                 getGithubRepo(path + res.data.name + '/', res.data._id, doc_id)
               }, (err)=> {
                 console.log(err)
