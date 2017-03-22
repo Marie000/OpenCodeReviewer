@@ -47,6 +47,7 @@ class App extends Component {
     }
 
     let username=this.props.route.auth.getProfile().username;
+    let userid=this.props.route.auth.getProfile().id;
       return <MuiThemeProvider><div className="App">
 
         <Paper className="navbar">
@@ -67,7 +68,7 @@ class App extends Component {
             onRequestClose={this.closeProfile.bind(this)}
           >
             <Menu className="profile-menu">
-              <MenuItem ><Link className='link' to='/editprofile/'>Profile</Link></MenuItem>
+              <MenuItem ><Link className='link' to={'/profile/'+username}>Profile</Link></MenuItem>
               <MenuItem ><Link className='link' to={"/userPosts/"+username}>Activities</Link></MenuItem>
             </Menu>
           </Popover>

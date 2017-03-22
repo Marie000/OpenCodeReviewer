@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import UserPosts from './UserPosts';
-import {FlatButton,Card} from 'material-ui';
+import ProfileEdit from './ProfileEdit';
+import {FlatButton,Card,Avatar,Chip} from 'material-ui';
 import axios from 'axios';
 import './users.css';
 
@@ -13,6 +14,7 @@ export default class Profile extends Component {
     super(props);
     this.state={
         username: this.props.params.userId,
+        id:'',
         first_name:'',
         last_name: '',
         user_name: '',
@@ -54,6 +56,7 @@ export default class Profile extends Component {
         let data = res.data;
         scope.setState({
           first_name:data.first_name,
+          id:data._id,
           last_name: data.last_name,
           user_name: data.user_name,
           location: data.location,
@@ -88,7 +91,9 @@ export default class Profile extends Component {
 
     var badges;
     if(this.state.badges.length>0){
-      badges = this.state.badges.map((badge)=><img alt={badge.name+badge.count} key={badge.name+badge.count} src={"/badges/"+badge.name.toLowerCase()+'-'+badge.count+'.png'} width="250"/>)
+      badges = this.state.badges.map((badge)=>{
+        return <Chip><Avatar>{badge.count}</Avatar>{badge.name}</Chip>
+      })
     }
 
 
@@ -108,14 +113,17 @@ export default class Profile extends Component {
         {this.state.twitter_url ? <a href={this.state.twitter_url}><i className="fa fa-twitter fa-2x" /></a> : null}
         {this.state.linkedIn_url ? <a href={this.state.linkedIn_url}><i className="fa fa-linkedin fa-2x" /></a> : null}
         <br />
+        <h2>Badges: </h2>
         {badges}
 
-        {}
-
-        {button}
       </Card>
       <br/><br/>
-      <UserPosts user={this.props.params.userId}/>
+      {this.state.username === this.props.auth.getProfile().username ?
+        <ProfileEdit auth={this.props.auth} /> :
+        <UserPosts user={this.props.params.userId}
+                   auth={this.props.auth}
+        />
+      }
 
   	</div>
   	)

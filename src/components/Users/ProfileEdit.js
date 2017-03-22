@@ -73,7 +73,7 @@ export default class ProfileEdit extends Component {
 
   render(){
   	return(
-  	<div className="profile-section">
+  	<div>
   		<Card className='profile-container'>
         <h1>Edit your profile</h1>
       <form>

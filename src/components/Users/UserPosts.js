@@ -28,8 +28,10 @@ export default class UserPosts extends Component {
   }
 
   getData(page){
+    console.log(this.state.user)
     var scope = this;
     var query= '?page='+page+'&author='+this.state.user;
+
 
     axios.get(api+'/api/documents'+query)
       .then((res)=>{
@@ -83,7 +85,7 @@ export default class UserPosts extends Component {
     return(
 
       <div className="dashboard">
-        <h1>Recent activity by {this.state.user}</h1>
+        <h1>Recent activity by {this.props.user}</h1>
         <br/>
         <Tabs>
           <Tab label="Posts">
