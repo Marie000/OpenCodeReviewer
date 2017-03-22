@@ -24,8 +24,9 @@ export default class NewPost extends Component {
       tags: [],
       description:"",
       submit: false,
-      text: 'initial',
-      importGithub: false,
+      text: "// Code \n\n\n\n\n\n\n\n\n\n\n\n\n",
+      importGithubFile: false,
+      importGithubRepo: false,
       importCodepen:false,
       language:'text',
       submitVisible:true
@@ -42,16 +43,20 @@ export default class NewPost extends Component {
     router: React.PropTypes.object.isRequired
   }
 
-  importGithub(){
-    this.setState({importGithub: true, importCodepen: false})
+  importGithubFile(){
+    this.setState({importGithubFile: true, importGithubRepo: false, importCodepen: false})
+  }
+
+  importGithubRepo(){
+    this.setState({importGithubRepo: true,importGithubFile: false, importCodepen:false, submitVisible:false })
   }
 
   importCodepen(){
-    this.setState({importGithub: false, importCodepen: true, submitVisible:false})
+    this.setState({importGithubFile: false, importCodepen: true, importGithubRepo: false, submitVisible:false})
   }
 
   cancelGithubImport(){
-    this.setState({importGithub: false, submitVisible:true})
+    this.setState({importGithubFile: false, importGithubRepo:false, submitVisible:true})
   }
   cancelCodepenImport(){
     this.setState({importCodepen:false, submitVisible:true})
@@ -149,7 +154,7 @@ export default class NewPost extends Component {
               />
           </form>
           {/*GITHUB IMPORT*/}
-          {this.state.importGithub ?
+          {this.state.importGithubFile ?
           <div>
             <Github saveCode={this.saveCode.bind(this)}
                     setLanguage={this.setLanguage.bind(this)}
@@ -159,6 +164,7 @@ export default class NewPost extends Component {
                     description={this.state.description}
                     auth={this.props.auth}
                     tags={this.state.tags}
+                    importRepo={false}
             />
             <FlatButton className="button"
                         onClick={this.cancelGithubImport.bind(this)}>
@@ -166,6 +172,25 @@ export default class NewPost extends Component {
           <br />
           <br />
         </div>  : null}
+
+          {this.state.importGithubRepo ?
+            <div>
+              <Github saveCode={this.saveCode.bind(this)}
+                      setLanguage={this.setLanguage.bind(this)}
+                      removeSubmitButton={this.removeSubmitButton.bind(this)}
+                      displaySubmitButton={this.displaySubmitButton.bind(this)}
+                      name={this.state.title}
+                      description={this.state.description}
+                      auth={this.props.auth}
+                      tags={this.state.tags}
+                      importRepo={true}
+              />
+              <FlatButton className="button"
+                          onClick={this.cancelGithubImport.bind(this)}>
+                Cancel Github import</FlatButton>
+              <br />
+              <br />
+            </div>  : null}
 
           {/*CODEPEN IMPORT*/}
             {this.state.importCodepen ?
@@ -185,13 +210,17 @@ export default class NewPost extends Component {
               : null }
 
           {/*NO IMPORT*/}
-            {!this.state.importCodepen && !this.state.importGithub ?
+            {!this.state.importCodepen && !this.state.importGithubFile && !this.state.importGithubRepo ?
               <div>
                 <div className="import-buttons">
                   <FlatButton className="button"
-                              onClick={this.importGithub.bind(this)}
+                              onClick={this.importGithubFile.bind(this)}
                               value="import" >
-                  Import code from GitHub</FlatButton>
+                  Import file from GitHub</FlatButton>
+                  <FlatButton className="button"
+                              onClick={this.importGithubRepo.bind(this)}
+                              value="import" >
+                    Import repo from Github</FlatButton>
                   <FlatButton className="button"
                               onClick={this.importCodepen.bind(this)}
                               value="import">

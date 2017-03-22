@@ -7,8 +7,9 @@ import axios from 'axios';
 import config from '../../../config';
 const api = config.api || '';
 
-import CommentForm from './CommentForm';
-import PostCommentList from './PostCommentList';
+import CommentForm from './Comments/CommentForm';
+import PostCommentList from './Comments/CommentList';
+import PostHeader from './PostHeader';
 import PostContent from './PostContent';
 import FileList from './FileList';
 import {FlatButton} from 'material-ui';
@@ -131,17 +132,11 @@ export default class Post extends Component {
     $(".selection").parents('.CodeMirror-line').addClass('selection-background');
     return (
       <div className="form-container post-section">
-      <FlatButton className='link button' onClick={hashHistory.goBack}>Back</FlatButton>
       <div className="post-wrapper">
-        <h2>{this.state.title}</h2>
-          <div className='col-md-10 postdescription'> {this.state.description} </div>
+        <PostHeader title={this.state.title}
+                    description={this.state.description}
+                    tags={this.state.tags} />
 
-        <div className='row'> 
-          <div className='col-md-10'>
-            {this.state.tags.map(tag => { return <div key={tag} className="tags"> {tag}</div>}
-              )}
-           </div> 
-        </div>
         
         {this.state.files.length>0 ?
         <FileList files={this.state.files} getFileContent={this.getFileContent.bind(this)} />

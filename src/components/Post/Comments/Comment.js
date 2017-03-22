@@ -5,7 +5,7 @@ import _ from 'lodash';
 import axios from 'axios';
 import {Card, Dialog, FlatButton} from 'material-ui';
 
-import config from '../../../config';
+import config from '../../../../config';
 const api=config.api || '';
 
 export default class Comment extends Component{
@@ -14,14 +14,8 @@ export default class Comment extends Component{
     this.state={
       thankButton:true,
       alreadyThanked:false,
-      dialogOpen:false
     }
   }
-
-  static contextTypes = {
-    user: React.PropTypes.object
-  };
-
   componentWillMount(){
     if(this.props.auth.getProfile()) {
       if (this.props.auth.getProfile().username===this.props.comment._author.username) {
@@ -40,29 +34,17 @@ export default class Comment extends Component{
   }
 
   handleThanks(){
-      let reload=this.props.reload
-      axios.post(api+'/api/comments/'+this.props.comment._id+'/thanks',{},{headers:{Authorization: 'Bearer '+this.props.auth.getToken()}})
-        .then(function(res){
-          reload();
-        })
-  }
-
-  deleteComment(){
-    this.setState({dialogOpen:true})
-  }
-
-  confirmDelete(){
-    axios.delete(api+'/api/comments/'+this.props.comment._id,{headers:{Authorization: 'Bearer '+this.props.auth.getToken()}})
-      .then((res)=>{
-        this.props.reload()
+    let reload=this.props.reload
+    axios.post(api+'/api/comments/'+this.props.comment._id+'/thanks',{},{headers:{Authorization: 'Bearer '+this.props.auth.getToken()}})
+      .then(function(res){
+        reload();
       })
-    this.setState({dialogOpen:false})
+  }
+  confirmDelete(){
+    console.log(this.props.comment)
+    this.props.confirmDelete(this.props.comment)
   }
 
-  cancelDelete(){
-    this.setState({dialogOpen:false})
-  }
-  
   render(){
     let comment=this.props.comment;
     let emptyHeart=<span onClick={this.handleThanks.bind(this)}>Like this comment: <i className="fa fa-heart-o" aria-hidden="true"/>
@@ -77,14 +59,14 @@ export default class Comment extends Component{
         <Dialog
           title="Are you sure you want to delete this?"
           modal={false}
-          open={this.state.dialogOpen}
-          onRequestClose={this.cancelDelete.bind(this)}
+          open={this.props.dialogOpen}
+          onRequestClose={this.props.cancelDelete.bind(this)}
         >
           <FlatButton
             label="Cancel"
             primary={true}
             keyboardFocused={true}
-            onTouchTap={this.cancelDelete.bind(this)}
+            onTouchTap={this.props.cancelDelete.bind(this)}
           />
           <FlatButton
             label="Yes, delete!"
@@ -101,7 +83,7 @@ export default class Comment extends Component{
           <span className="comment-date"> Posted on {moment(comment.createdAt).format("MMMM Do YYYY, h:mm:ss a")} </span>
           {myComment ? <i className="fa fa-trash-o"
                            aria-hidden="true"
-                           onClick={this.deleteComment.bind(this,comment)}
+                           onClick={this.props.deleteComment.bind(this,comment)}
           /> : null }
         </div>
         <div className="comment-text"> {comment.text} </div>

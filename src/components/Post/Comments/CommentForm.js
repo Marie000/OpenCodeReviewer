@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import {Card,FlatButton,TextField} from 'material-ui';
 
-import config from '../../../config';
+import config from '../../../../config';
 const api = config.api || '';
 
 export default class PostComment extends Component {
@@ -19,7 +19,6 @@ export default class PostComment extends Component {
   }
 
   handleChange (e) {
-    console.log(this.state.text)
     this.setState({text:e.target.value});
   }
 
