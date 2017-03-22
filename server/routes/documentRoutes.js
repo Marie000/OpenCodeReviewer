@@ -33,7 +33,7 @@ var documentRoutes = function(app){
     var getResponse = function(query){
       CodeDocument.paginate(query, options).then(function(result) {
         if(!result){return res.status(404).send('list of documents not found')}
-        res.json(result.docs);
+        res.json(result); // result.docs will give the documents, result.total will give the total number of documents
       });
     }
 

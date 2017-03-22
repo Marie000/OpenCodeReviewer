@@ -21,7 +21,8 @@ export default class Dashboard extends Component {
       search:'',
       tag:'',
       dialogOpen:false,
-      docToDelete:{}
+      docToDelete:{},
+      maxPages:1
     }
   }
 
@@ -40,7 +41,8 @@ export default class Dashboard extends Component {
 
     axios.get(api+'/api/documents'+query)
       .then((res)=>{
-        scope.setState({posts:res.data})
+        let maxPages = Math.ceil(res.data.total/10)  // right now only displays 10 per page. Should become an option later.
+        scope.setState({posts:res.data.docs, maxPages:maxPages})
       })
   }
 
@@ -149,9 +151,11 @@ export default class Dashboard extends Component {
               dialogOpen={this.state.dialogOpen}
     />
 
-    {this.state.page===1 ? null : <FlatButton className='accent-button' onClick={this.firstPage.bind(this)}>First Page</FlatButton>}
-    {this.state.page===1 ? null : <FlatButton  className='accent-button' onClick={this.previousPage.bind(this)}>Previous Page</FlatButton>}
+    {this.state.page===1 ? null : <FlatButton className='btn' onClick={this.firstPage.bind(this)}>First Page</FlatButton>}
+    {this.state.page===1 ? null : <FlatButton  className='btn' onClick={this.previousPage.bind(this)}>Previous Page</FlatButton>}
+    {this.state.page<this.state.maxPages ?
     <FlatButton  className='btn' onClick={this.nextPage.bind(this)}>Next Page</FlatButton>
+      :null}
   	</div>
   	)
   }

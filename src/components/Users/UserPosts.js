@@ -18,7 +18,8 @@ export default class UserPosts extends Component {
       page:1,
       user: this.props.user || this.props.params.userId,
       docToDelete:{},
-      dialogOpen:false
+      dialogOpen:false,
+      maxPages:1
     }
   }
 
@@ -32,9 +33,9 @@ export default class UserPosts extends Component {
 
     axios.get(api+'/api/documents'+query)
       .then((res)=>{
-        console.log(res)
-        res.data.filter((item)=>{return item.title!==undefined || null})
-        scope.setState({posts:res.data})
+        res.data.docs.filter((item)=>{return item.title!==undefined || null})
+        let maxPages = Math.ceil(res.data.total/10)  // right now only displays 10 per page. Should become an option later.
+        scope.setState({posts:res.data.docs, maxPages:maxPages})
       })
 
     axios.get(api+'/api/users/'+this.state.user+'/reviews')
@@ -65,7 +66,7 @@ export default class UserPosts extends Component {
   }
 
   confirmDelete(doc){
-    console.log(doc.title) // don't use doc unless you fix the bug. Or it will delete the wrong post!
+    // don't use doc unless you fix the bug. Or it will delete the wrong post!
     axios.delete(api+'/api/documents/'+this.state.docToDelete._id,{headers:{Authorization: 'Bearer '+this.props.auth.getToken()}})
       .then(()=>{
         this.getData(this.state.page,this.state.tag,this.state.search)
@@ -96,9 +97,9 @@ export default class UserPosts extends Component {
                       dialogOpen={this.state.dialogOpen}
             />
 
-            {this.state.page===1 ? null : <FlatButton className='accent-button' onClick={this.firstPage.bind(this)}>First Page</FlatButton>}
-            {this.state.page===1 ? null : <FlatButton  className='accent-button' onClick={this.previousPage.bind(this)}>Previous Page</FlatButton>}
-            <FlatButton  className='btn' onClick={this.nextPage.bind(this)}>Next Page</FlatButton>
+            {this.state.page===1 ? null : <FlatButton className='btn' onClick={this.firstPage.bind(this)}>First Page</FlatButton>}
+            {this.state.page===1 ? null : <FlatButton  className='btn' onClick={this.previousPage.bind(this)}>Previous Page</FlatButton>}
+            {this.state.page<this.state.maxPages ? <FlatButton  className='btn' onClick={this.nextPage.bind(this)}>Next Page</FlatButton> : null}
           </Tab>
           <Tab label="Posts commented on">
             <br/>
@@ -111,9 +112,9 @@ export default class UserPosts extends Component {
                       dialogOpen={this.state.dialogOpen}
             />
 
-            {this.state.page===1 ? null : <FlatButton className='accent-button' onClick={this.firstPage.bind(this)}>First Page</FlatButton>}
-            {this.state.page===1 ? null : <FlatButton  className='accent-button' onClick={this.previousPage.bind(this)}>Previous Page</FlatButton>}
-            <FlatButton  className='btn' onClick={this.nextPage.bind(this)}>Next Page</FlatButton>
+            {this.state.page===1 ? null : <FlatButton className='btn' onClick={this.firstPage.bind(this)}>First Page</FlatButton>}
+            {this.state.page===1 ? null : <FlatButton  className='btn' onClick={this.previousPage.bind(this)}>Previous Page</FlatButton>}
+            {this.state.page<this.state.maxPages ? <FlatButton  className='btn' onClick={this.nextPage.bind(this)}>Next Page</FlatButton> : null }
           </Tab>
         </Tabs>
       </div>
