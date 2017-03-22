@@ -156,7 +156,7 @@ export default class Post extends Component {
         <br/><br/>
         <h2 className="post-title mrgTop10 mrgBtm20"> {this.state.file ? "Comments on the whole project: ":"Comments"}  </h2>
         <PostCommentList
-          comments={this.state.comments}
+          comments={this.state.comments.filter((comment)=>!comment._file_id)}
           reload={this.reloadPage.bind(this)}
           auth={this.props.auth}
         />
