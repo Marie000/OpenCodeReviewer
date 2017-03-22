@@ -38,17 +38,19 @@ Save settings. Keep your client's setting page open for the next step.
 
 with the following code, replacint the { } sections with the info from your auth0 client.
 
-```module.exports = {
+```
+module.exports = {
   auth0secret:process.env.AUTH0SECRET || {SECRET FOR YOUR AUTH0 CLIENT},
   auth0audience:process.env.AUTH0AUDIENCE ||  {ID FOR YOUR AUTH0 CLIENT},
   api: process.env.NODE_ENV==='production' ? 'http://checkmycode.ca' : 'http://localhost:9000',
   auth0url:process.env.AUTH0URL || {DOMAIN FOR YOUR AUTH0 CLIENT}
-}```
+}
+```
 
 6- to run the server: npm start
 will update when changes are saved.
 
-7- to run the front-end, in another terminal: npm run react-start
+7- to run the front-end, in another terminal: npm run start-react
 will update when changes are saved.
 
 
