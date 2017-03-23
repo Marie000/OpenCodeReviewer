@@ -37,7 +37,7 @@ export default class Github extends Component {
 
   // for the username input only
   handleChange (e) {
-    this.setState({user_name:e.target.value});
+    this.setState({user_name:e.target.value, stage1:true});
   }
 
   submitUserName(e){
@@ -49,6 +49,12 @@ export default class Github extends Component {
   componentWillMount(){
     // this can stay if we want to pass in the github username as a props. Right now it does nothing.
     this.getRepos()
+    axios.get(api+'/api/users/me',{headers:{Authorization: 'Bearer '+this.props.auth.getToken()}})
+      .then((res)=>{
+        if(res.data.github_username) {
+          this.setState({user_name: res.data.github_username});
+        }
+      })
   }
 
   // get repos from user name entered (or the username could also be passed down as props
@@ -224,7 +230,7 @@ export default class Github extends Component {
               setLanguage={this.props.setLanguage}
               code={this.state.fileContent} /> : null}
         </div> : null}
-        {this.props.importRepo ? <FlatButton className='button'
+        {this.props.importRepo && this.state.stage3 ? <FlatButton className='button'
                                                onClick={this.submitRepo.bind(this)}>Submit repository</FlatButton>
           : null }
         </div>
