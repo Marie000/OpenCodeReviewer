@@ -29,7 +29,8 @@ export default class NewPost extends Component {
       importGithubRepo: false,
       importCodepen:false,
       language:'text',
-      submitVisible:true
+      submitVisible:true,
+      error:''
     }
   }
 
@@ -63,6 +64,9 @@ export default class NewPost extends Component {
   }
 
   handleChange (input, e) {
+    if(input==='title'&& e.target.value){
+      this.setState({error:''})
+    }
     var change={};
     change[input]=e.target.value;
     this.setState(change);
@@ -78,17 +82,21 @@ export default class NewPost extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    var data={
-      title: this.state.title,
-      tags: this.state.tags,
-      description:this.state.description,
-      text: this.state.text,
-      language: this.state.language
-    };
-    axios.post(api+'/api/documents', data,{headers:{Authorization: 'Bearer '+this.props.auth.getToken()}})
-      .then(()=>{
-        this.context.router.push('/dashboard');
-      })
+    if(this.state.title) {
+      var data = {
+        title: this.state.title,
+        tags: this.state.tags,
+        description: this.state.description,
+        text: this.state.text,
+        language: this.state.language
+      };
+      axios.post(api + '/api/documents', data, {headers: {Authorization: 'Bearer ' + this.props.auth.getToken()}})
+        .then(()=> {
+          this.context.router.push('/dashboard');
+        })
+    } else {
+      this.setState({error:'title is required!'})
+    }
   }
 
   removeSubmitButton(){
@@ -112,7 +120,7 @@ export default class NewPost extends Component {
      
       <div className="new-post-section">
         <div className="new-post-header">
-            <form onSubmit={this.handleSubmit.bind(this)}>
+          <form onSubmit={this.handleSubmit.bind(this)}>
               <TextField type="text"
                      name="title"
                      className="input"
@@ -238,10 +246,14 @@ export default class NewPost extends Component {
       </div>
 
         {this.state.submitVisible ?
+          <div>
         <FlatButton className="button"
                     onClick={this.handleSubmit.bind(this)}
                     value="Submit" >
           Submit</FlatButton>
+            <div style={{color:'red'}}>{this.state.error}</div>
+
+          </div>
           : null }
 
         <br /><br /><br />

@@ -26,7 +26,8 @@ export default class Github extends Component {
       files:[],
       fileContent:'',
       backToTopButton: false,
-      path:'defaultList'
+      path:'defaultList',
+      error:''
 
     }
   }
@@ -55,6 +56,12 @@ export default class Github extends Component {
           this.setState({user_name: res.data.github_username});
         }
       })
+  }
+
+  componentWillReceiveProps(nextProps){
+    if(nextProps.name.length>0){
+      this.setState({error:''})
+    }
   }
 
   // get repos from user name entered (or the username could also be passed down as props
@@ -116,21 +123,25 @@ export default class Github extends Component {
   }
   
   submitRepo(){
-    let newDoc = {
-      title:this.props.name,
-      description:this.props.description,
-      tags:this.props.tags,
-      text:'',
-      language:'text',
-      multi_files:true
-    }
-    axios.post(api+'/api/documents',newDoc, {headers:{Authorization: 'Bearer '+this.props.auth.getToken()}})
-      .then((doc)=>{
-        //document id passed in twice: once as _parent, once as doc_id. see github-repo.js
-        getGithubRepo('https://api.github.com/repos/'+this.state.user_name+'/'+this.state.selectedRepo+'/contents/',doc.data._id,doc.data._id,'defaultList')
-        this.context.router.push('/dashboard')
+    if(this.props.name) {
+      let newDoc = {
+        title: this.props.name,
+        description: this.props.description,
+        tags: this.props.tags,
+        text: '',
+        language: 'text',
+        multi_files: true
+      }
+      axios.post(api + '/api/documents', newDoc, {headers: {Authorization: 'Bearer ' + this.props.auth.getToken()}})
+        .then((doc)=> {
+          //document id passed in twice: once as _parent, once as doc_id. see github-repo.js
+          getGithubRepo('https://api.github.com/repos/' + this.state.user_name + '/' + this.state.selectedRepo + '/contents/', doc.data._id, doc.data._id, 'defaultList')
+          this.context.router.push('/dashboard')
 
-      })
+        })
+    } else {
+      this.setState({error:'title is required!'})
+    }
   }
 
   backToTop(){
@@ -230,8 +241,13 @@ export default class Github extends Component {
               setLanguage={this.props.setLanguage}
               code={this.state.fileContent} /> : null}
         </div> : null}
-        {this.props.importRepo && this.state.stage3 ? <FlatButton className='button'
-                                               onClick={this.submitRepo.bind(this)}>Submit repository</FlatButton>
+        {this.props.importRepo && this.state.stage3 ?
+          <div>
+            <FlatButton className='button'
+                        onClick={this.submitRepo.bind(this)}>Submit repository
+            </FlatButton>
+            <div style={{color:'red'}}>{this.state.error}</div>
+          </div>
           : null }
         </div>
     )
