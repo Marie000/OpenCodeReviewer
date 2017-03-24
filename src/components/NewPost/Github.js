@@ -8,7 +8,7 @@ import GithubFile from './GithubFile';
 import config from '../../../config';
 const api=config.api || '';
 var SimpleSelect=ReactSelectize.SimpleSelect;
-import {FlatButton} from 'material-ui';
+import {FlatButton, List, ListItem, Paper} from 'material-ui';
 
 export default class Github extends Component {
   constructor(props) {
@@ -110,6 +110,11 @@ export default class Github extends Component {
       })
   }
 
+  chooseRepo(repo){
+    this.setState({selectedRepo:repo})
+    this.getFiles('master',repo)
+  }
+
   // open a folder
   resolvePath(path){
     axios.get('https://api.github.com/repos/'+this.state.user_name+'/'+this.state.selectedRepo+'/contents'+path)
@@ -177,7 +182,7 @@ export default class Github extends Component {
       <div className='mrgBtm20 mrgTop20'> Import code from a GitHub Repository </div>
         <div className="row">
         <form className='github'>
-          <div className="col-md-6">
+          <div className="col-md-3">
             <input type="text"
                    name="user_name"
                    placeholder="github username"
@@ -197,24 +202,22 @@ export default class Github extends Component {
 
       {this.state.stage1 ? 
         <div className='row'>
-          <div className='col-md-6'>
-            <div>repository:</div>
-            <SimpleSelect className='full-width' 
-                          ref="simpleselect"
-                          placeholder="repository"
-                          options={repoList}
-                          value={{'label':this.state.selectedRepo, 'value':this.state.selectedRepo}}
-                          onValueChange={function(value){
-                            scope.setState({selectedRepo: value.value});
-            }}/>
-           </div> 
-          <div className='col-md-1'>
-            <FlatButton className='button inline-blk'
-                        id="github1-ok"
-                        type="submit"
-                        onClick={this.getFiles.bind(this,'master', this.state.selectedRepo)}>
-              OK</FlatButton>
-          </div>
+            <h3>repositories:</h3>
+
+          <Paper style={{height:200, "overflow-y":'scroll', "margin-top":0}}>
+            <List>
+              {this.state.repos.map((repo)=>{
+                let selected=false;
+                if(repo.name===this.state.selectedRepo){
+                  selected=true;
+                }
+                return <ListItem key={repo.name} onClick={this.chooseRepo.bind(this,repo.name)}>
+                  {selected ? <i className="fa fa-check"/> : null}
+                  {repo.name}
+                </ListItem>
+              })}
+            </List>
+           </Paper>
         </div>
       : null}
 
@@ -223,7 +226,7 @@ export default class Github extends Component {
 
         {this.state.stage3 ? 
         <div>
-
+          <h3>{this.state.selectedRepo}</h3>
           {this.props.importRepo ?
             <div className="warning">Warning: the number of files and folders cannot exceed 30.
               If it does, some files or folders will be missing. Check off any files or folders that you do not need.
