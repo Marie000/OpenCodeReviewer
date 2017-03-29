@@ -70,6 +70,7 @@ class App extends Component {
             <Menu className="profile-menu">
               <MenuItem ><Link className='link' to={'/profile/'+username}>Profile</Link></MenuItem>
               <MenuItem ><Link className='link' to={"/userPosts/"+username}>Activities</Link></MenuItem>
+              <MenuItem ><Link className='link' to='/viewNetwork/'> Network </Link></MenuItem>
             </Menu>
           </Popover>
 
