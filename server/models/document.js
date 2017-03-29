@@ -1,7 +1,7 @@
 var mongoose = require ('mongoose');
 var mongoosePaginate = require('mongoose-paginate');
 var IdObject = mongoose.Schema.Types.ObjectId;
-require('mongoose-type-url');
+var validator = require('validator');
 
 var CodeDocSchema = mongoose.Schema({
     _author:{
@@ -49,8 +49,10 @@ var CodeDocSchema = mongoose.Schema({
         default:false
     },
     url: {
-        work: mongoose.SchemaTypes.Url,
-        profile: mongoose.SchemaTypes.Url
+        validate: {
+            validator: validator.isUrl,
+            message: '{VALUE} is not a valid URL'
+        }
     }
 });
 
