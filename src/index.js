@@ -16,7 +16,7 @@ import Learn from './components/Learn/Learn';
 import LearnCode from './components/Learn/Learn-Code';
 import LearnCodeContent from './components/Learn/Learn-Code-Content';
 import UserPosts from './components/Users/UserPosts';
-import NetWork from './components/Users/Network';
+import Network from './components/Users/Network';
 
 import './index.css';
 
@@ -43,7 +43,7 @@ ReactDOM.render((
       <Route path="/learn/code" component={LearnCode}/>
       <Route path="/learn/code/:page" component={LearnCodeContent}/>
       <Route path="/userPosts/:userId" component={UserPosts}/>
-      <Route path="/viewNetwork/" component={NetWork}/>
+      <Route path="/viewNetwork/" component={Network}/>
       <Route path='/logout'  /> {/*????? */}
     </Route>
   </Router>
