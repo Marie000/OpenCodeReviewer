@@ -3,7 +3,7 @@ import moment from 'moment';
 import {Link} from 'react-router';
 import _ from 'lodash';
 import axios from 'axios';
-import {Card, Dialog, FlatButton} from 'material-ui';
+import {Card, Dialog, FlatButton,TextField} from 'material-ui';
 
 import config from '../../../../config';
 const api=config.api || '';
@@ -14,6 +14,8 @@ export default class Comment extends Component{
     this.state={
       thankButton:true,
       alreadyThanked:false,
+      editing:false,
+      text:this.props.comment.text
     }
   }
   componentWillMount(){
@@ -43,6 +45,23 @@ export default class Comment extends Component{
   confirmDelete(){
     console.log(this.props.comment)
     this.props.confirmDelete(this.props.comment)
+  }
+
+  editComment(){
+    this.setState({editing:true})
+  }
+
+  handleChange(e){
+    this.setState({text:e.target.value})
+  }
+
+  submitChanges(e){
+    e.preventDefault();
+    axios.put(api+'/api/comments/'+this.props.comment._id, {text:this.state.text}, {headers:{Authorization: 'Bearer '+this.props.auth.getToken()}})
+      .then(()=>{
+        this.props.reload();
+        this.setState({editing:false})
+      });
   }
 
   render(){
@@ -81,12 +100,31 @@ export default class Comment extends Component{
           <Link className='link' to={'/profile/'+comment._author.username}>{comment._author.username}</Link>
           {comment.thanks.length>0 ? <span className="hearts">{fullHeart}X{comment.thanks.length}</span> : null}
           <span className="comment-date"> Posted on {moment(comment.createdAt).format("MMMM Do YYYY, h:mm:ss a")} </span>
-          {myComment ? <i className="fa fa-trash-o"
-                           aria-hidden="true"
-                           onClick={this.props.deleteComment.bind(this,comment)}
-          /> : null }
+          {myComment ? <span> &nbsp;
+            <i className="fa fa-trash-o"
+               aria-hidden="true"
+               onClick={this.props.deleteComment.bind(this,comment)}
+            /> &nbsp;
+            <i className="fa fa-edit"
+               aria-hidden="true"
+               onClick={this.editComment.bind(this)}
+               />
+            </span>
+            : null }
+
         </div>
-        <div className="comment-text"> {comment.text} </div>
+        {this.state.editing ?
+          <div>
+          <TextField className="input "
+                     rows={3}
+                     multiLine={true}
+                     name="comment"
+                     value={this.state.text}
+                     onChange={this.handleChange.bind(this)} />
+            <FlatButton onClick={this.submitChanges.bind(this)}>Save</FlatButton>
+            </div>
+        :
+        <div className="comment-text"> {comment.text} </div>}
          <span className="hearts">{this.state.thankButton ? this.state.alreadyThanked ? fullHeart: emptyHeart : null}</span>
 
       </Card>
