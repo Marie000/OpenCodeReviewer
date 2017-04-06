@@ -23,6 +23,7 @@ export default class NewPost extends Component {
     	title: '',
       tags: [],
       description:"",
+      url:"",
       submit: false,
       text: "// Code \n\n\n\n\n\n\n\n\n\n\n\n\n",
       importGithubFile: false,
@@ -87,6 +88,7 @@ export default class NewPost extends Component {
         title: this.state.title,
         tags: this.state.tags,
         description: this.state.description,
+        url: this.state.url,
         text: this.state.text,
         language: this.state.language
       };
@@ -117,23 +119,32 @@ export default class NewPost extends Component {
 
 
     return (
-     
+
       <div className="new-post-section">
         <div className="new-post-header">
           <form onSubmit={this.handleSubmit.bind(this)}>
-              <TextField type="text"
-                     name="title"
+              <TextField name="title"
+                     type="text"
                      className="input"
                      value={this.state.title}
                      onChange={this.handleChange.bind(this, 'title')}
                      placeholder="title"
               />
-              <TextField className="input"
+              <TextField name="description"
                          type="text"
-                         name="description"
+                         className="input"
                          value={this.state.description}
                          onChange={this.handleChange.bind(this, 'description')}
                          placeholder="description"
+                         multiLine={true}
+                         rows={2}
+              />
+              <TextField name="url"
+                         type="text"
+                         className="input"
+                         value={this.state.url}
+                         onChange={this.handleChange.bind(this, 'url')}
+                         placeholder="url"
                          multiLine={true}
                          rows={2}
               />
@@ -242,7 +253,7 @@ export default class NewPost extends Component {
 
 
 
-      
+
       </div>
 
         {this.state.submitVisible ?

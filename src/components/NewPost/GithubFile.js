@@ -35,7 +35,7 @@ export default class GithubFile extends Component {
     let path = 'defaultList'
     if(this.props.path){
       path=this.props.path
-    } 
+    }
     let index = toIgnore[path].indexOf(this.props.file.name)
     toIgnore[path].splice(index,1);
     this.setState({rejected:false})
@@ -49,7 +49,7 @@ export default class GithubFile extends Component {
     toIgnore[path].push(this.props.file.name);
     this.setState({rejected:true})
   }
-  
+
   render() {
     console.log(toIgnore)
     let file = this.props.file;
