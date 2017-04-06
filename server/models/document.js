@@ -49,10 +49,6 @@ var CodeDocSchema = mongoose.Schema({
         type:Boolean,
         default:false
     },
-
-});
-
-CodeDocSchema.add({
     url: {
         type: String,
         validate: {
@@ -63,6 +59,7 @@ CodeDocSchema.add({
         }
     }
 });
+
 
 CodeDocSchema.set('timestamps',true);
 CodeDocSchema.plugin(mongoosePaginate);

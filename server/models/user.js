@@ -126,7 +126,13 @@ var UserSchema = mongoose.Schema({
   },
   Auth0: {
     type:String
-  }
+},
+friends: [
+    {
+        type: ObjectId,
+        ref: 'User'
+    }
+]
 
 });
 
