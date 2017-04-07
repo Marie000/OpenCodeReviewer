@@ -79,6 +79,7 @@ class App extends Component {
     let username=this.props.route.auth.getProfile().username;
     let userid=this.props.route.auth.getProfile().id;
 
+    //will Connect Notification.js to Server
     axios.get(api +'/api/users/'+ username +'/reviews')
       .then(function() {
         var fakeResponse = [FakeComments];

@@ -11,7 +11,8 @@ export default class Notification extends Component {
     super(props);
     this.state={
         username: '',
-        commenter: ''
+        commenter: '',
+        comment: ''
     }
   }
 
