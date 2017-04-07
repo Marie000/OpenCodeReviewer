@@ -3,8 +3,23 @@ import { Link } from 'react-router';
 import './App.css';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {Popover,Menu,MenuItem,FlatButton,Paper} from 'material-ui';
+import PersonAdd from 'material-ui/svg-icons/social/person-add';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import './App.css';
+
+//Style prop for notification drop down
+const notifcationStyle = {
+  paper: {
+    display: 'inline-block',
+    float: 'left',
+    margin: '16px 32px 16px 0',
+  },
+  rightIcon: {
+    textAlign: 'center',
+    lineHeight: '24px',
+  },
+};
+
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
@@ -91,14 +106,16 @@ class App extends Component {
           <Popover
             open={this.state.notificationsOpen}
             anchorEl={this.state.anchorEl}
-            anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
-            targetOrigin={{horizontal: 'left', vertical: 'top'}}
+            anchorOrigin={{"horizontal":"left","vertical":"bottom"}}
+            targetOrigin={{"horizontal":"middle","vertical":"top"}}
             onRequestClose={this.closeNotifications.bind(this)}
           >
-            <Menu className="profile-menu" desktop={true} width={256}>
-              <MenuItem ><Link className='link' to={'/profile/'+username}>Profile</Link></MenuItem>
-              <MenuItem ><Link className='link' to={"/userPosts/"+username}>Activities</Link></MenuItem>
-              <MenuItem ><Link className='link' to='/viewNetwork/'> Network </Link></MenuItem>
+            <Menu className="profile-menu notification-menu">
+              <MenuItem leftIcon={<PersonAdd />}><Link className='notification__link' to={'/userPosts/'}>new comment</Link></MenuItem>
+              <MenuItem><Link className='notification__link' to={'/userPosts/'+username}>new comment</Link></MenuItem>
+              <MenuItem><Link className='notification__link' to={'/userPosts/'+username}> new message </Link></MenuItem>
+              <MenuItem><Link className='notification__link' to={'/userPosts/'+username}> code review</Link></MenuItem>
+              <MenuItem><Link className='notification__link' to={'/userPosts/'+username}> new badge </Link></MenuItem>
             </Menu>
           </Popover>
 
