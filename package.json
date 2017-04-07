@@ -36,6 +36,7 @@
     "react-selectize": "^2.1.0",
     "react-stormpath": "^2.0.0",
     "react-tap-event-plugin": "^2.0.1",
+    "socket.io": "^1.7.3",
     "validator": "^6.1.0"
   },
   "devDependencies": {

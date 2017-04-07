@@ -7,9 +7,17 @@ import PersonAdd from 'material-ui/svg-icons/social/person-add';
 //import injectTapEventPlugin from 'react-tap-event-plugin';
 
 export default class Notification extends Component {
+    constructor(props) {
+    super(props);
+    this.state={
+        username: '',
+        commenter: ''
+    }
+  }
+
     render() {
         return(
-            <MenuItem leftIcon={<PersonAdd />}><Link className='notification__link' to={'/userPosts/'}>notification</Link></MenuItem>
+            <MenuItem leftIcon={<PersonAdd />}><Link className='notification__link' to={'/userPosts/' + this.props.username}> {this.props.commenter} commented on your post</Link></MenuItem>
             )
     }
 }

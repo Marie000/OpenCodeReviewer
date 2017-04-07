@@ -6,8 +6,9 @@ import {Popover,Menu,MenuItem,FlatButton,Paper, Divider} from 'material-ui';
 import PersonAdd from 'material-ui/svg-icons/social/person-add';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import './App.css';
-
+import axios from 'axios';
 import Notification from './Notification';
+import FakeComments from './FakeComments';
 
 //Style prop for notification drop down
 const notifcationStyle = {
@@ -22,6 +23,9 @@ const notifcationStyle = {
   },
 };
 
+
+import config from '../../config';
+const api = config.api || 'http://checkmycode.ca';
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
@@ -74,6 +78,13 @@ class App extends Component {
 
     let username=this.props.route.auth.getProfile().username;
     let userid=this.props.route.auth.getProfile().id;
+
+    axios.get(api +'/api/users/'+ username +'/reviews')
+      .then(function() {
+        var fakeResponse = [FakeComments];
+        console.log(fakeResponse);
+      });
+
       return <MuiThemeProvider><div className="App">
 
         <Paper className="navbar">
@@ -95,7 +106,7 @@ class App extends Component {
           >
             <Menu className="profile-menu">
               <MenuItem ><Link className='link' to={'/profile/'+username}>Profile</Link></MenuItem>
-              <MenuItem ><Link className='link' to={"/userPosts/"+username}>Activities</Link></MenuItem>
+              <MenuItem ><Link className='link' to={'/userPosts/'+username}>Activities</Link></MenuItem>
               <MenuItem ><Link className='link' to='/viewNetwork/'> Network </Link></MenuItem>
             </Menu>
           </Popover>
@@ -114,11 +125,11 @@ class App extends Component {
             onRequestClose={this.closeNotifications.bind(this)}
           >
             <Menu className="profile-menu notification-menu">
-              <Notification />
+              <Notification username="username" commenter="dog"/>
               <Divider />
-              <Notification />
+              <Notification username="username" commenter="justin"/>
               <Divider />
-              <Notification />
+              <Notification username="username" commenter="bob"/>
             </Menu>
           </Popover>
 
