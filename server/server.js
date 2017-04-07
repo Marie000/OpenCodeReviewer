@@ -3,11 +3,13 @@ var bodyParser = require('body-parser');
 var mongoose = require ('./database/mongoose.js');
 var jwt = require('express-jwt');
 var config = require('../config');
+const socketIO = require('socket.io');
+const http = require('http');
 
 var PORT = process.env.port || 9000;
 var app = express();
-
-
+var server = http.createServer(app);
+var io = socketIO(server);
 
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/../build/'));
@@ -29,6 +31,6 @@ app.get('*', function (request, response){
   response.sendFile(path.resolve(__dirname, '/../build/','index.html'));
 })
 
-  app.listen(PORT,function(){
+  server.listen(PORT,function(){
     console.log('server listening on port '+PORT);
   });
