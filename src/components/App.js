@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import './App.css';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import {Popover,Menu,MenuItem,FlatButton,Paper} from 'material-ui';
+import {Popover,Menu,MenuItem,FlatButton,Paper, Divider} from 'material-ui';
 import PersonAdd from 'material-ui/svg-icons/social/person-add';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import './App.css';
@@ -100,9 +100,10 @@ class App extends Component {
 
          {/*Notification drop down*/}
 
+         {this.props.route.auth.loggedIn() ?
           <FlatButton className="button" onTouchTap={this.openNotifications.bind(this)}>
             <i className="fa fa-bell fa-2x" aria-hidden="true"></i>
-          </FlatButton>
+          </FlatButton> : null}
           <Popover
             open={this.state.notificationsOpen}
             anchorEl={this.state.anchorEl}
@@ -112,10 +113,14 @@ class App extends Component {
           >
             <Menu className="profile-menu notification-menu">
               <MenuItem leftIcon={<PersonAdd />}><Link className='notification__link' to={'/userPosts/'}>new comment</Link></MenuItem>
-              <MenuItem><Link className='notification__link' to={'/userPosts/'+username}>new comment</Link></MenuItem>
-              <MenuItem><Link className='notification__link' to={'/userPosts/'+username}> new message </Link></MenuItem>
-              <MenuItem><Link className='notification__link' to={'/userPosts/'+username}> code review</Link></MenuItem>
-              <MenuItem><Link className='notification__link' to={'/userPosts/'+username}> new badge </Link></MenuItem>
+              <Divider />
+              <MenuItem leftIcon={<PersonAdd />}><Link className='notification__link' to={'/userPosts/'+username}>new comment</Link></MenuItem>
+              <Divider />
+              <MenuItem leftIcon={<PersonAdd />}><Link className='notification__link' to={'/userPosts/'+username}>new message </Link></MenuItem>
+              <Divider />
+              <MenuItem leftIcon={<PersonAdd />}><Link className='notification__link' to={'/userPosts/'+username}>code review</Link></MenuItem>
+              <Divider />
+              <MenuItem leftIcon={<PersonAdd />}><Link className='notification__link' to={'/userPosts/'+username}>new badge </Link></MenuItem>
             </Menu>
           </Popover>
 
