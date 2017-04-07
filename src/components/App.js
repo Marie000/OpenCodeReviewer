@@ -7,6 +7,8 @@ import PersonAdd from 'material-ui/svg-icons/social/person-add';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import './App.css';
 
+import Notification from './Notification';
+
 //Style prop for notification drop down
 const notifcationStyle = {
   paper: {
@@ -112,15 +114,11 @@ class App extends Component {
             onRequestClose={this.closeNotifications.bind(this)}
           >
             <Menu className="profile-menu notification-menu">
-              <MenuItem leftIcon={<PersonAdd />}><Link className='notification__link' to={'/userPosts/'}>new comment</Link></MenuItem>
+              <Notification />
               <Divider />
-              <MenuItem leftIcon={<PersonAdd />}><Link className='notification__link' to={'/userPosts/'+username}>new comment</Link></MenuItem>
+              <Notification />
               <Divider />
-              <MenuItem leftIcon={<PersonAdd />}><Link className='notification__link' to={'/userPosts/'+username}>new message </Link></MenuItem>
-              <Divider />
-              <MenuItem leftIcon={<PersonAdd />}><Link className='notification__link' to={'/userPosts/'+username}>code review</Link></MenuItem>
-              <Divider />
-              <MenuItem leftIcon={<PersonAdd />}><Link className='notification__link' to={'/userPosts/'+username}>new badge </Link></MenuItem>
+              <Notification />
             </Menu>
           </Popover>
 
