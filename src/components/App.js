@@ -33,6 +33,15 @@ class App extends Component {
     this.setState({profileOpen:false})
   }
 
+  openNotifications(e){
+    e.preventDefault()
+    this.setState({notificationsOpen:true, anchorEl:e.currentTarget});
+  }
+
+  closeNotifications(){
+    this.setState({notificationsOpen:false})
+  }
+
   render() {
 
     let brand=<div className="brand"> <Link to="/dashboard"><h2>Ch3ck My C0de</h2>
@@ -74,9 +83,24 @@ class App extends Component {
             </Menu>
           </Popover>
 
-          <FlatButton className="button">
+         {/*Notification drop down*/}
+
+          <FlatButton className="button" onTouchTap={this.openNotifications.bind(this)}>
             <i className="fa fa-bell fa-2x" aria-hidden="true"></i>
           </FlatButton>
+          <Popover
+            open={this.state.notificationsOpen}
+            anchorEl={this.state.anchorEl}
+            anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+            targetOrigin={{horizontal: 'left', vertical: 'top'}}
+            onRequestClose={this.closeNotifications.bind(this)}
+          >
+            <Menu className="profile-menu" desktop={true} width={256}>
+              <MenuItem ><Link className='link' to={'/profile/'+username}>Profile</Link></MenuItem>
+              <MenuItem ><Link className='link' to={"/userPosts/"+username}>Activities</Link></MenuItem>
+              <MenuItem ><Link className='link' to='/viewNetwork/'> Network </Link></MenuItem>
+            </Menu>
+          </Popover>
 
           {this.props.route.auth.loggedIn() ?
             <FlatButton className="button link" onClick={this.props.route.auth.logout.bind(this)}>
