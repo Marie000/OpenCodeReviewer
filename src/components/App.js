@@ -74,6 +74,10 @@ class App extends Component {
             </Menu>
           </Popover>
 
+          <FlatButton className="button">
+            <i className="fa fa-bell fa-2x" aria-hidden="true"></i>
+          </FlatButton>
+
           {this.props.route.auth.loggedIn() ?
             <FlatButton className="button link" onClick={this.props.route.auth.logout.bind(this)}>
               <Link className='link' to="/logout" >Log Out</Link></FlatButton> : null }
