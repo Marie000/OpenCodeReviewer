@@ -5,11 +5,11 @@ var jwt = require('express-jwt');
 var config = require('../config');
 const socketIO = require('socket.io');
 const http = require('http');
-
+const websocket = require('../websocket');
 var PORT = process.env.port || 9000;
 var app = express();
 var server = http.createServer(app);
-var io = socketIO(server);
+ websocket.setSocket(server, socketIO);
 
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/../build/'));
