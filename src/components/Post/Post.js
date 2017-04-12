@@ -25,11 +25,12 @@ import 'codemirror/addon/edit/closebrackets';
 export default class Post extends Component {
   constructor(props) {
     super(props);
-    this.state = { 
+    this.state = {
       loggedIn: localStorage.user_id? true: false,
     	doc_id: this.props.params.postId,
       tags: [],
       description:"",
+      url: "",
       author: "",
       comments:[],
       file:null,
@@ -44,15 +45,15 @@ export default class Post extends Component {
 
    componentWillMount(){
     this.getPostData();
-    
+
 }
 
   componentDidMount(){
-  window.setTimeout(function () { 
+  window.setTimeout(function () {
        this.getInlineComments()
     }.bind(this), 500);
   }
-       
+
   reloadPage(){
     this.getPostData();
     if(this.state.file) {
@@ -75,6 +76,7 @@ export default class Post extends Component {
           author_id: res.data._author._id,
           text: res.data.text,
           description:res.data.description,
+          url: res.data.url,
           tags: res.data.tags,
           comments:res.data.comments,
           postCreationDate:res.data.createdAt,
@@ -96,13 +98,13 @@ export default class Post extends Component {
     var firstLine = selection.firstLine +1;
     var lastLine = selection.lastLine +1;
 
-   
+
     container.innerHTML = "<div class='inline-comment'><div class='inline-comment inline-comment-header'><span class='author'>"+comment._author.user_name+"</span> <span class='lines'>commented lines "+firstLine+" to "+lastLine+"</span> <span class='comment-date'> Posted on "+date+"</span></div><div class='inline-comment inline-comment-text-display' >"+ commentText+"</div></div>";
 
     codemir.addLineWidget(selection.lastLine, container, {
         coverGutter: false
     });
-   
+
     var selFrom = {line: selection.firstLine, ch:0}
     var selTo = {line:selection.lastLine+1, ch:0}
     var option = {className: 'selection'}
@@ -113,7 +115,7 @@ export default class Post extends Component {
   }
 
   getInlineComments(){
-    this.state.comments.map(comment => { 
+    this.state.comments.map(comment => {
       if (comment.position) {
           this.setState({inlineComments:true})
           window.setTimeout(function(){
@@ -135,9 +137,10 @@ export default class Post extends Component {
       <div className="post-wrapper">
         <PostHeader title={this.state.title}
                     description={this.state.description}
+                    url={this.state.url}
                     tags={this.state.tags} />
 
-        
+
         {this.state.files.length>0 ?
         <FileList files={this.state.files} getFileContent={this.getFileContent.bind(this)} />
           :
@@ -160,7 +163,7 @@ export default class Post extends Component {
           reload={this.reloadPage.bind(this)}
           auth={this.props.auth}
         />
-        
+
         {this.props.auth.getToken() ?
           <form >
             <CommentForm
@@ -171,7 +174,7 @@ export default class Post extends Component {
             />
           </form>
          : null }
-      
+
       </div>
         </div>
 
