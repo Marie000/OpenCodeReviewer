@@ -9,7 +9,7 @@ const websocket = require('../websocket');
 var PORT = process.env.port || 9000;
 var app = express();
 var server = http.createServer(app);
- websocket.setSocket(server, socketIO);
+ var io = websocket.setSocket(server, socketIO);
 
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/../build/'));
@@ -31,6 +31,9 @@ app.get('*', function (request, response){
   response.sendFile(path.resolve(__dirname, '/../build/','index.html'));
 })
 
+io.on('connection', (socket) => {
+  console.log('new user connected');
+})
   server.listen(PORT,function(){
     console.log('server listening on port '+PORT);
   });

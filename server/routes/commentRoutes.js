@@ -1,6 +1,6 @@
 var _ = require('lodash');
 var websocket = require('../../websocket');
-
+var io = websocket.getSocket();
 
 // models
 var User = require ('../models/user.js');
@@ -31,7 +31,7 @@ var commentRoutes = function(app){
     body._author = req.user._id;
     var newComment = new Comment(req.body);
     newComment.save().then(function(comment){
-
+      console.log('comment saved',comment);
       // add comment id to the author's comment list
       User.findByIdAndUpdate(
         comment._author,
@@ -39,8 +39,9 @@ var commentRoutes = function(app){
         {safe: true, new: true}
       ).then(function(author){
         //adding notification
-        websocket.getSocket().broadcast(comment);
-      
+       // websocket.getSocket().emit('newComment',comment);
+       //io.broadcast(comment);
+      io.to(socket.id).emit(comment);
         if(!author){return res.status(404).send('author not found')}
       });
 
