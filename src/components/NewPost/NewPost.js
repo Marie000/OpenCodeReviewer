@@ -145,8 +145,6 @@ export default class NewPost extends Component {
                          value={this.state.url}
                          onChange={this.handleChange.bind(this, 'url')}
                          placeholder="url"
-                         multiLine={true}
-                         rows={2}
               />
               <MultiSelect ref="select"
                            options={options}

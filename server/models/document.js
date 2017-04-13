@@ -52,7 +52,7 @@ var CodeDocSchema = mongoose.Schema({
         type: String,
         validate: {
             validator: (value) => {
-                return validator.isUrl(value);
+                return validator.isURL(value);
             },
             message: '{VALUE} is not a valid URL'
         }
