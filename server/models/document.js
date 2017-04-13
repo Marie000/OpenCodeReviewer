@@ -1,8 +1,7 @@
-var mongoose = require ('mongoose');
+var mongoose = require('mongoose');
 var mongoosePaginate = require('mongoose-paginate');
 var IdObject = mongoose.Schema.Types.ObjectId;
 var validator = require('validator');
-
 
 var CodeDocSchema = mongoose.Schema({
     _author:{
@@ -53,7 +52,7 @@ var CodeDocSchema = mongoose.Schema({
         type: String,
         validate: {
             validator: (value) => {
-                return validator.isUrl(value);
+                return validator.isURL(value);
             },
             message: '{VALUE} is not a valid URL'
         }
@@ -64,6 +63,6 @@ var CodeDocSchema = mongoose.Schema({
 CodeDocSchema.set('timestamps',true);
 CodeDocSchema.plugin(mongoosePaginate);
 
-var CodeDocument = mongoose.model('CodeDocument',CodeDocSchema);
+var CodeDocument = mongoose.model('CodeDocument', CodeDocSchema);
 
 module.exports = CodeDocument;

@@ -85,7 +85,6 @@ var documentRoutes = function(app){
 // CREATE A DOCUMENT
   app.post('/api/documents', jwtCheck, findUserId, function(req,res){
     //create a document
-    console.log(req.user)
     var newDoc = new CodeDocument(req.body);
     newDoc._author = req.user._id;
     newDoc.commentedAt = Date.now();
