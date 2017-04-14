@@ -9,6 +9,7 @@ import 'react-selectize/dist/index.css';
 import taglist from '../../services/tag-list';
 import Github from "./Github";
 import './newpost.css';
+import validator from 'validator';
 
 import config from '../../../config';
 const api=config.api || '';
@@ -64,7 +65,7 @@ export default class NewPost extends Component {
     this.setState({importCodepen:false, submitVisible:true})
   }
 
-  handleChange (input, e) {
+  handleChange(input, e) {
     if(input==='title'&& e.target.value){
       this.setState({error:''})
     }
@@ -84,6 +85,8 @@ export default class NewPost extends Component {
   handleSubmit(e) {
     e.preventDefault();
     if(this.state.title) {
+      //checks to see if URL is Empty or Valid, if not. throws error
+      if((!this.state.url) || (validator.isURL(this.state.url))) {
       var data = {
         title: this.state.title,
         tags: this.state.tags,
@@ -96,6 +99,9 @@ export default class NewPost extends Component {
         .then(()=> {
           this.context.router.push('/dashboard');
         })
+      } else {
+        this.setState({error:'URL is not valid!'})
+      }
     } else {
       this.setState({error:'title is required!'})
     }
